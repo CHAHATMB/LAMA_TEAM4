@@ -9,7 +9,7 @@ public class EmployeeCardDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="id")
-	private int id;
+	private String id;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -21,8 +21,15 @@ public class EmployeeCardDetails {
 
     private LocalDate card_issue_date;
 
-	public EmployeeCardDetails(EmployeeMaster employee, LoanCard loanCard, LocalDate card_issue_date) {
+	
+
+	public EmployeeCardDetails() {
 		super();
+	}
+
+	public EmployeeCardDetails(String id, EmployeeMaster employee, LoanCard loanCard, LocalDate card_issue_date) {
+		super();
+		this.id = id;
 		this.employee = employee;
 		this.loanCard = loanCard;
 		this.card_issue_date = card_issue_date;
@@ -51,6 +58,15 @@ public class EmployeeCardDetails {
 	public void setCard_issue_date(LocalDate card_issue_date) {
 		this.card_issue_date = card_issue_date;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
     
     // toString, hashCode, equals, etc.
 }
