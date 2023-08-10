@@ -2,7 +2,6 @@ Create database LLAM;
 
 USE LLAM;
 
-
 Create Table employee_master (
     employee_id VARCHAR(6) NOT NULL,
     employee_name VARCHAR(20),
@@ -13,6 +12,16 @@ Create Table employee_master (
     date_of_join DATE,
     PRIMARY KEY(employee_id)
 );
+
+Create Table user_data (
+    email_id VARCHAR(20) NOT NULL,
+    password VARCHAR(8) NOT NULL,
+    employee_id VARCHAR(6) NOT NULL,
+    isAdmin INT(1) NOT NULL,
+    PRIMARY KEY(email_id),
+    FOREIGN KEY (employee_id) REFERENCES employee_master(employee_id)
+);
+
 
 
 Create TAble item_master (
@@ -28,7 +37,7 @@ Create TAble item_master (
 
 Create Table employee_issue_details (
     issue_id VARCHAR(6) NOT NULL,
-    employee_id VARCHAR(6),
+    employee_id VARCHAR(6) NOT NULL,
     item_id VARCHAR(6),
     issue_date DATE,
     return_date DATE,
@@ -45,11 +54,12 @@ Create TAble loan_card_master (
 );
 
 Create Table employee_card_details (
-    employee_id VARCHAR(6),
-    loan_id VARCHAR(6),
+    employee_id VARCHAR(6) NOT NULL,
+    loan_id VARCHAR(6) NOT NULL,
     card_issue_date DATE,
     FOREIGN KEY(employee_id) REFERENCES employee_master(employee_id),
-    FOREIGN KEY(loan_id) REFERENCES loan_card_master(loan_id)
+    FOREIGN KEY(loan_id) REFERENCES loan_card_master(loan_id),
+    PRIMARY KEY(employee_id, loan_id)
 
 );
 
