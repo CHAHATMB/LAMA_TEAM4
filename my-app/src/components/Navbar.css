@@ -1,0 +1,29 @@
+/* Styles for the navbar */
+.navbar {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+/* Styles for the navigation list */
+.nav-list {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles for navigation items */
+.nav-item {
+  margin: 0 15px;
+}
+
+/* Styles for navigation links */
+.nav-item a {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-item a:hover {
+  color: #ffc107;
+}
