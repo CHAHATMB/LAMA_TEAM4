@@ -62,6 +62,7 @@ public class EmployeeController {
             EmployeeMaster newEmployee = employeeRepository.save(employee);
             return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
         } catch (Exception e) {
+        	System.out.println("WE have Employeemaster ex" + e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
