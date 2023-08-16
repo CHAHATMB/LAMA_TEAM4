@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Header from './Header';
+import Footer from './Footer';
 
 function ApplyLoan() {
     const [itemCategory, setItemCategory] = useState("");
@@ -17,7 +19,8 @@ function ApplyLoan() {
     
   return (
     <>
-    <div style={{ width:'60%', padding:'2px', marginTop:'3%', marginLeft:'20%' ,overflowY:'auto', height:'70%', boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
+    <Header/>
+    <div style={{ width:'60%', padding:'2px', paddingBottom:"15px",marginTop:'7%', marginLeft:'20%' ,overflowY:'auto', height:'90%', boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title" style={{color:"#d19900"}}>Loan application form</h3>
           <div style={{display:"flex", flexWrap:"wrap"}}>
@@ -92,6 +95,7 @@ function ApplyLoan() {
 
         </div>
       </div>
+      <Footer/>
     </>
 );
 }
