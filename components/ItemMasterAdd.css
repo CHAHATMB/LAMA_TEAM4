@@ -1,0 +1,50 @@
+/* FormItem.css */
+
+/* Style for the container */
+.containerForm {
+    background-color: #D5EDEE; /* Darker background color */
+    color: black; /* Text color */
+    padding: 20px; /* Add padding for spacing */
+    border-radius: 10px; /* Rounded corners */
+    width: 80%;
+    margin: auto; /* Center the container */
+    margin-top: 50px; /* Add top margin for spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  }
+  
+  /* Style for the form title */
+  .form-title {
+    text-align: center;
+    margin-bottom: 20px; /* Add bottom margin for spacing */
+  }
+  
+  /* Style for the form labels */
+  .form-label {
+    display: block;
+    margin-top: 10px; /* Add top margin for spacing */
+    font-weight: bold;
+  }
+  
+  /* Style for the form input and select fields */
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Style for the form button */
+  .form-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #48b4bb; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,28 @@
+/* EmployeeForm.css */
+
+/* Style for the container */
+.containerForm {
+    background-color: #D5EDEE;
+    color: black; 
+    padding: 20px; 
+    border-radius: 10px; 
+    width: 80%;
+    margin: 0 auto; /* Center horizontally */
+    margin-top: 50px; /* Add top margin for spacing */
+  }
+  
+  /* Style for the form title */
+  .form-title {
+    text-align: center;
+  }
+  
+  /* Style for the form button */
+  .form-button {
+    text-align: center;
+    margin-top: 20px; /* Add margin for spacing */
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+  
