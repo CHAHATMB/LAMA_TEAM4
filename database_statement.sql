@@ -63,4 +63,14 @@ Create Table employee_card_details (
 
 );
 
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    is_enabled BOOLEAN NOT NULL DEFAULT False,
+    is_admin INT NOT NULL DEFAULT 0,
+    otp INT
+);
+
 Show Tables;
