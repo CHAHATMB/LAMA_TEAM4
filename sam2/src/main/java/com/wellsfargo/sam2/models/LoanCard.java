@@ -9,7 +9,7 @@ public class LoanCard {
 
     @Id
     private String loan_id;
-    private String loan_type;
+    private String loanType;
     private int duration_in_year;
     
 	public LoanCard() {
@@ -19,7 +19,7 @@ public class LoanCard {
 	public LoanCard(String loan_id, String loan_type, int duration_in_year) {
 		super();
 		this.loan_id = loan_id;
-		this.loan_type = loan_type;
+		this.loanType = loan_type;
 		this.duration_in_year = duration_in_year;
 	}
 
@@ -32,11 +32,11 @@ public class LoanCard {
 	}
 
 	public String getLoan_type() {
-		return loan_type;
+		return loanType;
 	}
 
 	public void setLoan_type(String loan_type) {
-		this.loan_type = loan_type;
+		this.loanType = loan_type;
 	}
 
 	public int getDuration_in_year() {

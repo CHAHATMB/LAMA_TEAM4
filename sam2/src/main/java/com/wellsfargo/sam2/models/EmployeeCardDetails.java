@@ -34,6 +34,12 @@ public class EmployeeCardDetails {
 		this.loanCard = loanCard;
 		this.card_issue_date = card_issue_date;
 	}
+	public EmployeeCardDetails( EmployeeMaster employee, LoanCard loanCard, LocalDate card_issue_date) {
+		super();
+		this.employee = employee;
+		this.loanCard = loanCard;
+		this.card_issue_date = card_issue_date;
+	}
 
 	public EmployeeMaster getEmployee() {
 		return employee;

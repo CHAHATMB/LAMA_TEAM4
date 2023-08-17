@@ -6,6 +6,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.HttpResponse;
 import com.wellsfargo.sam2.models.JWTToken;
 import com.wellsfargo.sam2.models.LoginDTO;
+import com.wellsfargo.sam2.models.OtpDto;
 import com.wellsfargo.sam2.models.User;
 import com.wellsfargo.sam2.repository.UserRepository;
 import com.wellsfargo.sam2.services.CustomUserDetailsService;
 import com.wellsfargo.sam2.services.EmailSenderService;
+import com.wellsfargo.sam2.services.UserServiceImp;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -35,7 +39,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController {
 
     private final UserRepository userRepository;
@@ -55,11 +59,14 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtTokenUtil;
 	
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
+	@Autowired
+	final private UserServiceImp userServiceImp;
+	
+//    @Autowired
+//    public UserController(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
+//    
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
@@ -110,6 +117,22 @@ public class UserController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		return ResponseEntity.ok(new JWTToken(token));
+	}
+	
+	@PostMapping(value = "/verifyotp")
+	public ResponseEntity<?> verifyOTP(@RequestBody OtpDto otpDto){
+		String employeeId = otpDto.getEmployeeId();
+		
+		User user = userServiceImp.findByEmployeeId(employeeId).get();
+		
+		if( user.getOtp()== 0 || user.getOtp() != otpDto.getOtp()) {
+			return new ResponseEntity<>("Invalid OTP!",HttpStatus.BAD_REQUEST);	
+		}
+		
+		user.setEnabled(true);
+		userServiceImp.updateUser(user);
+		
+		return ResponseEntity.ok("Otp verified successfully!");
 	}
 
 

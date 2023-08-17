@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-/**
- * @author Junior RT
- * @version 1.0
- * @license Get Arrays, LLC (https://getarrays.io)
- * @since 6/24/2023
- */
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,11 +35,6 @@ public class User {
 
 	public void setOtp(int otp) {
 		this.otp = otp;
-	}
-
-
-	public User() {
-		super();
 	}
 
 

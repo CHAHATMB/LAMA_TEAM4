@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
@@ -11,8 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class LoanApplications {
-
-
 
 		private int employeeId;
 	    private String issue_id;
@@ -23,22 +22,6 @@ public class LoanApplications {
 
 	    // Constructors, getters, and setters
 	    
-	    
-	    public LoanApplications(int employeeId, String issue_id, String item_id, String item_description,
-			String issue_status, String item_make) {
-		super();
-		this.employeeId = employeeId;
-		this.issue_id = issue_id;
-		this.item_id = item_id;
-		this.item_description = item_description;
-		this.issue_status = issue_status;
-		this.item_make = item_make;
-	}
-
-		public LoanApplications() {
-			super();
-		}
-		
 
 		public int getEmployeeId() {
 		return employeeId;
