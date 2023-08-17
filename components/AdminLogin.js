@@ -1,16 +1,25 @@
-
 import React from 'react'
 import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './AdminLogin.css';
-import admin from '../images/admin.jpg';
-import NavLink from 'react-bootstrap/esm/NavLink';
+import Header from './Header';
+import Footer from './Footer';
 import AdminDashboard from './AdminDashboard';
+import { useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
+
 function AdminLogin() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-//   const navigate = useNavigate();
+  const dataToSend = {email: email, password: password}; 
+  let navigate = useNavigate();
+const [data, setData] = useState([]);
+
+
+  const fetchData = async () => {
+    
+  };
 
   const storeEmail = (e) =>{
     setEmail(e.target.value);
@@ -21,11 +30,26 @@ function AdminLogin() {
   }
 
   function handleClick(e){
+   axios({
+    method: 'POST',
+    url: 'http://172.20.0.54:8080/api/auth/login',
+    data:{
+      email: email,
+      password: password
+    } ,
+   }).then((data)=>{
+      console.log(data.data.id_token);
+      axios.defaults.headers.common.Authorization = "Bearer " + data.data.id_token;
+      navigate('/adminDashboard');
+   })
     console.log("Submit")
-  }
+ }
   return (
+    <div>
+        <Header />
+    
     <div style={{display:"flex",flexWrap:"wrap"}}>
-    <img src={admin} style={{height:"70%", width:"58.5%"}}/>
+    <img src={'./admin.jpg'} style={{height:"70%", width:"58.5%"}}/>
     <div style={{ width:'22rem', padding:'2px', marginTop:'5%', marginLeft:'5%' ,overflowY:'auto', height:'24rem'}}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Login to your Account</h3>
@@ -50,16 +74,17 @@ function AdminLogin() {
           </div>
         
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn"  style={{marginTop:"7%", width:"18rem"}} onClick={handleClick}>
+            <button type="submit" className="btn"  style={{marginTop:"7%", width:"18rem" ,backgroundColor: "#48b4bb" ,color: "white"}} onClick={handleClick}>
                 Submit
             </button>
           </div>
-               
-
         </div>
       </div>
       </div>
-  )
-}
+      <Footer />
+      </div>
 
-export default AdminLogin
+  );
+};
+
+export default AdminLogin;
