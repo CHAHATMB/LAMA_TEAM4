@@ -7,44 +7,45 @@ import Header from './Header';
 import Footer from './Footer';
 
 function UserDataTable() {
-//   const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.get('API_URL');
-//       setData(response.data);
-//     } catch (error) {
-//       console.error('Error fetching data:', error);
-//     }
-//   };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://172.20.0.54:8080/api/employees');
+      setData(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-const dummyData = [
-    {
-      id: 1,
-      employeeId: 'E001',
-      employeeName: 'John Doe',
-      designation: 'Manager',
-      department: 'Finance',
-      gender: 'Male',
-      dateOfBirth: '1990-05-15',
-      dateOfJoining: '2020-02-10',
-    },
-    {
-      id: 2,
-      employeeId: 'E002',
-      employeeName: 'Jane Smith',
-      designation: 'Executive',
-      department: 'Finance',
-      gender: 'Female',
-      dateOfBirth: '1988-10-20',
-      dateOfJoining: '2019-07-05',
-    },
-    // Add more dummy data entries here
-  ];
+// const dummyData = [
+//     {
+//       id: 1,
+//       employeeId: 'E001',
+//       employeeName: 'John Doe',
+//       designation: 'Manager',
+//       department: 'Finance',
+//       gender: 'Male',
+//       dateOfBirth: '1990-05-15',
+//       dateOfJoining: '2020-02-10',
+//     },
+//     {
+//       id: 2,
+//       employeeId: 'E002',
+//       employeeName: 'Jane Smith',
+//       designation: 'Executive',
+//       department: 'Finance',
+//       gender: 'Female',
+//       dateOfBirth: '1988-10-20',
+//       dateOfJoining: '2019-07-05',
+//     },
+//     // Add more dummy data entries here
+//   ];
 
   return (
     <div>
@@ -64,15 +65,15 @@ const dummyData = [
                 </tr>
             </thead>
             <tbody>
-                {dummyData.map((item) => (
+                {data.map((item) => (
                 <tr key={item.id}>
                     <td>{item.employeeId}</td>
                     <td>{item.employeeName}</td>
                     <td>{item.designation}</td>
                     <td>{item.department}</td>
-                    <td>{item.gender}</td>
-                    <td>{item.dateOfBirth}</td>
-                    <td>{item.dateOfJoining}</td>
+                    <td>{item.gender?"Female":"Male"}</td>
+                    <td>{item.date_of_birth}</td>
+                    <td>{item.date_of_join}</td>
                     <td>
                     <Button variant="info" size="sm" className="me-2" style={{ backgroundColor: '#17a2b8' }}>
                     <AiOutlineEdit /> {/* Edit Icon */}
@@ -86,9 +87,9 @@ const dummyData = [
             </tbody>
             </Table>
         </div>
+        <Footer/>
     </div>
   );
 }
 
 export default UserDataTable;
-
