@@ -120,7 +120,7 @@ function ItemMasterDataTable() {
                 <td>{item.item_valuation}</td>
                 <td>
                 <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red", marginLeft:"5%"}}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
                 </td>
               </tr>
             ):null
@@ -155,7 +155,7 @@ function ItemMasterDataTable() {
                 <td>{item.item_valuation}</td>
                 <td>
                 <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red", marginLeft:"5%"}}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
                 </td>
               </tr>
             ):null
