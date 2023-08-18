@@ -12,7 +12,7 @@ function Header() {
     <Container className='Container'>
 
       <Navbar.Brand style={{display:"flex", flexWrap:"wrap"}}>
-      <img src={logo} width='18%' height='5%' marginTop='1%' marginLeft='2%' style={{paddingRight:'10px'}}/>
+      <img src={logo} width='18%' height='5%' marginTop='1%' marginLeft='2%' style={{paddingRight:'10px', color:"white"}}/>
       <h3 style={{color:'white', marginTop:'1%'}}>Loan Management</h3>
       </Navbar.Brand>
 
