@@ -1,6 +1,7 @@
 package com.wellsfargo.sam2.controllers;
 
-import com.wellsfargo.sam2.models.LoanCard;
+import com.wellsfargo.sam2.models.*;
+import com.wellsfargo.sam2.repository.ItemRepository;
 import com.wellsfargo.sam2.repository.LoanRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ public class LoanCardController {
 
     private final LoanRepository loanRepository;
 
+    private final ItemRepository itemRepository;
     @Autowired
-    public LoanCardController(LoanRepository loanRepository) {
+    public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository) {
         this.loanRepository = loanRepository;
+        this.itemRepository=itemRepository;
     }
 
     @PostMapping
@@ -37,6 +40,31 @@ public class LoanCardController {
         return loancard.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/myloans")
+    public ResponseEntity<List<LoanDto>> getAllLoans() {
+        List<LoanDto> loancards = loanRepository.viewLoans();
+        return ResponseEntity.ok(loancards);
+    }
+
+    @PostMapping("/applyloans")
+    public ResponseEntity<ItemMaster> createCard(@RequestBody ApplyLoanDto loan) {
+        try {
+            System.out.println(loan);
+             ItemMaster im= new ItemMaster();
+             im.setItem_description(loan.getItem_description());
+             im.setItem_category(loan.getItem_category());
+             im.setItem_make(loan.getItem_make());
+             im.setItem_valuation(loan.getItem_valuation());
+//             im.setItem_id("iid16");
+//             im.setIssue_status("no");
+            ItemMaster newLoan = itemRepository.save(im);
+            return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @GetMapping
     public ResponseEntity<List<LoanCard>> getAllLoanCards() {

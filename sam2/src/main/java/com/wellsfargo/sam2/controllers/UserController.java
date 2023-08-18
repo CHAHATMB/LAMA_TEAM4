@@ -34,6 +34,7 @@ import com.wellsfargo.sam2.services.UserServiceImp;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -66,7 +67,13 @@ public class UserController {
 //    public UserController(UserRepository userRepository) {
 //        this.userRepository = userRepository;
 //    }
-//    
+//
+
+@GetMapping("/{id}")
+public ResponseEntity<List<User>> getAllUserDetails() {
+	List<User> details = userRepository.findAll();
+	return new ResponseEntity<>(details, HttpStatus.OK);
+}
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {

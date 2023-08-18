@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.models.ItemDto;
 import com.wellsfargo.sam2.models.ItemMaster;
 import com.wellsfargo.sam2.repository.ItemRepository;
 
@@ -54,6 +55,11 @@ public class ItemController {
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
 
+    @GetMapping("/myitem")
+    public ResponseEntity<List<ItemDto>> getItems() {
+        List<ItemDto> itemcards = itemRepository.viewItems();
+        return ResponseEntity.ok(itemcards);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteItem(@PathVariable String id) {
         try {

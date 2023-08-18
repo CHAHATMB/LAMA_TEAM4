@@ -88,10 +88,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeRequests().antMatchers("/helloadmin").hasRole("ADMIN")
 		.antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
-		.antMatchers("/api/users/register").permitAll()
-		.antMatchers("/api/users/authenticate").permitAll()
-		.antMatchers("/").permitAll()
-		.antMatchers("/authenticate").permitAll()
+		.antMatchers("/api/users/register/**").permitAll()
+		.antMatchers("/api/users/authenticate/**").permitAll()
+		.antMatchers("/**").permitAll()
+		.antMatchers("/authenticate/**").permitAll()
 		.anyRequest().authenticated();
     
         
