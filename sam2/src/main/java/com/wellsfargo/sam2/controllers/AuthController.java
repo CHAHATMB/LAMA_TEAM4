@@ -73,12 +73,6 @@ public class AuthController {
 //        this.userRepository = userRepository;
 //    }
 //
-
-@GetMapping("/{id}")
-public ResponseEntity<List<User>> getAllUserDetails() {
-	List<User> details = userRepository.findAll();
-	return new ResponseEntity<>(details, HttpStatus.OK);
-}
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
