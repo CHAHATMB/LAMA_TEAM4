@@ -30,8 +30,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   @Autowired
   CustomUserDetailsService userDetailsService;
 
-//  @Autowired
-//  private CustomJwtAuthenticationFilter unauthorizedHandler;
+  @Autowired
+  private AuthEntryPointJwt unauthorizedHandler;
 
   @Bean
   public CustomJwtAuthenticationFilter authenticationJwtTokenFilter() {
@@ -84,8 +84,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
-    
-//        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeRequests()
         .antMatchers("/**").permitAll();
