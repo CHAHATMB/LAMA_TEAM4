@@ -5,6 +5,7 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'; // Import the i
 import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer';
+import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
 
 function UserDataTable() {
   const [data, setData] = useState([]);
@@ -15,13 +16,25 @@ function UserDataTable() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://172.20.0.54:8080/api/employees');
+      const response = await axios.get('http://172.20.0.54:8080/api/employee/all');
       setData(response.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+
+ 
+
+  function deleteData (id)  {
+    // try {
+    //   const response = axios.post('http://172.20.0.54:8080/api/employee/delete/'.concat(id).toString());
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.error('Error deleting data:', error);
+    // }
+  };
+
 
 // const dummyData = [
 //     {
@@ -50,6 +63,7 @@ function UserDataTable() {
   return (
     <div>
         <Header/>
+        <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data</h4>
         <div style={{ marginTop: '20px' ,padding: '0 20px'}}>
             <Table striped bordered responsive style={{ border: '1px solid #A8AAA9'}}>
             <thead>
@@ -75,18 +89,15 @@ function UserDataTable() {
                     <td>{item.date_of_birth}</td>
                     <td>{item.date_of_join}</td>
                     <td>
-                    <Button variant="info" size="sm" className="me-2" style={{ backgroundColor: '#17a2b8' }}>
-                    <AiOutlineEdit /> {/* Edit Icon */}
-                  </Button>
-                  <Button variant="danger" size="sm" style={{ backgroundColor: '#dc3545' }}>
-                    <AiOutlineDelete /> {/* Delete Icon */}
-                  </Button>
+                    <RiEdit2Fill style={{color:"#48b4bb"}}/>
+                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={deleteData(item.employeeId)}/> 
                     </td>
                 </tr>
                 ))}
             </tbody>
             </Table>
         </div>
+
         <Footer/>
     </div>
   );
