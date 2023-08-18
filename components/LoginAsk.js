@@ -7,6 +7,10 @@ import { Row, Col, Container } from 'react-bootstrap';
 import './LoginAsk.css'; // Import your CSS file
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import landing1 from "../images/l1.jpg";
+import landing2 from "../images/l2.jpg";
+import Footer from './Footer';
+
 
 const LoginAsk = () => {
 
@@ -16,35 +20,30 @@ const LoginAsk = () => {
     <div>
       <Header />
       <Container className="container-center">
-        <Row className="mt-4">
-          <Col md={6} className="mb-4">
-            <Card style={{ width: '16rem', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)' }}>
-              <Card.Img variant="top" src="/admin.png" className="card-img-top" alt="Card image" />
+          
+            <Card style={{ width: '60%', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)', margin:"10%", marginLeft:"5%" }}>
+              <Card.Img variant="top" src={landing1} className="card-img-top" alt="Card image" />
               <Card.Body>
-                <Card.Title className="text-center">Admin</Card.Title>
-                <div className="button-container">
-                  <Button variant="secondary" style={{ backgroundColor: '#48b4bb', color: 'white' }} onClick={() => {navigate('/adminLogin')}}>
+                <Card.Title >Admin</Card.Title>
+                
+                  <Button variant="secondary" style={{backgroundColor: '#48b4bb', color: 'white', width:"25%" }} onClick={() => {navigate('/adminLogin')}}>
                     Login
                   </Button>
-                </div>
+                
               </Card.Body>
             </Card>
-          </Col>
-          <Col md={6} className="mb-4">
-            <Card style={{ width: '16rem', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)' }}>
-              <Card.Img variant="top" src="/Customer.png" className="card-img-top" alt="Card image" />
+            <Card style={{ width: '60%', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)' }}>
+              <Card.Img variant="top" src={landing2} className="card-img-top" alt="Card image" />
               <Card.Body>
-                <Card.Title className="text-center">Customer</Card.Title>
-                <div className="button-container">
-                  <Button variant="secondary" style={{ backgroundColor: '#48b4bb', color: 'white' }} onClick={() => {navigate('/employeeLogin')}}>
+                <Card.Title>Customer</Card.Title>
+                
+                  <Button variant="secondary" style={{ backgroundColor: '#48b4bb', color: 'white', width:"25%", fontSize:"15px" }} onClick={() => {navigate('/employeeLogin')}}>
                     Login
                   </Button>
-                </div>
               </Card.Body>
             </Card>
-          </Col>
-        </Row>
       </Container>
+      <Footer/>
     </div>
   );
 };
