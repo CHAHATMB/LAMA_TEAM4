@@ -1,4 +1,8 @@
 package com.wellsfargo.sam2.models;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import javax.persistence.*;
 
@@ -7,10 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+
 @Table(name = "employee_master")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class EmployeeMaster {
 	
     @Id
@@ -23,5 +28,6 @@ public class EmployeeMaster {
 	  private LocalDate date_of_birth;
 	  private LocalDate date_of_join;
 	  
+
 
 }
