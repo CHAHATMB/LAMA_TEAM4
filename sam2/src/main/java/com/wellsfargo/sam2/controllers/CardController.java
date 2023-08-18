@@ -27,6 +27,7 @@ public class CardController {
             EmployeeCardDetails newCard = cardRepository.save(card);
             return new ResponseEntity<>(newCard, HttpStatus.CREATED);
         } catch (Exception e) {
+        	System.out.println("The excep "+ e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

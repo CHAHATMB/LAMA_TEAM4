@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ItemDto {
+
     private String issue_id;
 
     private String item_description;
@@ -17,5 +18,5 @@ public class ItemDto {
 
     private String designation;
     private String department;
-    private int employeeId;
+    private String employeeId;
 }

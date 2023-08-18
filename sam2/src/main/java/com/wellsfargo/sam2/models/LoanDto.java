@@ -16,7 +16,7 @@ public class LoanDto {
     private String loan_id;
     private String loanType;
     private int duration_in_year;
-    private int employeeId;
+    private String employeeId;
 
     private String department;
     private String designation;

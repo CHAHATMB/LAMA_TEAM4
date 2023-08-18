@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.EmployeeIssueDetails;
+import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.models.ItemMaster;
 import com.wellsfargo.sam2.models.LoanApplications;
 import com.wellsfargo.sam2.models.LoanApprove;
@@ -89,7 +90,7 @@ public class AdminControllers {
 	@PostMapping("/loan/approve")
 	public ResponseEntity<?> loanApprove(@RequestBody LoanApprove loanapprove ) {
 		
-		int employeeId = loanapprove.getEmployeeId();
+		String employeeId = loanapprove.getEmployeeId();
 		String issue_id = loanapprove.getIssueId();
 		
 		Optional<EmployeeIssueDetails> empIssue = loanApplication.findById(issue_id);
@@ -106,11 +107,18 @@ public class AdminControllers {
 		
 		issueDetailsService.updateIssueDetailMaster(empi);
 		
+		EmployeeMaster empMaster = new EmployeeMaster();
+		empMaster.setEmployeeId(employeeId);
+//		System.out.println(empMaster);
+//		System.out.println(loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()));
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
-				employeeMasterServiceImp.findEmployeeMasterById(Integer.toString(employeeId)).get(),
+				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
+//				empMaster,
 				 loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()),
 				 LocalDate.now()
 				);
+		empCardDet.setId(issue_id);
+		System.out.println("This is the me id  "+empCardDet.getId());
 		empCardDetSerImp.createEmployeeCardDetails(empCardDet);
 		
 		

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ApplyLoanDto {
 
-    private int employeeId;
+    private String employeeId;
     private String item_description;
     private String item_make;
     private String item_category;

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class LoanApprove {
-	      private int employeeId;
+	      private String employeeId;
 	      private String issueId;
 	      private String loanType;
 	      private int duration_in_year;
