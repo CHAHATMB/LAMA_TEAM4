@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employees/issue")
+@RequestMapping("/api/employeeissue")
 public class EmployeeIssueController {
 
     private final EmployeeIssueDetailsRepository employeeIssueRepository;
@@ -21,7 +21,7 @@ public class EmployeeIssueController {
         this.employeeIssueRepository = employeeIssueRepository;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<EmployeeIssueDetails> createEmployeeIssue(@RequestBody EmployeeIssueDetails empIssue) {
         try {
             EmployeeIssueDetails newEmpIssue = employeeIssueRepository.save(empIssue);
@@ -38,23 +38,23 @@ public class EmployeeIssueController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<EmployeeIssueDetails>> getAllEmpIssues() {
         List<EmployeeIssueDetails> empIssues = employeeIssueRepository.findAll();
         return new ResponseEntity<>(empIssues, HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<EmployeeIssueDetails> updateEmpIssue(@PathVariable String id, @RequestBody EmployeeIssueDetails empIssue) {
-//        if (!employeeIssueRepository.existsById(id)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        empIssue.setId(id);
-//        EmployeeIssueDetails updatedEmpIssue = employeeIssueRepository.save(empIssue);
-//        return new ResponseEntity<>(updatedEmpIssue, HttpStatus.OK);
-//    }
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<EmployeeIssueDetails> updateEmpIssue(@PathVariable String id, @RequestBody EmployeeIssueDetails empIssue) {
+        if (!employeeIssueRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        empIssue.setIssue_id(id);
+        EmployeeIssueDetails updatedEmpIssue = employeeIssueRepository.save(empIssue);
+        return new ResponseEntity<>(updatedEmpIssue, HttpStatus.OK);
+    }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteEmpIssue(@PathVariable String id) {
         try {
             employeeIssueRepository.deleteById(id);

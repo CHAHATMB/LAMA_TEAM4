@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api/item")
 public class ItemController {
 
     private final ItemRepository itemRepository;
@@ -23,7 +23,7 @@ public class ItemController {
         this.itemRepository = itemRepository;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ItemMaster> createItem(@RequestBody ItemMaster item) {
         try {
             ItemMaster newItem = itemRepository.save(item);
@@ -40,13 +40,13 @@ public class ItemController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ItemMaster>> getAllItems() {
         List<ItemMaster> items = itemRepository.findAll();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<ItemMaster> updateItem(@PathVariable String id, @RequestBody ItemMaster item) {
         if (!itemRepository.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -61,7 +61,7 @@ public class ItemController {
         List<ItemDto> itemcards = itemRepository.viewItems(id);
         return ResponseEntity.ok(itemcards);
     }
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteItem(@PathVariable String id) {
         try {
             itemRepository.deleteById(id);

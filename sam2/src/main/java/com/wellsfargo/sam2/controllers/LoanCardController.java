@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/loancards")
+@RequestMapping("/api/loancard")
 public class LoanCardController {
 
     private final LoanRepository loanRepository;
@@ -26,7 +26,7 @@ public class LoanCardController {
         this.employeeCardDetailsRepository=employeeCardDetailsRepository;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<LoanCard> createLoanCard(@RequestBody LoanCard loancard) {
         try {
             LoanCard newLoanCard = loanRepository.save(loancard);
@@ -74,13 +74,13 @@ public class LoanCardController {
     }
 
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<LoanCard>> getAllLoanCards() {
         List<LoanCard> laoncards = loanRepository.findAll();
         return new ResponseEntity<>(laoncards, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<LoanCard> updateLoanCard(@PathVariable String id, @RequestBody LoanCard laoncard) {
         if (!loanRepository.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -90,7 +90,7 @@ public class LoanCardController {
         return new ResponseEntity<>(updatedLoanCard, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteLoanCard(@PathVariable String id) {
         try {
             loanRepository.deleteById(id);

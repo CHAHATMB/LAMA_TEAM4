@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/employee")
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
@@ -56,7 +56,7 @@ public class EmployeeController {
         this.employeeRepository = employeeRepository;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<EmployeeMaster> createEmployee(@RequestBody EmployeeMaster employee) {
         try {
             String iempId = employee.getEmployeeId();
@@ -75,23 +75,23 @@ public class EmployeeController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<EmployeeMaster>> getAllEmployees() {
         List<EmployeeMaster> employees = employeeRepository.findAll();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<EmployeeMaster> updateEmployee(@PathVariable String id, @RequestBody EmployeeMaster employee) {
-//        if (!employeeRepository.existsById(id)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        employee.setEmployee_id(id);
-//        EmployeeMaster updatedEmployee = employeeRepository.save(employee);
-//        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
-//    }
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<EmployeeMaster> updateEmployee(@PathVariable String id, @RequestBody EmployeeMaster employee) {
+        if (!employeeRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        employee.setEmployeeId(id);
+        EmployeeMaster updatedEmployee = employeeRepository.save(employee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+    }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable String id) {
         try {
             employeeRepository.deleteById(id);
