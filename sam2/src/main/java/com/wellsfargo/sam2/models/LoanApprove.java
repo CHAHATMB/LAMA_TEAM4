@@ -1,45 +1,17 @@
 package com.wellsfargo.sam2.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class LoanApprove {
 	      private String employeeId;
 	      private String issueId;
 	      private String loanType;
 	      private int duration_in_year;
-		public LoanApprove() {
-			super();
-		}
-		public LoanApprove(String employeeId, String issueId, String loanType, int duration_in_year) {
-			super();
-			this.employeeId = employeeId;
-			this.issueId = issueId;
-			this.loanType = loanType;
-			this.duration_in_year = duration_in_year;
-		}
-		public String getEmployeeId() {
-			return employeeId;
-		}
-		public void setEmployeeId(String employeeId) {
-			this.employeeId = employeeId;
-		}
-		public String getIssueId() {
-			return issueId;
-		}
-		public void setIssueId(String issueId) {
-			this.issueId = issueId;
-		}
-		public String getLoanType() {
-			return loanType;
-		}
-		public void setLoanType(String loanType) {
-			this.loanType = loanType;
-		}
-		public int getDuration_in_year() {
-			return duration_in_year;
-		}
-		public void setDuration_in_year(int duration_in_year) {
-			this.duration_in_year = duration_in_year;
-		}
-	      
+
 	  
 }
