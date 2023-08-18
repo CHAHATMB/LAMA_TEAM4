@@ -4,6 +4,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -34,13 +36,14 @@ import com.wellsfargo.sam2.services.UserServiceImp;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-public class UserController {
+public class AuthController {
 
     private final UserRepository userRepository;
 	
@@ -113,10 +116,19 @@ public class UserController {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-
+		final Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+		String role = "";
+		
+		if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+			role = "ADMIN";
+		}
+		else if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+			role = "USER";
+		}
+		
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JWTToken(token));
+		return ResponseEntity.ok(new JWTToken(token, role));
 	}
 	
 	@PostMapping(value = "/verifyotp")
