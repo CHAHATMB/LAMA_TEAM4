@@ -84,15 +84,18 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
+    
 //        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeRequests().antMatchers("/helloadmin").hasRole("ADMIN")
-		.antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
-		.antMatchers("/api/users/register").permitAll()
-		.antMatchers("/api/users/authenticate").permitAll()
-		.antMatchers("/").permitAll()
-		.antMatchers("/authenticate").permitAll()
-		.anyRequest().authenticated();
+        .authorizeRequests()
+        .antMatchers("/**").permitAll();
+//        .antMatchers("/helloadmin").hasRole("ADMIN")
+//		.antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
+//		.antMatchers("/api/users/register").permitAll()
+//		.antMatchers("/api/users/authenticate").permitAll()
+//		.antMatchers("/").permitAll()
+//		.antMatchers("/authenticate").permitAll()
+//		.anyRequest().authenticated();
     
         
 //        .authorizeHttpRequests(auth -> 

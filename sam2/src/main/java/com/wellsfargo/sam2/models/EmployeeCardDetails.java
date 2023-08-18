@@ -1,5 +1,8 @@
 package com.wellsfargo.sam2.models;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDate;
 
 @Entity
@@ -7,7 +10,8 @@ import java.time.LocalDate;
 public class EmployeeCardDetails {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid", strategy="uuid")
 	@Column(name="id")
 	private String id;
 

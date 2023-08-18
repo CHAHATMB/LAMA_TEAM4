@@ -34,6 +34,15 @@ public class EmployeeIssueDetails {
 		this.issue_date = issue_date;
 		this.return_date = return_date;
 	}
+	
+	public EmployeeIssueDetails( EmployeeMaster employee, ItemMaster item, LocalDate issue_date,
+			LocalDate return_date) {
+		super();
+		this.employee = employee;
+		this.item = item;
+		this.issue_date = issue_date;
+		this.return_date = return_date;
+	}
 
 	public String getIssue_id() {
 		return issue_id;

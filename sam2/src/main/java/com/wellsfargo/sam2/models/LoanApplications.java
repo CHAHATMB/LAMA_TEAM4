@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LoanApplications {
 
-		private int employeeId;
+		private String employeeId;
 	    private String issue_id;
 	    private String item_id;
 	    private String item_description;
@@ -23,11 +23,11 @@ public class LoanApplications {
 	    // Constructors, getters, and setters
 	    
 
-		public int getEmployeeId() {
+		public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 

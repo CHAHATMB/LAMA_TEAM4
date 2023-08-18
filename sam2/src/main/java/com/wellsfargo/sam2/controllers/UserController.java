@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
 @AllArgsConstructor
 public class UserController {
 
@@ -88,7 +88,7 @@ public class UserController {
             
             
             
-            // Sending OTP
+// Sending OTP
 //            senderService.sendSimpleEmail(user.getEmail(),
 //    				"OTP for LAMA",
 //    				"Your OTP for Verification at LAMA is " + otp);
@@ -101,7 +101,7 @@ public class UserController {
     }
     
 
-	@PostMapping(value = "/authenticate")
+	@PostMapping(value = "/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest)
 			throws Exception {
 		try {

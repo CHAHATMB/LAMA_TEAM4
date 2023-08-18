@@ -2,24 +2,24 @@ package com.wellsfargo.sam2.models;
 
 
 public class LoanApprove {
-	      private int employeeId;
+	      private String employeeId;
 	      private String issueId;
 	      private String loanType;
 	      private int duration_in_year;
 		public LoanApprove() {
 			super();
 		}
-		public LoanApprove(int employeeId, String issueId, String loanType, int duration_in_year) {
+		public LoanApprove(String employeeId, String issueId, String loanType, int duration_in_year) {
 			super();
 			this.employeeId = employeeId;
 			this.issueId = issueId;
 			this.loanType = loanType;
 			this.duration_in_year = duration_in_year;
 		}
-		public int getEmployeeId() {
+		public String getEmployeeId() {
 			return employeeId;
 		}
-		public void setEmployeeId(int employeeId) {
+		public void setEmployeeId(String employeeId) {
 			this.employeeId = employeeId;
 		}
 		public String getIssueId() {
