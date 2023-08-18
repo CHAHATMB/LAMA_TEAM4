@@ -72,8 +72,9 @@ function ItemMasterDataTable() {
             <tbody>
                 
                 {data.map((item) => (
-                
-                <tr key={item.item_category=="Furniture"? item.id:null}>
+                item.item_category === "Furniture"?(
+                <tr key={ item.id}>
+                    
                     <td>{item.item_id}</td>
                     {/* <td>{item.description}</td> */}
                     <td>{item.issue_status==1?"Yes":"No"}</td>
@@ -82,9 +83,11 @@ function ItemMasterDataTable() {
                     <td>{item.item_valuation}</td>
                     <td>
                     <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                    <RiDeleteBinLine style={{color:"red"}}/>
+                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
                     </td>
+                    
                 </tr>
+                ):null
                 ))}
             </tbody>
             </Table>
@@ -94,6 +97,7 @@ function ItemMasterDataTable() {
         <div style={{ marginTop: '20px', padding: '0 20px' }}>
         <Table striped bordered responsive className="table-striped-dark">
           <thead>
+
             <tr>
               <th>Item ID</th>
               {/* <th>Description</th> */}
@@ -106,7 +110,8 @@ function ItemMasterDataTable() {
           </thead>
           <tbody>
             {data.map((item) => (
-              <tr key={item.item_category=="Electronics"? item.id:null}>
+            item.item_category === "Electronics"?(
+              <tr key={item.id}>
                 <td>{item.item_id}</td>
                 {/* <td>{item.description}</td> */}
                 <td>{item.issue_status==1?"Yes":"No"}</td>
@@ -115,10 +120,11 @@ function ItemMasterDataTable() {
                 <td>{item.item_valuation}</td>
                 <td>
                 <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red"}}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"5%"}}/>
                 </td>
               </tr>
-            ))}
+            ):null
+            ))};
           </tbody>
         </Table>
       </div>
@@ -139,7 +145,8 @@ function ItemMasterDataTable() {
           </thead>
           <tbody>
             {data.map((item) => (
-              <tr key={item.item_category=="Crockery"?item.id:null}>
+            item.item_category === "Crockery"?(
+              <tr key={item.id}>
                 <td>{item.item_id}</td>
                 {/* <td>{item.description}</td> */}
                 <td>{item.issue_status==1?"Yes":"No"}</td>
@@ -148,9 +155,10 @@ function ItemMasterDataTable() {
                 <td>{item.item_valuation}</td>
                 <td>
                 <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red"}}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"5%"}}/>
                 </td>
               </tr>
+            ):null
             ))}
           </tbody>
         </Table>
