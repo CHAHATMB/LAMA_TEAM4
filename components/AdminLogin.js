@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import './AdminLogin.css';
 import Header from './Header';
@@ -14,8 +14,10 @@ function AdminLogin() {
   const [password, setPassword] = useState('');
   const dataToSend = {email: email, password: password}; 
   let navigate = useNavigate();
-const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [role, setRole] = useState("");
 
+  
 
   const fetchData = async () => {
     
@@ -38,9 +40,17 @@ const [data, setData] = useState([]);
       password: password
     } ,
    }).then((data)=>{
-      console.log(data.data.id_token);
+      
+      console.log(data);
       axios.defaults.headers.common.Authorization = "Bearer " + data.data.id_token;
+      if(data.data.role === "ADMIN"){
+      console.log("Allow admin");
       navigate('/adminDashboard');
+      }
+      else{
+        navigate('/')
+      }
+     
    })
     console.log("Submit")
  }
