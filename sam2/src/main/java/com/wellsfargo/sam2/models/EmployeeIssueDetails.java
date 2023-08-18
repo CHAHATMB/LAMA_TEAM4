@@ -27,8 +27,6 @@ public class EmployeeIssueDetails {
 
     private LocalDate issue_date;
     private LocalDate return_date;
-    
-
 
 
 }
