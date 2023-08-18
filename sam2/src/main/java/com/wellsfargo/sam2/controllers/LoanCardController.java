@@ -1,8 +1,7 @@
 package com.wellsfargo.sam2.controllers;
 
 import com.wellsfargo.sam2.models.*;
-import com.wellsfargo.sam2.repository.ItemRepository;
-import com.wellsfargo.sam2.repository.LoanRepository;
+import com.wellsfargo.sam2.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +15,15 @@ import java.util.Optional;
 public class LoanCardController {
 
     private final LoanRepository loanRepository;
-
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeCardDetailsRepository employeeCardDetailsRepository;
     private final ItemRepository itemRepository;
     @Autowired
-    public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository) {
+    public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository,EmployeeRepository employeeRepository,EmployeeCardDetailsRepository employeeCardDetailsRepository) {
         this.loanRepository = loanRepository;
         this.itemRepository=itemRepository;
+        this.employeeRepository=employeeRepository;
+        this.employeeCardDetailsRepository=employeeCardDetailsRepository;
     }
 
     @PostMapping
@@ -40,21 +42,27 @@ public class LoanCardController {
         return loancard.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @GetMapping("/myloans")
-    public ResponseEntity<List<LoanDto>> getAllLoans() {
-        List<LoanDto> loancards = loanRepository.viewLoans();
+    @GetMapping("/myloans/{id}")
+    public ResponseEntity<List<LoanDto>> getLoanById(@PathVariable String id) {
+
+        List<LoanDto> loancards = loanRepository.viewLoans(id);
         return ResponseEntity.ok(loancards);
     }
 
     @PostMapping("/applyloans")
     public ResponseEntity<ItemMaster> createCard(@RequestBody ApplyLoanDto loan) {
         try {
-            System.out.println(loan);
+          //  System.out.println(loan);
              ItemMaster im= new ItemMaster();
-             im.setItem_description(loan.getItem_description());
-             im.setItem_category(loan.getItem_category());
-             im.setItem_make(loan.getItem_make());
-             im.setItem_valuation(loan.getItem_valuation());
+             String desc = loan.getItem_description();
+             String category=loan.getItem_category();
+             String make=loan.getItem_make();
+             int value=loan.getItem_valuation();
+
+             im.setItem_description(desc);
+             im.setItem_category(category);
+             im.setItem_make(make);
+             im.setItem_valuation(value);
 //             im.setItem_id("iid16");
 //             im.setIssue_status("no");
             ItemMaster newLoan = itemRepository.save(im);

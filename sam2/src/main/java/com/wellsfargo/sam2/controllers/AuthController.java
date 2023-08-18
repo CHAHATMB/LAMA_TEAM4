@@ -111,7 +111,7 @@ public ResponseEntity<List<User>> getAllUserDetails() {
             return new ResponseEntity<>("There is some internal error!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
 
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginDTO authenticationRequest)

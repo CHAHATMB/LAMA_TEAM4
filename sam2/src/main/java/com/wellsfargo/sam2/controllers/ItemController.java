@@ -5,6 +5,7 @@ import com.wellsfargo.sam2.models.ItemMaster;
 import com.wellsfargo.sam2.repository.ItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,9 +56,9 @@ public class ItemController {
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
 
-    @GetMapping("/myitem")
-    public ResponseEntity<List<ItemDto>> getItems() {
-        List<ItemDto> itemcards = itemRepository.viewItems();
+    @GetMapping("/myitem/{id}")
+    public ResponseEntity<List<ItemDto>> getItems(@PathVariable String id) {
+        List<ItemDto> itemcards = itemRepository.viewItems(id);
         return ResponseEntity.ok(itemcards);
     }
     @DeleteMapping("/{id}")

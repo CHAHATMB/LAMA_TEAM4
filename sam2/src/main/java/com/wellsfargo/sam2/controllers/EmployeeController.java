@@ -59,6 +59,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<EmployeeMaster> createEmployee(@RequestBody EmployeeMaster employee) {
         try {
+            String iempId = employee.getEmployeeId();
             EmployeeMaster newEmployee = employeeRepository.save(employee);
             return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
         } catch (Exception e) {
