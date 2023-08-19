@@ -38,4 +38,13 @@ public class EmployeeIssueDetailsServiceImp implements EmployeeIssueDetailsServi
 		return issueDetailRepository.save(impd);
 	}
 
+	@Override
+	public void DeleteByEmployeeId(String id) {
+		issueDetailRepository.deleteByEmployee_EmployeeId(id);
+	}
+	
+	@Override
+	public void deleteEmployeeIssueDetailsByItemId(String itemId){
+		issueDetailRepository.deleteByItemId(itemId);
+	}
 }

@@ -3,6 +3,9 @@ package com.wellsfargo.sam2.controllers;
 import com.wellsfargo.sam2.models.*;
 import com.wellsfargo.sam2.repository.ItemRepository;
 import com.wellsfargo.sam2.repository.LoanRepository;
+import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
+
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +16,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/loancard")
+@AllArgsConstructor
 public class LoanCardController {
 
     private final LoanRepository loanRepository;
 
     private final ItemRepository itemRepository;
+    
+    @Autowired
+	private EmployeeCardDetailsServiceImp empCardDetSerImp;
+    
     @Autowired
     public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository) {
         this.loanRepository = loanRepository;
@@ -85,6 +93,7 @@ public class LoanCardController {
     @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteLoanCard(@PathVariable String id) {
         try {
+        	empCardDetSerImp.deleteByLoanId(id);
             loanRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {

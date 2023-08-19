@@ -11,4 +11,7 @@ public interface EmployeeCardDetailsService {
     Optional<EmployeeCardDetails> findEmployeeCardDetailsById(String id);
     
     EmployeeCardDetails updateEmployeeCardDetails(EmployeeCardDetails empCardDet);
+    
+    void deleteByEmployeeId(String id);
+    void deleteByLoanId(String id);
 }

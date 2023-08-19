@@ -26,7 +26,4 @@ public class ItemMaster {
     private String item_category;
     private int item_valuation;
 
-    // Constructors, getters, and setters
-
-
 }

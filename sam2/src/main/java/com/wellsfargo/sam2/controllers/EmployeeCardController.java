@@ -12,12 +12,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employeecard")
-public class CardController {
+public class EmployeeCardController {
 
     private final EmployeeCardDetailsRepository cardRepository;
 
     @Autowired
-    public CardController(EmployeeCardDetailsRepository cardRepository) {
+    public EmployeeCardController(EmployeeCardDetailsRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 

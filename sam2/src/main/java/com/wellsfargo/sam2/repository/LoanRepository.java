@@ -3,10 +3,11 @@ package com.wellsfargo.sam2.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.wellsfargo.sam2.models.LoanDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.wellsfargo.sam2.models.LoanCard;
+import com.wellsfargo.sam2.models.LoanDto;
+
 import org.springframework.data.jpa.repository.Query;
 
 public interface LoanRepository extends JpaRepository<LoanCard, String> {

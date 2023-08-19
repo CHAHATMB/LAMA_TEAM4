@@ -27,7 +27,4 @@ public class EmployeeMaster {
 	  private int gender;
 	  private LocalDate date_of_birth;
 	  private LocalDate date_of_join;
-	  
-
-
 }

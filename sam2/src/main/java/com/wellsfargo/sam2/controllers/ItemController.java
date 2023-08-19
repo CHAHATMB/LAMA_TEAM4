@@ -1,8 +1,12 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.models.ItemDto;
 import com.wellsfargo.sam2.models.ItemMaster;
+import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
 import com.wellsfargo.sam2.repository.ItemRepository;
+
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +17,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/item")
+@AllArgsConstructor
 public class ItemController {
 
     private final ItemRepository itemRepository;
-
+    
     @Autowired
-    public ItemController(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
+    private final EmployeeIssueDetailsRepository employeeIssueRepository;
+    
+//    @Autowired
+//    public ItemController(ItemRepository itemRepository) {
+//        this.itemRepository = itemRepository;
+//    }
 
     @PostMapping("/add")
     public ResponseEntity<ItemMaster> createItem(@RequestBody ItemMaster item) {
@@ -61,12 +69,15 @@ public class ItemController {
         return ResponseEntity.ok(itemcards);
     }
     @PostMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteItem(@PathVariable String id) {
+    public ResponseEntity<?> deleteItem(@PathVariable String id) {
         try {
+        	employeeIssueRepository.deleteByItemId(id);
             itemRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomResponse("Item deleted successfully!","Success")
+            		);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("Error in delete item "+ e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomResponse("Some error in server!","failed"));
         }
     }
 }

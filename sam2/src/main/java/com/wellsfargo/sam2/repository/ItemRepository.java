@@ -1,8 +1,8 @@
 package com.wellsfargo.sam2.repository;
 
-import com.wellsfargo.sam2.models.ItemDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.wellsfargo.sam2.models.ItemDto;
 import com.wellsfargo.sam2.models.ItemMaster;
 import org.springframework.data.jpa.repository.Query;
 

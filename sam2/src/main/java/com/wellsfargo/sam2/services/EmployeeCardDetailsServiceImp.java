@@ -33,4 +33,16 @@ public class EmployeeCardDetailsServiceImp implements EmployeeCardDetailsService
     public EmployeeCardDetails updateEmployeeCardDetails(EmployeeCardDetails empCardDet) {
         return empCardDetRepo.save(empCardDet);
     }
+
+	@Override
+	public void deleteByEmployeeId(String id) {
+		empCardDetRepo.deleteByEmployee_EmployeeId(id);
+		
+	}
+
+	@Override
+	public void deleteByLoanId(String id) {
+		empCardDetRepo.deleteByLoanCard(id);
+		
+	}
 }

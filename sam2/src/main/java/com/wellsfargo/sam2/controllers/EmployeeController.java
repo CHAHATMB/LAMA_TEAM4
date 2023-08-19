@@ -1,4 +1,5 @@
 package com.wellsfargo.sam2.controllers;
+import com.wellsfargo.sam2.dto.CustomResponse;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpStatus;
@@ -6,7 +7,9 @@ package com.wellsfargo.sam2.controllers;
 //import org.springframework.web.bind.annotation.*;
 //
 import com.wellsfargo.sam2.models.EmployeeMaster;
+import com.wellsfargo.sam2.repository.EmployeeCardDetailsRepository;
 import com.wellsfargo.sam2.repository.EmployeeRepository;
+import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
 //
 //import java.util.Optional;
 //
@@ -36,7 +39,9 @@ import com.wellsfargo.sam2.repository.EmployeeRepository;
 //        }
 //    }
 //}
+import com.wellsfargo.sam2.services.EmployeeIssueDetailsServiceImp;
 
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,14 +52,21 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
+@AllArgsConstructor
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
-
+    private final EmployeeRepository employeeRepository;	
+    
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+	private EmployeeCardDetailsServiceImp empCardDetSerImp;
+    
+    @Autowired
+	private EmployeeIssueDetailsServiceImp issueDetailsService;
+
+//    @Autowired
+//    public EmployeeController(EmployeeRepository employeeRepository) {
+//        this.employeeRepository = employeeRepository;
+//    }
 
     @PostMapping("/add")
     public ResponseEntity<EmployeeMaster> createEmployee(@RequestBody EmployeeMaster employee) {
@@ -91,12 +103,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable String id) {
+    public ResponseEntity<CustomResponse> deleteEmployee(@PathVariable String id) {
         try {
+        	empCardDetSerImp.deleteByEmployeeId(id);
+        	issueDetailsService.DeleteByEmployeeId(id);
             employeeRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new CustomResponse("Employee deleted successfully!","Success"),HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("Error in delete "+ e);
+            return new ResponseEntity<>(new CustomResponse("Some error in server!","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
