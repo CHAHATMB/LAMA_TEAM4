@@ -6,12 +6,26 @@ import img2 from '../images/viewL.jpg';
 import img3 from '../images/viewItemsP.jpg';
 import Container from 'react-bootstrap/esm/Container';
 import Footer from './Footer';
-
+import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 function EmployeeDashboard() {
     const hour = new Date().getHours();
-  return (
+    const navigate = useNavigate();
 
-    <div style={{display:"flex", flexWrap:"wrap", backgroundColor:"whitesmoke", paddingBottom:"11%"}}>
+    function handleApply (){
+        navigate('/applyLoan');
+    }
+
+    function handleV (){
+      navigate('/viewMyLoans');
+  }
+  function handlePurchased(){
+    navigate("/viewItemsPurchased");
+  }
+  return (
+    <>
+    <Header/>
+    <div style={{display:"flex", flexWrap:"wrap", backgroundColor:"whitesmoke", paddingBottom:"15%"}}>
       <div style={{width:"30%", marginLeft:"1%", marginTop:"9%"}}>
         <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "}</h1>
         <h1  style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>User</h1>
@@ -27,7 +41,7 @@ borderRadius: "20px", boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         Some quick example text to build on the card title and make up the
         bulk of the card's content.
         </Card.Text> */}
-        <Button variant="outline-warning" style={{backgroundColor:'white', color:'#d19900'}}>Apply now</Button>
+        <Button variant="outline-warning" style={{backgroundColor:'white', color:'#d19900'}} onClick={handleApply}>Apply now</Button>
         
         </Card.Body>
     </Card>
@@ -41,7 +55,7 @@ borderRadius: "20px", boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         Some quick example text to build on the card title and make up the
         bulk of the card's content.
         </Card.Text> */}
-        <Button variant="outline-warning" style={{backgroundColor:'white', color:'#d19900'}}>View details</Button>
+        <Button variant="outline-warning" onClick={handleV} style={{backgroundColor:'white', color:'#d19900'}}>View details</Button>
         
         </Card.Body>
     </Card>
@@ -54,12 +68,13 @@ borderRadius: "20px", boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         Some quick example text to build on the card title and make up the
         bulk of the card's content.
         </Card.Text> */}
-        <Button variant="outline-warning" style={{backgroundColor:'white', color:'#d19900'}}>View details</Button>
+        <Button variant="outline-warning" onClick={handlePurchased} style={{backgroundColor:'white', color:'#d19900'}}>View details</Button>
         
         </Card.Body>
     </Card>
     <Footer/>
     </div>
+    </>
   
   
     
