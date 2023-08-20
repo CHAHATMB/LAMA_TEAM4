@@ -10,9 +10,12 @@ import ItemMasterAdd from './component/ItemMasterAdd';
 import LoanCardAdd from './component/LoanCardAdd';
 import UserDataTable from './component/UserDataTable';
 import ItemMasterDataTable from './component/ItemMasterDataTable';
-import LoanDataTable from './component/LoadDataTable';
-import ViewLoanTable from './component/ViewLoanTable';
+import LoanDataTable from './component/LoanDataTable';
+// import ViewLoanTable from './component/ViewLoanTable';
 import EmployeeDashboard from './component/EmployeeDashboard';
+import ApplyLoan from './component/ApplyLoan';
+import ViewMyLoans from './component/ViewMyLoans';
+import ViewItemsPurchased from './component/ViewItemsPurchased';
 
 function App() {
   return(
@@ -28,8 +31,12 @@ function App() {
         <Route path="/userDataTable" element={<UserDataTable/>}/>
         <Route path="/itemMasterDataTable" element={<ItemMasterDataTable/>}/>
         <Route path="/loanDataTable" element={<LoanDataTable/>}/>
-        <Route path="/viewLoanTable" element={<ViewLoanTable/>}/>
+        {/* <Route path="/viewLoanTable" element={<ViewLoanTable/>}/> */}
         <Route path="/employeeDashboard" element={<EmployeeDashboard/>}/>
+        <Route path="/applyLoan" element={<ApplyLoan/>}/>
+        <Route path="/viewMyLoans" element={<ViewMyLoans/>}/>
+        <Route path="/viewItemsPurchased" element={<ViewItemsPurchased/>}/>
+
       </Routes>
     </Router>
    
