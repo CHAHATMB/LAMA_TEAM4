@@ -6,6 +6,7 @@ import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer';
 import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
+import {HiUserAdd} from 'react-icons/hi';
 
 function UserDataTable() {
   const [data, setData] = useState([]);
@@ -61,9 +62,12 @@ function UserDataTable() {
 //   ];
 
   return (
-    <div>
+    <div style={{marginBottom:"3%", height:"95%"}}>
         <Header/>
-        <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data</h4>
+        <div style={{display:"flex", flexWrap:"wrap"}}>
+        <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data 
+</h4>
+        </div>
         <div style={{ marginTop: '20px' ,padding: '0 20px'}}>
             <Table striped bordered responsive style={{ border: '1px solid #A8AAA9'}}>
             <thead>
@@ -97,7 +101,7 @@ function UserDataTable() {
             </tbody>
             </Table>
         </div>
-
+        <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}}><HiUserAdd/>Add employee</Button>
         <Footer/>
     </div>
   );
