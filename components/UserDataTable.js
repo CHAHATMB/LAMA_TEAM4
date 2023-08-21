@@ -102,7 +102,7 @@ function UserDataTable() {
                     <td>{item.date_of_birth}</td>
                     <td>{item.date_of_join}</td>
                     <td>
-                    <RiEdit2Fill style={{color:"#48b4bb"}}/>
+                    <RiEdit2Fill style={{color:"#48b4bb"}} onClick={() => navigate('/editUserData',{state:{employeeData:item}})}/>
                     <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => showAlert(item.employeeId)}/> 
                     </td>
                 </tr>
