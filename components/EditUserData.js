@@ -18,8 +18,6 @@ const EditUserData = () => {
   let navigate = useNavigate();
   const location = useLocation();
   
-  const employeeData = location.state.employeeData;
-
   const minDate = new Date();
   const today = new Date().toISOString().split('T')[0];
   minDate.setFullYear(minDate.getFullYear() - 21);
@@ -67,8 +65,8 @@ const handleDojChange = (e) => {
   }
 };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const handleEdit = () => {
     // Handle form submission here
     console.log('Form submitted:', {
       employeeId,
@@ -82,7 +80,7 @@ const handleDojChange = (e) => {
 
     axios({
       method: 'POST',
-      url: 'http://172.20.0.54:8080/api/employee/edit',
+      url: 'http://172.20.0.54:8080/api/employee/edit/'.concat(location.state.id).toString(),
       data:{
         employeeId:employeeId,
         email: email,
@@ -96,7 +94,7 @@ const handleDojChange = (e) => {
     }).then((data)=>{
         console.log(data);
        //add a popup
-        alert("Employee Added Successfully");
+        alert("Employee Updated Successfully");
           //clear the form
           setEmployeeId('');
           setDesignation('');
@@ -118,18 +116,18 @@ const handleDojChange = (e) => {
       <Header />
       <div className="containerForm">
         <h2 className="form-title">Employee Form</h2>
-        <form onSubmit={handleSubmit}>
+        <form>
           <label className="form-label">Employee ID:</label>
           <input
             type="text"
-            value={employeeData.employeeId}
+            value=  {location.state.id}
             onChange={(e) => setEmployeeId(e.target.value)}
             disabled
           />
 
           <label className="form-label">Designation:</label>
           <select
-            value={designation}
+            defaultValue={location.state.designation}
             onChange={(e) => setDesignation(e.target.value)}
             required
           >
@@ -144,22 +142,22 @@ const handleDojChange = (e) => {
           <label className="form-label">Employee Name:</label>
           <input
             type="text"
-            value={employeeName}
+            value={location.state.name}
             onChange={(e) => setEmployeeName(e.target.value)}
             required
           />
 
-<label className="form-label">Employee Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+        <label className="form-label">Employee Email:</label>
+                <input
+                    type="email"
+                    defaultValue={location.state.email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
           <label className="form-label">Date of Birth:</label>
           <input
             type="date"
-            value={dob}
+            defaultValue={location.state.date_of_birth}
             onChange={handleDobChange}
             max={minDateStr}
             required
@@ -167,7 +165,7 @@ const handleDojChange = (e) => {
 
           <label className="form-label">Department:</label>
           <select
-            value={department}
+            defaultValue={location.state.department}
             onChange={(e) => setDepartment(e.target.value)}
             required
           >
@@ -181,7 +179,7 @@ const handleDojChange = (e) => {
           <label className="form-label">Date of Joining:</label>
           <input
             type="date"
-            value={doj}
+            defaultValue={location.state.date_of_join}
             onChange={handleDojChange}
             min={dob}
             max = {today}
@@ -190,7 +188,7 @@ const handleDojChange = (e) => {
 
           <label className="form-label">Gender:</label>
           <select
-            value={gender}
+            defaultValue={location.state.gender}
             required
             onChange={(e) => {
               if(e.target.value === 'Female'){
@@ -232,7 +230,7 @@ const handleDojChange = (e) => {
             <label htmlFor="female">Female</label> 
           </div>*/}
 
-          <button className="form-button" type="submit">Submit</button>
+          <button className="form-button" type="submit" onClick={handleEdit}>Submit</button>
         </form>
       </div>
       {/* <Footer /> */}
