@@ -3,6 +3,8 @@ package com.wellsfargo.sam2.models;
 
 import javax.persistence.*;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +22,11 @@ import lombok.experimental.SuperBuilder;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String employeeId;
 	private String name;
     private String email;
     private String password;
+    @Value("false")
     private boolean isEnabled;
     private int isAdmin;
     private int otp;
@@ -87,7 +91,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	public boolean getIsEnabled() {
+		return isEnabled;
+	}
 
 	public boolean isEnabled() {
 		return isEnabled;

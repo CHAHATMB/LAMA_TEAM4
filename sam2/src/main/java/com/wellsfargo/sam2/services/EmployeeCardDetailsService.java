@@ -9,6 +9,7 @@ public interface EmployeeCardDetailsService {
 	EmployeeCardDetails createEmployeeCardDetails(EmployeeCardDetails empCardDet);
     
     Optional<EmployeeCardDetails> findEmployeeCardDetailsById(String id);
+    boolean existEmployeeCardDetailsById(String id);
     
     EmployeeCardDetails updateEmployeeCardDetails(EmployeeCardDetails empCardDet);
     

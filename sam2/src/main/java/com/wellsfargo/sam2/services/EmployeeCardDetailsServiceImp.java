@@ -30,6 +30,12 @@ public class EmployeeCardDetailsServiceImp implements EmployeeCardDetailsService
     }
 
     @Override
+    public boolean existEmployeeCardDetailsById(String id)
+    {
+        return empCardDetRepo.existsById(id);
+    }
+
+    @Override
     public EmployeeCardDetails updateEmployeeCardDetails(EmployeeCardDetails empCardDet) {
         return empCardDetRepo.save(empCardDet);
     }
