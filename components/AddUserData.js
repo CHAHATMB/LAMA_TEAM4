@@ -17,6 +17,53 @@
     const [data, setData] = useState([]);
     let navigate = useNavigate();
 
+    const minDate = new Date();
+    const today = new Date().toISOString().split('T')[0];
+  minDate.setFullYear(minDate.getFullYear() - 21);
+    // today.setFullYear(today.getFullYear());
+    const minDateStr = minDate.toISOString().split('T')[0];
+    // const  = minDate.toISOString().split('T')[0];
+  
+    const handleDobChange = (e) => {
+      const selectedDate = e.target.value;
+      
+      if (selectedDate <= minDateStr) {
+        // setDob(selectedDate);
+        setDob(e.target.value)
+      } else {
+        // Handle invalid date here, e.g., show an error message
+        console.log('Invalid date selected');
+      }
+
+      setDoj('');
+    };
+
+    
+  const handleDojChange = (e) => {
+
+
+    const selectedDate = e.target.value;
+    if(dob==""){
+      if (selectedDate<= today) {
+        setDoj(selectedDate);
+      } else {
+        // Handle invalid date here, e.g., show an error message
+        console.log('Invalid date selected for Date of Joining');
+      }
+    }
+    else {
+      const eighteenYearsAfterDob = new Date(dob);
+      eighteenYearsAfterDob.setFullYear(eighteenYearsAfterDob.getFullYear() + 18);
+
+      if (selectedDate >= eighteenYearsAfterDob.toISOString().split('T')[0] && selectedDate<= today) {
+        setDoj(selectedDate);
+      } else {
+        // Handle invalid date here, e.g., show an error message
+        console.log('Invalid date selected for Date of Joining');
+      }
+    }
+  };
+
     const handleSubmit = (e) => {
       e.preventDefault();
       // Handle form submission here
@@ -93,12 +140,12 @@
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-
             <label className="form-label">Date of Birth:</label>
             <input
               type="date"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
+              onChange={handleDobChange}
+              max={minDateStr}
               required
             />
 
@@ -119,8 +166,10 @@
             <input
               type="date"
               value={doj}
-              onChange={(e) => setDoj(e.target.value)}
-              required
+              onChange={handleDojChange}
+              min={dob}
+              max = {today}
+               required
             />
 
             <label className="form-label">Gender:</label>

@@ -4,6 +4,8 @@ import './AdminLogin.css';
 import Header from './Header';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
@@ -47,13 +49,19 @@ function AdminLogin() {
       console.log("Allow admin");
       navigate('/adminDashboard');
       }
-      else{
-        navigate('/')
+      else {
+        // Display a toast message for non-admin users
+        toast.error("You are not authorized as an admin.");
+        navigate('/');
       }
-     
-   })
-    console.log("Submit")
- }
+    }).catch((error) => {
+      // Handle error cases here
+      console.error("Error:", error);
+    });
+  
+    console.log("Submit");
+  }
+
   return (
     <div>
         <Header />

@@ -16,6 +16,8 @@ import EmployeeDashboard from './component/EmployeeDashboard';
 import ApplyLoan from './component/ApplyLoan';
 import ViewMyLoans from './component/ViewMyLoans';
 import ViewItemsPurchased from './component/ViewItemsPurchased';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return(
@@ -36,6 +38,8 @@ function App() {
         <Route path="/applyLoan" element={<ApplyLoan/>}/>
         <Route path="/viewMyLoans" element={<ViewMyLoans/>}/>
         <Route path="/viewItemsPurchased" element={<ViewItemsPurchased/>}/>
+        <ToastContainer />
+
 
       </Routes>
     </Router>
