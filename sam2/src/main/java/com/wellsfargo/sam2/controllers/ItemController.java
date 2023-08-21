@@ -63,10 +63,13 @@ public class ItemController {
     }
     @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteItem(@PathVariable String id) {
-        try {
-            itemRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
+
+            if(itemRepository.existsById(id)==true) {
+                itemRepository.deleteById(id);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            else
+       {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

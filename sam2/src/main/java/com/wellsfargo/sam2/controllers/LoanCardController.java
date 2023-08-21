@@ -45,7 +45,9 @@ public class LoanCardController {
     @GetMapping("/myloans/{id}")
     public ResponseEntity<List<LoanDto>> getLoanById(@PathVariable String id) {
 
+        System.out.println(id);
         List<LoanDto> loancards = loanRepository.viewLoans(id);
+        System.out.println(loancards);
         return ResponseEntity.ok(loancards);
     }
 

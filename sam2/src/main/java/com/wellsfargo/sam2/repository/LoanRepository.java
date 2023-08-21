@@ -16,7 +16,7 @@ public interface LoanRepository extends JpaRepository<LoanCard, String> {
 			+ " FROM EmployeeCardDetails im"
 			+ " JOIN im.employee em"
 			+ " JOIN im.loanCard lid"
-			+ "WHERE em.employeeId= :empId ")
+			+ " WHERE em.employeeId= :empId ")
 	public List<LoanDto> viewLoans(@Param("empId") String ID);
 
 

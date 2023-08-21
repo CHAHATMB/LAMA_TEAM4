@@ -16,7 +16,7 @@ public interface ItemRepository extends JpaRepository<ItemMaster, String> {
             + " FROM EmployeeIssueDetails im"
             + " JOIN im.employee em"
             + " JOIN im.item lid"
-            + "WHERE em.employeeId= :empId ")
+            + " WHERE em.employeeId= :empId ")
 
     List<ItemDto> viewItems(@Param("empId") String ID);
 }
