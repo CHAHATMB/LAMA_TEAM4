@@ -1,4 +1,5 @@
 package com.wellsfargo.sam2.controllers;
+import com.wellsfargo.sam2.dto.CustomResponse;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpStatus;
@@ -6,7 +7,9 @@ package com.wellsfargo.sam2.controllers;
 //import org.springframework.web.bind.annotation.*;
 //
 import com.wellsfargo.sam2.models.EmployeeMaster;
+import com.wellsfargo.sam2.repository.EmployeeCardDetailsRepository;
 import com.wellsfargo.sam2.repository.EmployeeRepository;
+import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
 //
 //import java.util.Optional;
 //
@@ -36,7 +39,9 @@ import com.wellsfargo.sam2.repository.EmployeeRepository;
 //        }
 //    }
 //}
+import com.wellsfargo.sam2.services.EmployeeIssueDetailsServiceImp;
 
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,19 +51,27 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/employee")
+@AllArgsConstructor
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
-
+    private final EmployeeRepository employeeRepository;	
+    
     @Autowired
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+	private EmployeeCardDetailsServiceImp empCardDetSerImp;
+    
+    @Autowired
+	private EmployeeIssueDetailsServiceImp issueDetailsService;
 
-    @PostMapping
+//    @Autowired
+//    public EmployeeController(EmployeeRepository employeeRepository) {
+//        this.employeeRepository = employeeRepository;
+//    }
+
+    @PostMapping("/add")
     public ResponseEntity<EmployeeMaster> createEmployee(@RequestBody EmployeeMaster employee) {
         try {
+            String iempId = employee.getEmployeeId();
             EmployeeMaster newEmployee = employeeRepository.save(employee);
             return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -74,29 +87,32 @@ public class EmployeeController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<EmployeeMaster>> getAllEmployees() {
         List<EmployeeMaster> employees = employeeRepository.findAll();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<EmployeeMaster> updateEmployee(@PathVariable String id, @RequestBody EmployeeMaster employee) {
-//        if (!employeeRepository.existsById(id)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        employee.setEmployee_id(id);
-//        EmployeeMaster updatedEmployee = employeeRepository.save(employee);
-//        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
-//    }
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<EmployeeMaster> updateEmployee(@PathVariable String id, @RequestBody EmployeeMaster employee) {
+        if (!employeeRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        employee.setEmployeeId(id);
+        EmployeeMaster updatedEmployee = employeeRepository.save(employee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable String id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<CustomResponse> deleteEmployee(@PathVariable String id) {
         try {
+        	empCardDetSerImp.deleteByEmployeeId(id);
+        	issueDetailsService.DeleteByEmployeeId(id);
             employeeRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new CustomResponse("Employee deleted successfully!","Success"),HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("Error in delete "+ e);
+            return new ResponseEntity<>(new CustomResponse("Some error in server!","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

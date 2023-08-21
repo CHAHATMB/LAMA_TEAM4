@@ -2,7 +2,10 @@ package com.wellsfargo.sam2.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.wellsfargo.sam2.models.EmployeeIssueDetails;
@@ -21,5 +24,14 @@ public interface EmployeeIssueDetailsRepository extends JpaRepository<EmployeeIs
             + " JOIN eid.item im"
             + " WHERE im.issue_status = '0'")
 	    List<LoanApplications> findEmployeeIssueDtosByIssueStatusEquals0();
+    
+    @Modifying
+    @Transactional
+    void deleteByEmployee_EmployeeId(String employeeId);
+    
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM EmployeeIssueDetails e WHERE e.item.item_id = :itemId")
+    void deleteByItemId(String itemId);
 
 }

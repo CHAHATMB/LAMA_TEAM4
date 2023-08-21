@@ -11,22 +11,23 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cards")
-public class CardController {
+@RequestMapping("/api/employeecard")
+public class EmployeeCardController {
 
     private final EmployeeCardDetailsRepository cardRepository;
 
     @Autowired
-    public CardController(EmployeeCardDetailsRepository cardRepository) {
+    public EmployeeCardController(EmployeeCardDetailsRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<EmployeeCardDetails> createCard(@RequestBody EmployeeCardDetails card) {
         try {
             EmployeeCardDetails newCard = cardRepository.save(card);
             return new ResponseEntity<>(newCard, HttpStatus.CREATED);
         } catch (Exception e) {
+        	System.out.println("The excep "+ e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -38,13 +39,13 @@ public class CardController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<EmployeeCardDetails>> getAllCards() {
         List<EmployeeCardDetails> cards = cardRepository.findAll();
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<EmployeeCardDetails> updateCard(@PathVariable String id, @RequestBody EmployeeCardDetails card) {
         if (!cardRepository.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,7 +55,7 @@ public class CardController {
         return new ResponseEntity<>(updatedCard, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteCard(@PathVariable String id) {
         try {
             cardRepository.deleteById(id);

@@ -10,4 +10,8 @@ public interface EmployeeIssueDetailsService {
     Optional<EmployeeIssueDetails> findIssueDetailById(String id);
     
     EmployeeIssueDetails updateIssueDetailMaster(EmployeeIssueDetails item);
+    
+    void DeleteByEmployeeId(String id);
+    
+    void deleteEmployeeIssueDetailsByItemId(String itemId);
 }

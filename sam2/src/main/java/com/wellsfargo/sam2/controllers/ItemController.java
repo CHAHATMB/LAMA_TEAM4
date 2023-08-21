@@ -1,9 +1,15 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.dto.CustomResponse;
+import com.wellsfargo.sam2.models.ItemDto;
 import com.wellsfargo.sam2.models.ItemMaster;
+import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
 import com.wellsfargo.sam2.repository.ItemRepository;
 
+import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +17,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api/item")
+@AllArgsConstructor
 public class ItemController {
 
     private final ItemRepository itemRepository;
-
+    
     @Autowired
-    public ItemController(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
-    }
+    private final EmployeeIssueDetailsRepository employeeIssueRepository;
+    
+//    @Autowired
+//    public ItemController(ItemRepository itemRepository) {
+//        this.itemRepository = itemRepository;
+//    }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ItemMaster> createItem(@RequestBody ItemMaster item) {
         try {
             ItemMaster newItem = itemRepository.save(item);
@@ -38,13 +48,13 @@ public class ItemController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ItemMaster>> getAllItems() {
         List<ItemMaster> items = itemRepository.findAll();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<ItemMaster> updateItem(@PathVariable String id, @RequestBody ItemMaster item) {
         if (!itemRepository.existsById(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,13 +64,28 @@ public class ItemController {
         return new ResponseEntity<>(updatedItem, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteItem(@PathVariable String id) {
+    @GetMapping("/myitem/{id}")
+    public ResponseEntity<List<ItemDto>> getItems(@PathVariable String id) {
+        List<ItemDto> itemcards = itemRepository.viewItems(id);
+        return ResponseEntity.ok(itemcards);
+    }
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteItem(@PathVariable String id) {
         try {
-            itemRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+            if (itemRepository.existsById(id) == true) {
+                employeeIssueRepository.deleteByItemId(id);
+                itemRepository.deleteById(id);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomResponse("Item deleted successfully!", "Success")
+                );
+
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }catch(Exception e) {
+        	System.out.println("Error in delete item "+ e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomResponse("Some error in server!","failed"));
+
         }
     }
 }
