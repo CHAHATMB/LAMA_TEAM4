@@ -9,6 +9,7 @@ import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.repository.EmployeeCardDetailsRepository;
 import com.wellsfargo.sam2.repository.EmployeeRepository;
+import com.wellsfargo.sam2.services.EmailSenderService;
 import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
 //
 //import java.util.Optional;
@@ -62,6 +63,9 @@ public class EmployeeController {
     
     @Autowired
 	private EmployeeIssueDetailsServiceImp issueDetailsService;
+    
+    @Autowired
+    private EmailSenderService senderService;
 
 //    @Autowired
 //    public EmployeeController(EmployeeRepository employeeRepository) {
@@ -78,8 +82,13 @@ public class EmployeeController {
             }
             else {
                 EmployeeMaster newEmployee = employeeRepository.save(employee);
+                senderService.sendSimpleEmail(employee.getEmail(),
+                        "Your Employee Profile Created!",
+                        "Hi "+employee.getEmployeeName() +", Your employee profile has been created on our LAMA portal. Please create password for your profile!");
+
                 return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
             }
+
         } catch (Exception e) {
         	System.out.println("WE have Employeemaster ex" + e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
