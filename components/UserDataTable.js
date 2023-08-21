@@ -7,10 +7,14 @@ import Header from './Header';
 import Footer from './Footer';
 import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
 import {HiUserAdd} from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 function UserDataTable() {
   const [data, setData] = useState([]);
-
+  const [show, setShow] = useState(false);
+  const [yes, setYes] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
@@ -25,16 +29,42 @@ function UserDataTable() {
     }
   };
 
- 
+  function handleAdd()
+  {
+    navigate("/addUserData");
+  }
+  function storeYes()
+  {
+    setYes(true);
+  }
 
-  function deleteData (id)  {
-    // try {
-    //   const response = axios.post('http://172.20.0.54:8080/api/employee/delete/'.concat(id).toString());
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error('Error deleting data:', error);
-    // }
+  const deleteData = async (id) => {
+    try {
+      showAlert();
+      if(yes){
+        const response = await axios.post('http://172.20.0.54:8080/api/employee/delete/'.concat(id).toString()).then(
+          ()=>{
+            fetchData();
+            setYes(false);
+            setShow(false);
+          }
+        )
+        console.log(response.data);
+        
+        console.log("delete");
+      }
+     
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
   };
+
+  const showAlert = () =>{
+   
+    setShow(true);
+    
+  }
+  
 
 
 // const dummyData = [
@@ -68,6 +98,14 @@ function UserDataTable() {
         <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data 
 </h4>
         </div>
+        {show?<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <p>
+                  Are you sure you want to delete this entry?
+                </p>
+               
+                <Button variant="outline-danger" onClick={storeYes}>Yes</Button>
+        </Alert>:null}
+        
         <div style={{ marginTop: '20px' ,padding: '0 20px'}}>
             <Table striped bordered responsive style={{ border: '1px solid #A8AAA9'}}>
             <thead>
@@ -94,14 +132,14 @@ function UserDataTable() {
                     <td>{item.date_of_join}</td>
                     <td>
                     <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={deleteData(item.employeeId)}/> 
+                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => deleteData(item.employeeId)}/> 
                     </td>
                 </tr>
                 ))}
             </tbody>
             </Table>
         </div>
-        <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}}><HiUserAdd/>Add employee</Button>
+        <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}><HiUserAdd/>Add employee</Button>
         <Footer/>
     </div>
   );
