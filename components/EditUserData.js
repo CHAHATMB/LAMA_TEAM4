@@ -6,17 +6,18 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const EditUserData = () => {
-  const [employeeId, setEmployeeId] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [employeeName, setEmployeeName] = useState('');
-  const [dob, setDob] = useState('');
-  const [department, setDepartment] = useState('');
-  const [doj, setDoj] = useState('');
-  const [gender, setGender] = useState('');
-  const [email, setEmail] = useState('');
+    const location = useLocation();
+  const [employeeId, setEmployeeId] = useState(location.state.employeeId);
+  const [designation, setDesignation] = useState(location.state.designation);
+  const [employeeName, setEmployeeName] = useState(location.state.name);
+  const [dob, setDob] = useState(location.state.date_of_birth);
+  const [department, setDepartment] = useState(location.state.department);
+  const [doj, setDoj] = useState(location.state.date_of_join);
+  const [gender, setGender] = useState(location.state.gender);
+  const [email, setEmail] = useState(location.state.email);
   const [data, setData] = useState([]);
   let navigate = useNavigate();
-  const location = useLocation();
+  
   
   const minDate = new Date();
   const today = new Date().toISOString().split('T')[0];
@@ -95,15 +96,15 @@ const handleDojChange = (e) => {
         console.log(data);
        //add a popup
         alert("Employee Updated Successfully");
-          //clear the form
-          setEmployeeId('');
-          setDesignation('');
-          setEmployeeName('');
-          setDob('');
-          setDepartment('');
-          setDoj('');
-          setGender('');
-          setEmail('');
+        //   //clear the form
+        //   setEmployeeId('');
+        //   setDesignation('');
+        //   setEmployeeName('');
+        //   setDob('');
+        //   setDepartment('');
+        //   setDoj('');
+        //   setGender('');
+        //   setEmail('');
       //navigate to thetable page
           navigate('/userDataTable')
     })
