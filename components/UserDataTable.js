@@ -13,7 +13,7 @@ import { Alert } from 'react-bootstrap';
 function UserDataTable() {
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
-  const [yes, setYes] = useState(false);
+  const [id,setId] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
@@ -33,63 +33,33 @@ function UserDataTable() {
   {
     navigate("/addUserData");
   }
-  function storeYes()
-  {
-    setYes(true);
-  }
 
-  const deleteData = async (id) => {
+
+  const deleteData = async () => {
     try {
-      showAlert();
-      if(yes){
-        const response = await axios.post('http://172.20.0.54:8080/api/employee/delete/'.concat(id).toString()).then(
-          ()=>{
-            fetchData();
-            setYes(false);
-            setShow(false);
-          }
-        )
-        console.log(response.data);
-        
-        console.log("delete");
-      }
+      
+      const response = await axios.post('http://172.20.0.54:8080/api/employee/delete/'.concat(id).toString()).then(
+        ()=>{
+          fetchData();
+          setShow(false);
+        }
+      )
+      console.log(response.data);
+      
+      console.log("delete");
+      
      
     } catch (error) {
       console.error('Error deleting data:', error);
     }
   };
 
-  const showAlert = () =>{
-   
+  const showAlert = (id) =>{
+    setId(id);
     setShow(true);
-    
+
   }
-  
 
-
-// const dummyData = [
-//     {
-//       id: 1,
-//       employeeId: 'E001',
-//       employeeName: 'John Doe',
-//       designation: 'Manager',
-//       department: 'Finance',
-//       gender: 'Male',
-//       dateOfBirth: '1990-05-15',
-//       dateOfJoining: '2020-02-10',
-//     },
-//     {
-//       id: 2,
-//       employeeId: 'E002',
-//       employeeName: 'Jane Smith',
-//       designation: 'Executive',
-//       department: 'Finance',
-//       gender: 'Female',
-//       dateOfBirth: '1988-10-20',
-//       dateOfJoining: '2019-07-05',
-//     },
-//     // Add more dummy data entries here
-//   ];
 
   return (
     <div style={{marginBottom:"3%", height:"95%"}}>
@@ -103,7 +73,8 @@ function UserDataTable() {
                   Are you sure you want to delete this entry?
                 </p>
                
-                <Button variant="outline-danger" onClick={storeYes}>Yes</Button>
+                <Button variant="outline-danger" onClick={() => deleteData()}>Yes</Button>
+                <Button variant="outline-danger" style ={{marginLeft:"2%"}} onClick={() => setShow(false)}>No</Button>
         </Alert>:null}
         
         <div style={{ marginTop: '20px' ,padding: '0 20px'}}>
@@ -132,7 +103,7 @@ function UserDataTable() {
                     <td>{item.date_of_join}</td>
                     <td>
                     <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => deleteData(item.employeeId)}/> 
+                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => showAlert(item.employeeId)}/> 
                     </td>
                 </tr>
                 ))}
