@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wellsfargo.sam2.helper.JwtUtil;
 import com.wellsfargo.sam2.models.EmployeeCardDetails;
+import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.models.HttpResponse;
 import com.wellsfargo.sam2.models.JWTToken;
 import com.wellsfargo.sam2.models.LoginDTO;
@@ -32,6 +33,7 @@ import com.wellsfargo.sam2.models.User;
 import com.wellsfargo.sam2.repository.UserRepository;
 import com.wellsfargo.sam2.services.CustomUserDetailsService;
 import com.wellsfargo.sam2.services.EmailSenderService;
+import com.wellsfargo.sam2.services.EmployeeMasterServiceImp;
 import com.wellsfargo.sam2.services.UserServiceImp;
 
 import java.net.URI;
@@ -68,6 +70,10 @@ public class AuthController {
 	@Autowired
 	final private UserServiceImp userServiceImp;
 	
+	@Autowired
+	private EmployeeMasterServiceImp employeeMasterServiceImp;
+
+	
 //    @Autowired
 //    public UserController(UserRepository userRepository) {
 //        this.userRepository = userRepository;
@@ -76,6 +82,19 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
+        	String empId = user.getEmployeeId();
+        	String email = user.getEmail();
+        	
+        	EmployeeMaster employee = employeeMasterServiceImp.findEmployeeMasterById(empId).get();
+        	if( employee == null ) {
+        		return new ResponseEntity<>("Employee Doesn't Exsist, Please ask Admin to Add! ", HttpStatus.BAD_REQUEST);
+            }
+
+    		System.out.println(employee.getEmployeeId() + " "+ employee.getEmail() + " == " +email);
+    		
+        	if( !employee.getEmail().equals(email)  ) {
+        		return new ResponseEntity<>("Employee email doesn't matched! ", HttpStatus.BAD_REQUEST);
+            }
         	
         	// add check for email exists in DB
             if(userRepository.existsByEmail(user.getEmail())){
@@ -87,6 +106,9 @@ public class AuthController {
         	System.out.println(user.getEmail() + " "+ userRepository.findByEmail(user.getEmail()));
         	
         	user.setIsAdmin(0);
+        	
+        	user.setIsAdmin(employee.getRole());
+        	
         	user.setPassword(passwordEncoder.encode(user.getPassword()));
         	int otp = new Random().nextInt(900000) + 100000;
         	user.setOtp(otp);
