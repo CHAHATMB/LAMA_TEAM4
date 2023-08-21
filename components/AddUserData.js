@@ -92,6 +92,19 @@
         } ,
       }).then((data)=>{
           console.log(data);
+         //add a popup
+          alert("Employee Added Successfully");
+            //clear the form
+            setEmployeeId('');
+            setDesignation('');
+            setEmployeeName('');
+            setDob('');
+            setDepartment('');
+            setDoj('');
+            setGender('');
+            setEmail('');
+        //navigate to thetable page
+            navigate('/userDataTable')
       })
       console.log("Submit")
     
