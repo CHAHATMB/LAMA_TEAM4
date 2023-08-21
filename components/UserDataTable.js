@@ -14,6 +14,7 @@ function UserDataTable() {
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
   const [id,setId] = useState("");
+  const [employeeData, setemployeeData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
@@ -102,7 +103,7 @@ function UserDataTable() {
                     <td>{item.date_of_birth}</td>
                     <td>{item.date_of_join}</td>
                     <td>
-                    <RiEdit2Fill style={{color:"#48b4bb"}} onClick={() => navigate('/editUserData',{state:{employeeData:item}})}/>
+                    <RiEdit2Fill style={{color:"#48b4bb"}} onClick={() => navigate('/editUserData',{state:{id: item.employeeId, name: item.employeeName, designation:item.designation, department:item.department, gender:item.gender, date_of_birth:item.date_of_birth, date_of_join:item.date_of_join, email:item.email}})}/>
                     <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => showAlert(item.employeeId)}/> 
                     </td>
                 </tr>
