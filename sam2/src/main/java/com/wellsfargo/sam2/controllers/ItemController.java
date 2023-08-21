@@ -1,7 +1,7 @@
 package com.wellsfargo.sam2.controllers;
 
 import com.wellsfargo.sam2.dto.CustomResponse;
-import com.wellsfargo.sam2.models.ItemDto;
+import com.wellsfargo.sam2.dto.ItemDto;
 import com.wellsfargo.sam2.models.ItemMaster;
 import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
 import com.wellsfargo.sam2.repository.ItemRepository;
@@ -9,7 +9,6 @@ import com.wellsfargo.sam2.repository.ItemRepository;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +31,17 @@ public class ItemController {
 //    }
 
     @PostMapping("/add")
-    public ResponseEntity<ItemMaster> createItem(@RequestBody ItemMaster item) {
+    public ResponseEntity<?> createItem(@RequestBody ItemMaster item) {
         try {
-            ItemMaster newItem = itemRepository.save(item);
-            return new ResponseEntity<>(newItem, HttpStatus.CREATED);
+            if(itemRepository.existsById(item.getItem_id()))
+            {
+                return new ResponseEntity<>(new CustomResponse("cannot add: already in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+            else {
+                ItemMaster newItem = itemRepository.save(item);
+                return new ResponseEntity<>(newItem, HttpStatus.CREATED);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,21 +76,24 @@ public class ItemController {
         return ResponseEntity.ok(itemcards);
     }
     @PostMapping("/delete/{id}")
-    public ResponseEntity<?> deleteItem(@PathVariable String id) {
+    public ResponseEntity<CustomResponse> deleteItem(@PathVariable String id) {
         try {
 
             if (itemRepository.existsById(id) == true) {
-                employeeIssueRepository.deleteByItemId(id);
+                if (employeeIssueRepository.existsById(id) == true) {
+                    employeeIssueRepository.deleteByItemId(id);
+                }
                 itemRepository.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomResponse("Item deleted successfully!", "Success")
                 );
 
             } else {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
             }
         }catch(Exception e) {
         	System.out.println("Error in delete item "+ e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CustomResponse("Some error in server!","failed"));
+            return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }

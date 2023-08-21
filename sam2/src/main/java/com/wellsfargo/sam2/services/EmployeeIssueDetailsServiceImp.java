@@ -27,6 +27,12 @@ public class EmployeeIssueDetailsServiceImp implements EmployeeIssueDetailsServi
 	}
 
 	@Override
+	public boolean existsIssueDetailsById(String id)
+	{
+		return issueDetailRepository.existsById(id);
+	}
+
+	@Override
 	public Optional<EmployeeIssueDetails> findIssueDetailById(String id) {
 		
 		return issueDetailRepository.findById(id);
@@ -42,7 +48,12 @@ public class EmployeeIssueDetailsServiceImp implements EmployeeIssueDetailsServi
 	public void DeleteByEmployeeId(String id) {
 		issueDetailRepository.deleteByEmployee_EmployeeId(id);
 	}
-	
+
+	@Override
+	public boolean existsIssueDetailById(String id) {
+		return false;
+	}
+
 	@Override
 	public void deleteEmployeeIssueDetailsByItemId(String itemId){
 		issueDetailRepository.deleteByItemId(itemId);
