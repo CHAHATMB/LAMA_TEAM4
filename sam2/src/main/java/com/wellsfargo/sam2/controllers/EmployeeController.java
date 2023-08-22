@@ -77,10 +77,10 @@ public class EmployeeController {
         try {
             String iempId = employee.getEmployeeId();
             EmployeeMaster newEmployee = employeeRepository.save(employee);
-    		senderService.sendSimpleEmail(employee.getEmail(),
-			"Your Employee Profile Created!",
-			"Hi User, Your employe profile has been created on our LAMA protal now your can create password for your profile!");
-            
+//    		senderService.sendSimpleEmail(employee.getEmail(),
+//			"Your Employee Profile Created!",
+//			"Hi User, Your employe profile has been created on our LAMA protal now your can create password for your profile!");
+//            
             return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
         } catch (Exception e) {
         	System.out.println("WE have Employeemaster ex" + e);

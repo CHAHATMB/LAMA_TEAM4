@@ -27,6 +27,7 @@ public class EmployeeIssueController {
             EmployeeIssueDetails newEmpIssue = employeeIssueRepository.save(empIssue);
             return new ResponseEntity<>(newEmpIssue, HttpStatus.CREATED);
         } catch (Exception e) {
+        	System.out.println("eror s in lona corad "+e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
