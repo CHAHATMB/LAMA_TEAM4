@@ -30,6 +30,8 @@ public class User {
     private boolean isEnabled;
     private int isAdmin;
     private int otp;
+    private boolean mfa;
+    private String secret;
     
 
     public int getOtp() {

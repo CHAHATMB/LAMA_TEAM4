@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.controllers;
 
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -26,6 +27,7 @@ import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.models.HttpResponse;
 
 import com.wellsfargo.sam2.models.JWTToken;
+import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.dto.LoginDTO;
 import com.wellsfargo.sam2.dto.OtpDto;
 import com.wellsfargo.sam2.models.User;
@@ -34,6 +36,13 @@ import com.wellsfargo.sam2.services.CustomUserDetailsService;
 import com.wellsfargo.sam2.services.EmailSenderService;
 import com.wellsfargo.sam2.services.EmployeeMasterServiceImp;
 import com.wellsfargo.sam2.services.UserServiceImp;
+
+import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.qr.QrData;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.qr.QrGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 import java.util.Collection;
 import java.util.Random;
@@ -65,6 +74,18 @@ public class AuthController {
 	
 	@Autowired
 	private EmployeeMasterServiceImp employeeMasterServiceImp;
+	
+	@Autowired
+    private SecretGenerator secretGenerator;
+
+    @Autowired
+    private QrDataFactory qrDataFactory;
+
+    @Autowired
+    private QrGenerator qrGenerator;
+    
+    @Autowired
+    private CodeVerifier verifier;
 
 	
 //    @Autowired
@@ -94,7 +115,22 @@ public class AuthController {
                 return new ResponseEntity<>("Email is already register!", HttpStatus.BAD_REQUEST);
             }
 
+            // ------------------- totp -----------------------------
+            String secret = secretGenerator.generate();
+            user.setSecret(secret);
+
+            QrData data = qrDataFactory.newBuilder()
+                .label("example@example.com")
+                .secret(secret)
+                .issuer("AppName")
+                .build();
+
+            String qrCodeImage = getDataUriForImage(
+              qrGenerator.generate(data), 
+              qrGenerator.getImageMimeType()
+            );
             
+            // ----------------------- end -------------------
         	
         	System.out.println(user.getEmail() + " "+ userRepository.findByEmail(user.getEmail()));
         	
@@ -117,9 +153,11 @@ public class AuthController {
             System.out.println("Your otp is "+otp);
             
             newUser.setOtp(0);
-            return new ResponseEntity<>("User register successfully", HttpStatus.CREATED);
+            newUser.setSecret("null");
+            return new ResponseEntity<>(new CustomResponse("User Created successfully!","sucess", qrCodeImage), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("There is some internal error!", HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("error in /api/auth/reg " + e);
+            return new ResponseEntity<>(new CustomResponse("Some Internal error!","failed"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -135,9 +173,17 @@ public class AuthController {
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
+		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
+		User user = userRepository.findByEmail(userDetails.getUsername());
+		System.out.println("user id "+user.toString() );
+		
 		final Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
 		String role = "";
+		
+        if (!verifier.isValidCode(user.getSecret(), authenticationRequest.getTotpCode())) {
+            return new ResponseEntity<>(new CustomResponse("Wrong TOPT Code !","failed",authenticationRequest),HttpStatus.BAD_REQUEST);
+        }
 		
 		if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			role = "ADMIN";
@@ -147,8 +193,7 @@ public class AuthController {
 		}
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		User user = userRepository.findByEmail(userDetails.getUsername());
-		System.out.println("user id "+user );
+		
 		return ResponseEntity.ok(new JWTToken(token, role, user.getEmail(),user.getEmployeeId()));
 	}
 	
