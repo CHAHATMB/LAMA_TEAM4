@@ -106,8 +106,8 @@ public class AdminControllers {
 		
 		EmployeeMaster empMaster = new EmployeeMaster();
 		empMaster.setEmployeeId(employeeId);
-//		System.out.println(empMaster);
-//		System.out.println(loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()));
+		System.out.println(loanapprove.getLoanType());
+		System.out.println("Locan type " + loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()).getLoanType());
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
 				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
 //				empMaster,
