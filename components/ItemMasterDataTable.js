@@ -21,7 +21,7 @@ function ItemMasterDataTable() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://172.20.0.54:8080/api/items');
+      const response = await axios.get('http://172.20.0.54:8080/api/item/all');
       setData(response.data);
       console.log(response.data);
     } catch (error) {
@@ -54,6 +54,7 @@ function ItemMasterDataTable() {
   return (
     <div>
         <Header/>
+        <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Items data</h4>
         <Tabs defaultActiveKey="furniture" className="mb-3" fill>
             <Tab eventKey="furniture" title="Furniture" >
             <div style={{ marginTop: '20px', padding: '0 20px' }}>
@@ -110,7 +111,7 @@ function ItemMasterDataTable() {
           </thead>
           <tbody>
             {data.map((item) => (
-            item.item_category === "Electronics"?(
+            item.item_category === "Electronic"?(
               <tr key={item.id}>
                 <td>{item.item_id}</td>
                 {/* <td>{item.description}</td> */}
