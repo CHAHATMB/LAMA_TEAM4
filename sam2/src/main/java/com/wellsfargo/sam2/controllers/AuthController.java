@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wellsfargo.sam2.helper.JwtUtil;
 
-import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.EmployeeMaster;
-import com.wellsfargo.sam2.models.HttpResponse;
 
-import com.wellsfargo.sam2.models.JWTToken;
+import com.wellsfargo.sam2.dto.JWTToken;
 import com.wellsfargo.sam2.dto.LoginDTO;
 import com.wellsfargo.sam2.dto.OtpDto;
 import com.wellsfargo.sam2.models.User;
@@ -105,6 +103,7 @@ public class AuthController {
         	user.setPassword(passwordEncoder.encode(user.getPassword()));
         	int otp = new Random().nextInt(900000) + 100000;
         	user.setOtp(otp);
+        	user.setEnabled(true);
             User newUser = userRepository.save(user);
             
             
@@ -113,6 +112,7 @@ public class AuthController {
 //            senderService.sendSimpleEmail(user.getEmail(),
 //    				"OTP for LAMA",
 //    				"Your OTP for Verification at LAMA is " + otp);
+            System.out.println("Your otp is "+otp);
             
             newUser.setOtp(0);
             return new ResponseEntity<>("User register successfully", HttpStatus.CREATED);
@@ -145,15 +145,20 @@ public class AuthController {
 		}
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new JWTToken(token, role));
+		User user = userRepository.findByEmail(userDetails.getUsername());
+		System.out.println("user id "+user );
+		return ResponseEntity.ok(new JWTToken(token, role, user.getEmail(),user.getEmployeeId()));
 	}
 	
 	@PostMapping(value = "/verifyotp")
 	public ResponseEntity<?> verifyOTP(@RequestBody OtpDto otpDto){
 		String employeeId = otpDto.getEmployeeId();
 		
-		User user = userServiceImp.findByEmployeeId(employeeId).get();
+		User user = userServiceImp.findByEmployeeId(employeeId);
+		
+		if(user == null) {
+			return new ResponseEntity<>("User doesn't exsist!",HttpStatus.BAD_REQUEST);
+		}
 		
 		if( user.getOtp()== 0 || user.getOtp() != otpDto.getOtp()) {
 			return new ResponseEntity<>("Invalid OTP!",HttpStatus.BAD_REQUEST);	
@@ -161,6 +166,8 @@ public class AuthController {
 		
 		user.setEnabled(true);
 		userServiceImp.updateUser(user);
+		
+		
 		
 		return ResponseEntity.ok("Otp verified successfully!");
 	}

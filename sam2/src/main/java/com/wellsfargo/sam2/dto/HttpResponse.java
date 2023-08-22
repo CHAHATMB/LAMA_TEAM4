@@ -1,4 +1,4 @@
-package com.wellsfargo.sam2.models;
+package com.wellsfargo.sam2.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -82,9 +82,9 @@ public class EmployeeController {
             }
             else {
                 EmployeeMaster newEmployee = employeeRepository.save(employee);
-                senderService.sendSimpleEmail(employee.getEmail(),
-                        "Your Employee Profile Created!",
-                        "Hi "+employee.getEmployeeName() +", Your employee profile has been created on our LAMA portal. Please create password for your profile!");
+//                senderService.sendSimpleEmail(employee.getEmail(),
+//                        "Your Employee Profile Created!",
+//                        "Hi "+employee.getEmployeeName() +", Your employee profile has been created on our LAMA portal. Please create password for your profile!");
 
                 return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
             }

@@ -16,9 +16,9 @@ public class UserServiceImp implements UserService{
 	final private UserRepository userRepository;
 	
 	@Override
-	public Optional<User> findByEmployeeId(String employeeId) {
+	public User findByEmployeeId(String employeeId) {
 		
-		return userRepository.findById(employeeId);
+		return userRepository.findByEmployeeId(employeeId);
 	}
 
 	@Override

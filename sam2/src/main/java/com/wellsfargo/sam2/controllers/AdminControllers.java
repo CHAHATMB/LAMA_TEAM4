@@ -13,16 +13,13 @@ import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.EmployeeIssueDetails;
 import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.models.ItemMaster;
-import com.wellsfargo.sam2.models.LoanApplications;
-import com.wellsfargo.sam2.models.LoanApprove;
+import com.wellsfargo.sam2.dto.LoanApplications;
+import com.wellsfargo.sam2.dto.LoanApprove;
 import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
-import com.wellsfargo.sam2.repository.LoanApplicationRepository;
 import com.wellsfargo.sam2.services.EmailSenderService;
 import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
-import com.wellsfargo.sam2.services.EmployeeIssueDetailsService;
 import com.wellsfargo.sam2.services.EmployeeIssueDetailsServiceImp;
 import com.wellsfargo.sam2.services.EmployeeMasterServiceImp;
-import com.wellsfargo.sam2.services.ItemMasterService;
 import com.wellsfargo.sam2.services.ItemMasterServiceImp;
 import com.wellsfargo.sam2.services.LoanCardServiceImp;
 
@@ -109,8 +106,8 @@ public class AdminControllers {
 		
 		EmployeeMaster empMaster = new EmployeeMaster();
 		empMaster.setEmployeeId(employeeId);
-//		System.out.println(empMaster);
-//		System.out.println(loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()));
+		System.out.println(loanapprove.getLoanType());
+		System.out.println("Locan type " + loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()).getLoanType());
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
 				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
 //				empMaster,

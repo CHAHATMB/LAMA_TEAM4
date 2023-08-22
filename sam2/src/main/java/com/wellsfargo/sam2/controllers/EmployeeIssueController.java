@@ -34,6 +34,7 @@ public class EmployeeIssueController {
 
             }
         } catch (Exception e) {
+        	System.out.println("eror s in lona corad "+e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
