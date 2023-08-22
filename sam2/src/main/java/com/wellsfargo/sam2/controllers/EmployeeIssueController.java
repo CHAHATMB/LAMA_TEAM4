@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.models.EmployeeIssueDetails;
 import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
 
@@ -22,10 +23,16 @@ public class EmployeeIssueController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<EmployeeIssueDetails> createEmployeeIssue(@RequestBody EmployeeIssueDetails empIssue) {
+    public ResponseEntity<?> createEmployeeIssue(@RequestBody EmployeeIssueDetails empIssue) {
         try {
-            EmployeeIssueDetails newEmpIssue = employeeIssueRepository.save(empIssue);
-            return new ResponseEntity<>(newEmpIssue, HttpStatus.CREATED);
+            if(employeeIssueRepository.existsById(empIssue.getIssue_id())) {
+                return new ResponseEntity<>(new CustomResponse("cannot add: already in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else {
+                EmployeeIssueDetails newEmpIssue = employeeIssueRepository.save(empIssue);
+                return new ResponseEntity<>(newEmpIssue, HttpStatus.CREATED);
+
+            }
         } catch (Exception e) {
         	System.out.println("eror s in lona corad "+e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,12 +63,21 @@ public class EmployeeIssueController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteEmpIssue(@PathVariable String id) {
+    public ResponseEntity<CustomResponse> deleteEmpIssue(@PathVariable String id) {
         try {
-            employeeIssueRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            if(employeeIssueRepository.existsById(id))
+            {
+                employeeIssueRepository.deleteById(id);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            else {
+                return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 }

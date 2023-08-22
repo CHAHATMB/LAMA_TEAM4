@@ -12,6 +12,9 @@ public interface EmployeeIssueDetailsService {
     EmployeeIssueDetails updateIssueDetailMaster(EmployeeIssueDetails item);
     
     void DeleteByEmployeeId(String id);
-    
+    boolean existsIssueDetailsById(String id);
+
+    boolean existsIssueDetailById(String id);
+
     void deleteEmployeeIssueDetailsByItemId(String itemId);
 }

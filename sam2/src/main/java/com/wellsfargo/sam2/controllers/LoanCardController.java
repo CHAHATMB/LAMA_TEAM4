@@ -1,5 +1,8 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.dto.ApplyLoanDto;
+import com.wellsfargo.sam2.dto.CustomResponse;
+import com.wellsfargo.sam2.dto.LoanDto;
 import com.wellsfargo.sam2.models.*;
 import com.wellsfargo.sam2.repository.*;
 import com.wellsfargo.sam2.services.*;
@@ -35,12 +38,20 @@ public class LoanCardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<LoanCard> createLoanCard(@RequestBody LoanCard loancard) {
+    public ResponseEntity<?> createLoanCard(@RequestBody LoanCard loancard) {
         try {
-            LoanCard newLoanCard = loanRepository.save(loancard);
-            return new ResponseEntity<>(newLoanCard, HttpStatus.CREATED);
+            if(loanRepository.existsById(loancard.getLoan_id())) {
+                return new ResponseEntity<>(new CustomResponse("Already in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+            else {
+                LoanCard newLoanCard = loanRepository.save(loancard);
+                return new ResponseEntity<>(newLoanCard, HttpStatus.CREATED);
+
+            }
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -60,26 +71,34 @@ public class LoanCardController {
     }
 
     @PostMapping("/applyloans")
-    public ResponseEntity<ItemMaster> createCard(@RequestBody ApplyLoanDto loan) {
+    public ResponseEntity<?> createCard(@RequestBody ApplyLoanDto loan) {
         try {
           //  System.out.println(loan);
-             ItemMaster im= new ItemMaster();
-             String desc = loan.getItem_description();
-             String category=loan.getItem_category();
-             String make=loan.getItem_make();
-             int value=loan.getItem_valuation();
 
-             im.setItem_description(desc);
-             im.setItem_category(category);
-             im.setItem_make(make);
-             im.setItem_valuation(value);
+            if(employeeRepository.existsById(loan.getEmployeeId())) {
+                ItemMaster im = new ItemMaster();
+                String desc = loan.getItem_description();
+                String category = loan.getItem_category();
+                String make = loan.getItem_make();
+                int value = loan.getItem_valuation();
+
+                im.setItem_description(desc);
+                im.setItem_category(category);
+                im.setItem_make(make);
+                im.setItem_valuation(value);
 //             im.setItem_id("iid16");
 //             im.setIssue_status("no");
-            ItemMaster newLoan = itemRepository.save(im);
-            return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
+                ItemMaster newLoan = itemRepository.save(im);
+                return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
+            }
+            else {
+                return new ResponseEntity<>(new CustomResponse("Employee does not exists","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
         } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("Could not enter in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -91,9 +110,10 @@ public class LoanCardController {
     }
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<LoanCard> updateLoanCard(@PathVariable String id, @RequestBody LoanCard laoncard) {
+    public ResponseEntity<?> updateLoanCard(@PathVariable String id, @RequestBody LoanCard laoncard) {
         if (!loanRepository.existsById(id)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
         laoncard.setLoan_id(id);
         LoanCard updatedLoanCard = loanRepository.save(laoncard);
@@ -101,13 +121,22 @@ public class LoanCardController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteLoanCard(@PathVariable String id) {
+    public ResponseEntity<CustomResponse> deleteLoanCard(@PathVariable String id) {
         try {
-        	empCardDetSerImp.deleteByLoanId(id);
-            loanRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            if (loanRepository.existsById(id)) {
+                if (empCardDetSerImp.existEmployeeCardDetailsById(id)) {
+                    empCardDetSerImp.deleteByLoanId(id);
+                }
+                loanRepository.deleteById(id);
+                return new ResponseEntity<>(new CustomResponse("deleted successfully","success"),HttpStatus.NO_CONTENT);
+            }
+            else {
+                return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 }

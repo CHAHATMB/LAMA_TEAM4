@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.controllers;
 
+import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.repository.EmployeeCardDetailsRepository;
 
@@ -22,10 +23,16 @@ public class EmployeeCardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<EmployeeCardDetails> createCard(@RequestBody EmployeeCardDetails card) {
+    public ResponseEntity<?> createCard(@RequestBody EmployeeCardDetails card) {
         try {
-            EmployeeCardDetails newCard = cardRepository.save(card);
-            return new ResponseEntity<>(newCard, HttpStatus.CREATED);
+            if(cardRepository.existsById(card.getId()))
+            {
+                return new ResponseEntity<>(new CustomResponse("cannot be added: already existing","failed"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else {
+                EmployeeCardDetails newCard = cardRepository.save(card);
+                return new ResponseEntity<>(newCard, HttpStatus.CREATED);
+            }
         } catch (Exception e) {
         	System.out.println("The excep "+ e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,12 +63,19 @@ public class EmployeeCardController {
     }
 
     @PostMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteCard(@PathVariable String id) {
+    public ResponseEntity<?> deleteCard(@PathVariable String id) {
         try {
+            if(cardRepository.existsById(id))
+            {
             cardRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+            else {
+                return new ResponseEntity<>(new CustomResponse("does not exist in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("does not exist in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

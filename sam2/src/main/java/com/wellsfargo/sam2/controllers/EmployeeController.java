@@ -73,15 +73,22 @@ public class EmployeeController {
 //    }
 
     @PostMapping("/add")
-    public ResponseEntity<EmployeeMaster> createEmployee(@RequestBody EmployeeMaster employee) {
+    public ResponseEntity<?> createEmployee(@RequestBody EmployeeMaster employee) {
         try {
             String iempId = employee.getEmployeeId();
-            EmployeeMaster newEmployee = employeeRepository.save(employee);
-//    		senderService.sendSimpleEmail(employee.getEmail(),
-//			"Your Employee Profile Created!",
-//			"Hi User, Your employe profile has been created on our LAMA protal now your can create password for your profile!");
-//            
-            return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
+            if(employeeRepository.existsById(iempId))
+            {
+                return new ResponseEntity<>(new CustomResponse("cannot add: already in database","failed"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else {
+                EmployeeMaster newEmployee = employeeRepository.save(employee);
+//                senderService.sendSimpleEmail(employee.getEmail(),
+//                        "Your Employee Profile Created!",
+//                        "Hi "+employee.getEmployeeName() +", Your employee profile has been created on our LAMA portal. Please create password for your profile!");
+
+                return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
+            }
+
         } catch (Exception e) {
         	System.out.println("WE have Employeemaster ex" + e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -114,10 +121,20 @@ public class EmployeeController {
     @PostMapping("/delete/{id}")
     public ResponseEntity<CustomResponse> deleteEmployee(@PathVariable String id) {
         try {
-        	empCardDetSerImp.deleteByEmployeeId(id);
-        	issueDetailsService.DeleteByEmployeeId(id);
-            employeeRepository.deleteById(id);
-            return new ResponseEntity<>(new CustomResponse("Employee deleted successfully!","Success"),HttpStatus.NO_CONTENT);
+            if(employeeRepository.existsById(id)) {
+
+                if(empCardDetSerImp.existEmployeeCardDetailsById(id)) {
+                    empCardDetSerImp.deleteByEmployeeId(id);
+                }
+                if(issueDetailsService.existsIssueDetailsById(id)) {
+                    issueDetailsService.DeleteByEmployeeId(id);
+                }
+                employeeRepository.deleteById(id);
+                return new ResponseEntity<>(new CustomResponse("Employee deleted successfully!", "Success"), HttpStatus.NO_CONTENT);
+            }
+            else {
+                return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
         	System.out.println("Error in delete "+ e);
             return new ResponseEntity<>(new CustomResponse("Some error in server!","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
