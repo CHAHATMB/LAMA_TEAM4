@@ -28,8 +28,8 @@ const LoanCardAdd = () => {
         <h2 className="form-title">Loan Application Form</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="loginId">
-            <Form.Label className="form-label">Login ID</Form.Label>
-            <Form.Control type="text" placeholder="Enter Login ID" />
+            <Form.Label className="form-label">Employee ID</Form.Label>
+            <Form.Control type="text" placeholder="Enter employee ID" />
           </Form.Group>
           <Form.Group controlId="loanType">
             <Form.Label className="form-label">Loan Type</Form.Label>
@@ -41,7 +41,7 @@ const LoanCardAdd = () => {
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="duration">
-            <Form.Label className="form-label">Loan Duration (years)</Form.Label>
+            <Form.Label className="form-label">Loan Duration (months)</Form.Label>
             <Form.Control
               type="number"
               value={duration}
@@ -50,8 +50,8 @@ const LoanCardAdd = () => {
             />
           </Form.Group>
           <div className="form-button">
-            <Button variant="primary" type="submit">
-              AddData
+            <Button  onClick={handleSubmit}>
+              Add Data
             </Button>
           </div>
         </Form>
