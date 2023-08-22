@@ -7,20 +7,25 @@ import img3 from '../images/viewItemsP.jpg';
 import Container from 'react-bootstrap/esm/Container';
 import Footer from './Footer';
 import Header from './Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+
 function EmployeeDashboard() {
     const hour = new Date().getHours();
     const navigate = useNavigate();
+    const location = useLocation();
+    const employeeId = location.state.employeeId;
 
     function handleApply (){
-        navigate('/applyLoan');
+        navigate('/applyLoan' , {state : {id: employeeId}});
     }
 
     function handleV (){
-      navigate('/viewMyLoans');
+      console.log(employeeId);
+      navigate('/viewLoanTable', {state : {id: employeeId}});
   }
   function handlePurchased(){
-    navigate("/viewItemsPurchased");
+    navigate("/viewItemTable", {state : {id: employeeId}});
   }
   return (
     <>
@@ -41,7 +46,9 @@ borderRadius: "20px", boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         Some quick example text to build on the card title and make up the
         bulk of the card's content.
         </Card.Text> */}
-        <Button variant="outline-warning" style={{backgroundColor:'white', color:'#d19900'}} onClick={handleApply}>Apply now</Button>
+        <Button variant="outline-warning" 
+          style={{backgroundColor:'white', color:'#d19900'}} 
+          onClick={handleApply}>Apply now</Button>
         
         </Card.Body>
     </Card>
