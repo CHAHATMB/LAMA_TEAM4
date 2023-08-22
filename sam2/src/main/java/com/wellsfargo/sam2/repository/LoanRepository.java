@@ -20,7 +20,7 @@ public interface LoanRepository extends JpaRepository<LoanCard, String> {
 	public List<LoanDto> viewLoans(@Param("empId") String ID);
 
 
-	LoanCard findByLoanType(String loanType);
+	List<LoanCard> findByLoanType(String loanType);
 
 
 }

@@ -81,13 +81,11 @@ public class LoanCardController {
                 String category = loan.getItem_category();
                 String make = loan.getItem_make();
                 int value = loan.getItem_valuation();
-
                 im.setItem_description(desc);
                 im.setItem_category(category);
                 im.setItem_make(make);
                 im.setItem_valuation(value);
-//             im.setItem_id("iid16");
-//             im.setIssue_status("no");
+                im.setIssue_status("0");
                 ItemMaster newLoan = itemRepository.save(im);
                 return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
             }
@@ -136,6 +134,19 @@ public class LoanCardController {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+    
+    
+    @GetMapping("/itemtype/{itemtype}")
+    public ResponseEntity<?> getLoanCardByItemType(@PathVariable String itemtype) {
+        try {
+        	return ResponseEntity.ok(loanRepository.findByLoanType(itemtype));
+            
+        }catch(Exception e) {
+        	System.out.println("Error in finding item "+ e);
+            return new ResponseEntity<>(new CustomResponse("Some internal Error","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }

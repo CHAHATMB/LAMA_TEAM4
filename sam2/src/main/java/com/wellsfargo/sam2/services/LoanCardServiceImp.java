@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,13 @@ public class LoanCardServiceImp implements LoanCardService {
     }
     
     @Override
-    public LoanCard findbyLoanType(String laontype){
+    public LoanCard findById(String id) {
+        
+        return loanCardRepository.findById(id).get();
+    }
+    
+    @Override
+    public List<LoanCard> findbyLoanType(String laontype){
     	return loanCardRepository.findByLoanType(laontype);
     }
 
