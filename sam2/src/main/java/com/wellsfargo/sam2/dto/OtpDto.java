@@ -11,4 +11,5 @@ public class OtpDto {
 	private int otp;
 	private String email;
 	private String employeeId;
+	private String totpCode;
 }

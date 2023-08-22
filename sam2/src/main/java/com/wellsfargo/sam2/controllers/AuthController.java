@@ -197,6 +197,7 @@ public class AuthController {
 		return ResponseEntity.ok(new JWTToken(token, role, user.getEmail(),user.getEmployeeId()));
 	}
 	
+	
 	@PostMapping(value = "/verifyotp")
 	public ResponseEntity<?> verifyOTP(@RequestBody OtpDto otpDto){
 		String employeeId = otpDto.getEmployeeId();
@@ -204,17 +205,19 @@ public class AuthController {
 		User user = userServiceImp.findByEmployeeId(employeeId);
 		
 		if(user == null) {
-			return new ResponseEntity<>("User doesn't exsist!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new CustomResponse("User doesn't exsist!","failed"),HttpStatus.BAD_REQUEST);
 		}
 		
+		if (!verifier.isValidCode(user.getSecret(), otpDto.getTotpCode())) {
+            return new ResponseEntity<>(new CustomResponse("Wrong TOPT Code !","failed"),HttpStatus.BAD_REQUEST);
+        }
+		
 		if( user.getOtp()== 0 || user.getOtp() != otpDto.getOtp()) {
-			return new ResponseEntity<>("Invalid OTP!",HttpStatus.BAD_REQUEST);	
+			return new ResponseEntity<>(new CustomResponse("Invalid OTP!","failed"),HttpStatus.BAD_REQUEST);	
 		}
 		
 		user.setEnabled(true);
 		userServiceImp.updateUser(user);
-		
-		
 		
 		return ResponseEntity.ok("Otp verified successfully!");
 	}
