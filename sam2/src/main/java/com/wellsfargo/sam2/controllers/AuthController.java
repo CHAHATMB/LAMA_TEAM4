@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wellsfargo.sam2.helper.JwtUtil;
 
-import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.EmployeeMaster;
-import com.wellsfargo.sam2.models.HttpResponse;
 
-import com.wellsfargo.sam2.models.JWTToken;
+import com.wellsfargo.sam2.dto.JWTToken;
 import com.wellsfargo.sam2.dto.LoginDTO;
 import com.wellsfargo.sam2.dto.OtpDto;
 import com.wellsfargo.sam2.models.User;

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +25,29 @@ public class LoanCardController {
 
     private final LoanRepository loanRepository;
     private final EmployeeRepository employeeRepository;
+    private final EmployeeIssueDetailsRepository employeeIssueDetailsRepository;
     private final EmployeeCardDetailsRepository employeeCardDetailsRepository;
     private final ItemRepository itemRepository;
+    private final EmployeeMasterServiceImp employeeMasterServiceImp;
+    private final ItemMasterServiceImp itemMasterServiceImp;
+	private final EmployeeCardDetailsServiceImp empCardDetSerImp;
     
     @Autowired
-	private EmployeeCardDetailsServiceImp empCardDetSerImp;
-    
-    @Autowired
-    public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository,EmployeeRepository employeeRepository,EmployeeCardDetailsRepository employeeCardDetailsRepository) {
+    public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository,EmployeeRepository employeeRepository,
+                              EmployeeCardDetailsRepository employeeCardDetailsRepository,
+                              EmployeeMasterServiceImp employeeMasterServiceImp,
+                              EmployeeIssueDetailsRepository employeeIssueDetailsRepository,
+                              ItemMasterServiceImp itemMasterServiceImp,EmployeeCardDetailsServiceImp empCardDetSerImp) {
         this.loanRepository = loanRepository;
         this.itemRepository=itemRepository;
         this.employeeRepository=employeeRepository;
         this.employeeCardDetailsRepository=employeeCardDetailsRepository;
+        this.employeeMasterServiceImp=employeeMasterServiceImp;
+        this.itemMasterServiceImp=itemMasterServiceImp;
+        this.employeeIssueDetailsRepository=employeeIssueDetailsRepository;
+        this.empCardDetSerImp=empCardDetSerImp;
+
+
     }
 
     @PostMapping("/add")
@@ -71,12 +84,17 @@ public class LoanCardController {
     }
 
     @PostMapping("/applyloans")
+
     public ResponseEntity<?> createCard(@RequestBody ApplyLoanDto loan) {
         try {
           //  System.out.println(loan);
 
             if(employeeRepository.existsById(loan.getEmployeeId())) {
-                ItemMaster im = new ItemMaster();
+
+                EmployeeIssueDetails empIssueDet= new EmployeeIssueDetails();
+                ItemMaster im= new ItemMaster();
+
+
                 String desc = loan.getItem_description();
                 String category = loan.getItem_category();
                 String make = loan.getItem_make();
@@ -85,9 +103,14 @@ public class LoanCardController {
                 im.setItem_category(category);
                 im.setItem_make(make);
                 im.setItem_valuation(value);
-                im.setIssue_status("0");
-                ItemMaster newLoan = itemRepository.save(im);
-                return new ResponseEntity<>(newLoan, HttpStatus.CREATED);
+                
+               ItemMaster newItem = itemRepository.save(im);
+
+                empIssueDet.setEmployee( employeeMasterServiceImp.findEmployeeMasterById(loan.getEmployeeId()).get());
+                empIssueDet.setItem(itemMasterServiceImp.findItemMasterById(im.getItem_id()).get());
+
+                employeeIssueDetailsRepository.save(empIssueDet);
+               return new ResponseEntity<>(newItem, HttpStatus.CREATED);
             }
             else {
                 return new ResponseEntity<>(new CustomResponse("Employee does not exists","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
