@@ -80,9 +80,7 @@ public class ItemController {
         try {
 
             if (itemRepository.existsById(id) == true) {
-                if (employeeIssueRepository.existsById(id) == true) {
-                    employeeIssueRepository.deleteByItemId(id);
-                }
+            	employeeIssueRepository.deleteByItemId(id);
                 itemRepository.deleteById(id);
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new CustomResponse("Item deleted successfully!", "Success")
                 );
