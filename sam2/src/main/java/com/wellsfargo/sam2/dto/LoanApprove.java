@@ -12,6 +12,7 @@ public class LoanApprove {
 	      private String issueId;
 	      private String loanType;
 	      private int duration_in_year;
+	      private String loan_id;
 
 	  
 }

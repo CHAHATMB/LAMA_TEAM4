@@ -89,6 +89,7 @@ public class AdminControllers {
 		
 		String employeeId = loanapprove.getEmployeeId();
 		String issue_id = loanapprove.getIssueId();
+		String loan_id = loanapprove.getLoan_id();
 		
 		Optional<EmployeeIssueDetails> empIssue = loanApplication.findById(issue_id);
 		
@@ -107,11 +108,9 @@ public class AdminControllers {
 		EmployeeMaster empMaster = new EmployeeMaster();
 		empMaster.setEmployeeId(employeeId);
 		System.out.println(loanapprove.getLoanType());
-		System.out.println("Locan type " + loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()).getLoanType());
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
 				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
-//				empMaster,
-				 loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()),
+				 loanCardServiceImp.findById(loan_id),
 				 LocalDate.now()
 				);
 		empCardDet.setId(issue_id);

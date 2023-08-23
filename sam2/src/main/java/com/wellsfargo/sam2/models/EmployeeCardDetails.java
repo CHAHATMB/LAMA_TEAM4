@@ -1,4 +1,5 @@
 package com.wellsfargo.sam2.models;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 
@@ -22,6 +24,7 @@ public class EmployeeCardDetails {
 	@Column(name="id")
 	private String id;
 
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private EmployeeMaster employee;
@@ -30,6 +33,8 @@ public class EmployeeCardDetails {
     @JoinColumn(name = "loan_id")
     private LoanCard loanCard;
 
+	@NotNull
+	@Value("1999-01-01")
     private LocalDate card_issue_date;
 
 	
