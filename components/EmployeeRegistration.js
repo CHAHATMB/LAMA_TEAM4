@@ -1,8 +1,68 @@
-import React from "react";
+import React, { useState } from 'react'; // Don't forget to import useState
 import { Button, Container } from "react-bootstrap";
 import Header from "./Header";
 
 function EmployeeRegistration(){
+    
+    const [employeeID, setEmployeeID] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordMatch, setPasswordMatch] = useState(true);
+    const [showOTPField, setShowOTPField] = useState(false); 
+    const [otp, setOTP] = useState('');
+
+    
+    const MIN_PASSWORD_LENGTH = 8; 
+    const [passwordError, setPasswordError] = useState('');
+    const [employeeIDError, setEmployeeIDError] = useState('');
+
+    const handleEmployeeIDChange = (event) => {
+        const newEmployeeID = event.target.value;
+        setEmployeeID(newEmployeeID);
+
+        if (newEmployeeID.length !== 8) {
+            setEmployeeIDError('Employee ID must be 8 characters.');
+        } else {
+            setEmployeeIDError('');
+        }
+    };
+
+
+    const handlePasswordChange = (event) => {
+        const newPassword = event.target.value;
+        setPassword(newPassword);
+        setPasswordMatch(newPassword === confirmPassword);
+
+        if (newPassword.length < MIN_PASSWORD_LENGTH) {
+            setPasswordError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+        } else {
+            setPasswordError('');
+        }
+    };
+
+
+
+    const handleConfirmPasswordChange = (event) => {
+        const newConfirmPassword = event.target.value;
+        setConfirmPassword(newConfirmPassword);
+        setPasswordMatch(password === newConfirmPassword);
+    };
+
+    
+    const handleSubmit = () => {
+        if (passwordMatch && password.length >= MIN_PASSWORD_LENGTH) {
+            setShowOTPField(true);
+        }
+    };
+
+    const handleOTPChange = (event) => {
+        setOTP(event.target.value);
+    };
+
+    const handleOTPSubmit = () => {
+        // Handle OTP submission logic here
+    };
+
     return(
         <div>
             <Header/>
@@ -10,14 +70,18 @@ function EmployeeRegistration(){
                 <h5 style={{fontFamily:"sans-serif", textAlign:"center", marginTop:"3%"}}>Register</h5>
                 
                 <div className="form-group mt-3">
-                <label>Employee ID</label>
-                <input
-                    type="text"
-                    className="form-control mt-1"
-                    placeholder="Employee ID"
-                    required = 'true'
-                    // onChange={handleEmail}
-                />
+                    <label>Employee ID</label>
+                    <input
+                        type="text"
+                        className={`form-control mt-1 ${employeeIDError ? 'is-invalid' : ''}`}
+                        placeholder="Employee ID"
+                        value={employeeID}
+                        onChange={handleEmployeeIDChange}
+                        required
+                    />
+                    {employeeIDError && (
+                        <div className="invalid-feedback">{employeeIDError}</div>
+                    )}
                 </div>
                    
                 <div className="form-group mt-3">
@@ -36,12 +100,66 @@ function EmployeeRegistration(){
                     <input
                         type="password"
                         className="form-control mt-1"
-                        placeholder="Enter E-mail"
-                        required = 'true'
-                        // onChange={handleEmail}
+                        placeholder="Enter Password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required
                     />
+                    {passwordError && (
+                        <div className="text-danger">{passwordError}</div>
+                    )}
                 </div>
-                <Button style={{marginTop:"2%", marginBottom:"2%", width:"20%", marginTop:"3%"}}>Submit</Button>
+            
+                <div className="form-group mt-3">
+                    <label>Confirm Password</label>
+                    <input
+                        type="password"
+                        className={`form-control mt-1 ${passwordMatch ? '' : 'is-invalid'}`}
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        required
+                    />
+                    {!passwordMatch && (
+                        <div className="invalid-feedback">Passwords do not match</div>
+                    )}
+                    
+
+                </div>
+
+                {!showOTPField && (
+                    <Button
+                        style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
+                        onClick={handleSubmit}
+                    >
+                        Generate OTP
+                    </Button>
+                )}
+
+                {showOTPField && (
+                    <div>
+                        <div className="form-group mt-3">
+                            <label>Enter OTP</label>
+                            <input
+                                type="text"
+                                className="form-control mt-1"
+                                placeholder="Enter OTP"
+                                value={otp}
+                                onChange={handleOTPChange}
+                                required
+                            />
+                        </div>
+
+                        <Button
+                            style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
+                            onClick={handleOTPSubmit}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                )}
+
+                        
             </Container>
         </div>
     );
