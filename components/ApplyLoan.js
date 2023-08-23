@@ -3,26 +3,72 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Header from './Header';
 import Footer from './Footer';
+import axios from 'axios';
+import { useLoaderData, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ApplyLoan() {
-    const [itemCategory, setItemCategory] = useState("");
+    const [item_category, setItemCategory] = useState("");
+    const [item_make, setItemMake] = useState("");
+    const [item_valuation, setItemVal] = useState(0);
     
+    const [item_description, setItemDescription] = useState("");
+    const location = useLocation();
+    const employeeId = location.state.id;
+    const navigate = useNavigate();
+
+    const storeDesc=(e)=>{
+      setItemDescription(e.target.value)
+    }
+
+    const storeValue=(e)=>{
+      setItemVal(e.target.value)
+    }
+    
+    const handleMake =(e) =>{
+      setItemMake(e.target.value);
+    }
     const handleChange = (e) =>{
         setItemCategory(e.target.value);
     }
     useEffect(()=>{
-        setItemCategory(itemCategory);
-        console.log(itemCategory);
+        setItemCategory(item_category);
+        console.log(item_category);
     
-    }, [itemCategory]);
-       
+    }, [item_category]);
+
+    useEffect(()=>{
+      setItemMake(item_make);
+      console.log(item_make);
+  
+  }, [item_make]);
+    
+    const handleSubmit = () =>{
+     
+      axios({
+        method: 'POST',
+        url: 'http://172.20.0.54:8080/api/loancard/applyloans',
+        data:{
+          employeeId: location.state.id,
+          item_category: item_category,
+          item_description: item_description,
+          item_make: item_make,
+          item_valuation: item_valuation
+        } ,
+       }).then((response)=>{
+        console.log(response)
+        navigate("/employeeDashboard")
+
+       })
+    }
+
     
   return (
     <>
     <Header/>
     <div style={{ width:'60%', padding:'2px', paddingBottom:"15px",marginTop:'7%', marginLeft:'20%' ,overflowY:'auto', height:'90%', boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         <div className="Auth-form-content">
-          <h3 className="Auth-form-title" style={{color:"#d19900"}}>Loan application form</h3>
+          <h3 className="Auth-form-title" style={{backgroundColor:"#ffc40c", color:"white", fontWeight:"700"}}>Loan application form</h3>
           <div style={{display:"flex", flexWrap:"wrap"}}>
             <div style={{marginTop:"1%"}}>
                 <div className="form-group mt-3">
@@ -31,6 +77,8 @@ function ApplyLoan() {
                     type="text"
                     className="form-control mt-1"
                     placeholder="Enter ID"
+                    defaultValue={employeeId}
+                    disabled
                     //   onChange={storeEmail}
                     />
                 </div>
@@ -52,7 +100,7 @@ function ApplyLoan() {
                     type="text"
                     className="form-control mt-1"
                     placeholder="Enter value"
-                    //   onChange={storeEmail}
+                    onChange={storeValue}
                     />
             </div>
           </div> 
@@ -63,13 +111,13 @@ function ApplyLoan() {
                     type="text"
                     className="form-control mt-1"
                     placeholder="Enter description"
-                    //   onChange={storeEmail}
+                   onChange={storeDesc}
                     />
             </div>
             <div className="form-group mt-3">
                     <label style={{fontSize:"15px"}}>Item make</label>
                     <br></br>
-                    <select style={{padding:"2%", width:"100%", border:"outset"}} onChange={handleChange}>
+                    <select style={{padding:"2%", width:"100%", border:"outset"}} onChange={handleMake}>
                     <option style={{display:"none"}} disabled selected value> Select </option>
                     <option value="Wooden"> Wooden</option>
                     <option value="Metal">Metal</option>
@@ -80,7 +128,7 @@ function ApplyLoan() {
                     </select>
             </div>
             <div className="d-grid gap-2 mt-3">
-            <Button style={{width:"100%", marginTop:"15%"}}>
+            <Button  style={{width:"100%", marginTop:"15%", backgroundColor:"#48b4bb"}} onClick={handleSubmit}>
                 Apply
             </Button>
           </div>
