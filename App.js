@@ -13,6 +13,7 @@ import ItemMasterDataTable from './component/ItemMasterDataTable';
 import LoanDataTable from './component/LoanDataTable';
 // import ViewLoanTable from './component/ViewLoanTable';
 import EmployeeDashboard from './component/EmployeeDashboard';
+import EmployeeRegistration from './component/EmployeeRegistration';
 import ApplyLoan from './component/ApplyLoan';
 import ViewMyLoans from './component/ViewMyLoans';
 import ViewItemsPurchased from './component/ViewItemsPurchased';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/loanDataTable" element={<LoanDataTable/>}/>
         {/* <Route path="/viewLoanTable" element={<ViewLoanTable/>}/> */}
         <Route path="/employeeDashboard" element={<EmployeeDashboard/>}/>
+        <Route path="/employeeRegistration" element={<EmployeeRegistration/>}/>
         <Route path="/applyLoan" element={<ApplyLoan/>}/>
         <Route path="/viewMyLoans" element={<ViewMyLoans/>}/>
         <Route path="/viewItemsPurchased" element={<ViewItemsPurchased/>}/>
