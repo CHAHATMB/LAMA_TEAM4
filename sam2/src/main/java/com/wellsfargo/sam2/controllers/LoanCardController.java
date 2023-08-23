@@ -103,7 +103,7 @@ public class LoanCardController {
                 im.setItem_category(category);
                 im.setItem_make(make);
                 im.setItem_valuation(value);
-                
+                im.setIssue_status("0");
                ItemMaster newItem = itemRepository.save(im);
 
                 empIssueDet.setEmployee( employeeMasterServiceImp.findEmployeeMasterById(loan.getEmployeeId()).get());
