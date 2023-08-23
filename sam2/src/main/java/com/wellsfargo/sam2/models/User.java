@@ -3,6 +3,7 @@ package com.wellsfargo.sam2.models;
 
 import javax.persistence.*;
 
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class User {
     private String password;
     @Value("false")
     private boolean isEnabled;
+	@Value("0")
     private int isAdmin;
     private int otp;
     
