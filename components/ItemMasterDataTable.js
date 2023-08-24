@@ -11,9 +11,19 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 
 function ItemMasterDataTable() {
   const[data, setData] = useState([]);
+  const [id, setId] = useState();
+  const [show, setShow] = useState(false);
+  let navigate = useNavigate();
+
+  const showAlert = (id) =>{
+    setId(id);
+    setShow(true);
+  }
 
   useEffect(() => {
     fetchData();
@@ -29,27 +39,24 @@ function ItemMasterDataTable() {
     }
   };
 
-  // const dummyItemData = [
-  //   {
-  //     id: 1,
-  //     itemId: 'I001',
-  //     description: 'Laptop',
-  //     issueStatus: 'Yes',
-  //     itemMake: 'Dell',
-  //     itemCategory: 'Electronics',
-  //     itemValuation: '$1000',
-  //   },
-  //   {
-  //     id: 2,
-  //     itemId: 'I002',
-  //     description: 'Chair',
-  //     issueStatus: 'No',
-  //     itemMake: 'IKEA',
-  //     itemCategory: 'Furniture',
-  //     itemValuation: '$150',
-  //   },
-  //   // Add more dummy item data entries here
-  // ];
+  const deleteData = async () => {
+    try {
+      
+      const response = await axios.post('http://172.20.0.54:8080/api/item/delete/'.concat(id).toString()).then(
+        ()=>{
+          fetchData();
+          setShow(false);
+        }
+      )
+      console.log(response.data);
+      
+      console.log("delete");
+      
+     
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
 
   return (
     <div>
@@ -58,11 +65,19 @@ function ItemMasterDataTable() {
         <Tabs defaultActiveKey="furniture" className="mb-3" fill>
             <Tab eventKey="furniture" title="Furniture" >
             <div style={{ marginTop: '20px', padding: '0 20px' }}>
+            {show?<Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <p>
+                  Are you sure you want to delete this entry?
+                </p>
+              
+                <Button variant="outline-danger" onClick={() => deleteData()}>Yes</Button>
+                <Button variant="outline-danger" style ={{marginLeft:"2%"}} onClick={() => setShow(false)}>No</Button>
+        </Alert>:null}
             <Table striped bordered responsive className="table-striped-dark">
             <thead>
                 <tr>
                 <th>Item ID</th>
-                {/* <th>Description</th> */}
+                <th>Description</th>
                 <th>Issue Status</th>
                 <th>Item Make</th>
                 <th>Item Category</th>
@@ -74,19 +89,25 @@ function ItemMasterDataTable() {
                 
                 {data.map((item) => (
                 item.item_category === "Furniture"?(
-                <tr key={ item.id}>
-                    
+                <tr key={ item.ids}>                    
                     <td>{item.item_id}</td>
-                    {/* <td>{item.description}</td> */}
+                    <td>{item.item_description}</td>
                     <td>{item.issue_status==1?"Yes":"No"}</td>
                     <td>{item.item_make}</td>
                     <td>{item.item_category}</td>
                     <td>{item.item_valuation}</td>
                     <td>
-                    <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
-                    </td>
-                    
+                    <RiEdit2Fill style={{color:"#48b4bb"}}
+                    onClick = {() => navigate("/editItemData",{state: 
+                      {itemId: item.item_id,
+                      itemCategory: item.item_category,
+                      itemMake: item.item_make,
+                      valuation : item.item_valuation,
+                      issue_status: item.issue_status,
+                      item_description: item.item_description}})}/>
+                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}
+                     onClick={() => showAlert(item.item_id)}/>
+                    </td>                   
                 </tr>
                 ):null
                 ))}
@@ -98,10 +119,9 @@ function ItemMasterDataTable() {
         <div style={{ marginTop: '20px', padding: '0 20px' }}>
         <Table striped bordered responsive className="table-striped-dark">
           <thead>
-
             <tr>
               <th>Item ID</th>
-              {/* <th>Description</th> */}
+              <th>Description</th>
               <th>Issue Status</th>
               <th>Item Make</th>
               <th>Item Category</th>
@@ -112,16 +132,24 @@ function ItemMasterDataTable() {
           <tbody>
             {data.map((item) => (
             item.item_category === "Electronic"?(
-              <tr key={item.id}>
+              <tr key={item.ids}>
                 <td>{item.item_id}</td>
-                {/* <td>{item.description}</td> */}
+                <td>{item.item_description}</td>
                 <td>{item.issue_status==1?"Yes":"No"}</td>
                 <td>{item.item_make}</td>
                 <td>{item.item_category}</td>
                 <td>{item.item_valuation}</td>
                 <td>
-                <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
+                <RiEdit2Fill style={{color:"#48b4bb"}}
+                onClick = {() => navigate("/editItemData",{state: 
+                  {itemId: item.item_id,
+                  itemCategory: item.item_category,
+                  itemMake: item.item_make,
+                  valuation : item.item_valuation,
+                  issue_status: item.issue_status,
+                  item_description: item.item_description}})}/>
+                 <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}
+                     onClick={() => showAlert(item.item_id)}/>
                 </td>
               </tr>
             ):null
@@ -136,7 +164,7 @@ function ItemMasterDataTable() {
           <thead>
             <tr>
               <th>Item ID</th>
-              {/* <th>Description</th> */}
+              <th>Description</th>
               <th>Issue Status</th>
               <th>Item Make</th>
               <th>Item Category</th>
@@ -147,16 +175,24 @@ function ItemMasterDataTable() {
           <tbody>
             {data.map((item) => (
             item.item_category === "Crockery"?(
-              <tr key={item.id}>
+              <tr key={item.ids}>
                 <td>{item.item_id}</td>
-                {/* <td>{item.description}</td> */}
+                <td>{item.item_description}</td>
                 <td>{item.issue_status==1?"Yes":"No"}</td>
                 <td>{item.item_make}</td>
                 <td>{item.item_category}</td>
                 <td>{item.item_valuation}</td>
                 <td>
-                <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
+                <RiEdit2Fill style={{color:"#48b4bb"}} 
+                  onClick = {() => navigate("/editItemData",{state: 
+                      {itemId: item.item_id,
+                      itemCategory: item.item_category,
+                      itemMake: item.item_make,
+                      valuation : item.item_valuation,
+                      issue_status: item.issue_status,
+                      item_description: item.item_description}})}/>
+                 <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}
+                     onClick={() => showAlert(item.item_id)}/>
                 </td>
               </tr>
             ):null
