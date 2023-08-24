@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +15,13 @@ import com.wellsfargo.sam2.models.EmployeeCardDetails;
 import com.wellsfargo.sam2.models.EmployeeIssueDetails;
 import com.wellsfargo.sam2.models.EmployeeMaster;
 import com.wellsfargo.sam2.models.ItemMaster;
-import com.wellsfargo.sam2.models.LoanApplications;
-import com.wellsfargo.sam2.models.LoanApprove;
+import com.wellsfargo.sam2.dto.LoanApplications;
+import com.wellsfargo.sam2.dto.LoanApprove;
 import com.wellsfargo.sam2.repository.EmployeeIssueDetailsRepository;
-import com.wellsfargo.sam2.repository.LoanApplicationRepository;
 import com.wellsfargo.sam2.services.EmailSenderService;
 import com.wellsfargo.sam2.services.EmployeeCardDetailsServiceImp;
-import com.wellsfargo.sam2.services.EmployeeIssueDetailsService;
 import com.wellsfargo.sam2.services.EmployeeIssueDetailsServiceImp;
 import com.wellsfargo.sam2.services.EmployeeMasterServiceImp;
-import com.wellsfargo.sam2.services.ItemMasterService;
 import com.wellsfargo.sam2.services.ItemMasterServiceImp;
 import com.wellsfargo.sam2.services.LoanCardServiceImp;
 
@@ -62,11 +61,12 @@ public class AdminControllers {
 	}
 	
 	@GetMapping("/")
-	String home() {
+	String home( ServletRequest rs ) {
 //		senderService.sendSimpleEmail("chahatmbaghele@gmail.com",
 //				"This is email body",
 //				"This is email subject");
-		return "wc";
+		System.out.println(rs.toString());
+		return rs.toString();
 	}
 	
 //	/api/admin/loan/appilications
@@ -92,6 +92,7 @@ public class AdminControllers {
 		
 		String employeeId = loanapprove.getEmployeeId();
 		String issue_id = loanapprove.getIssueId();
+		String loan_id = loanapprove.getLoan_id();
 		
 		Optional<EmployeeIssueDetails> empIssue = loanApplication.findById(issue_id);
 		
@@ -110,11 +111,9 @@ public class AdminControllers {
 		EmployeeMaster empMaster = new EmployeeMaster();
 		empMaster.setEmployeeId(employeeId);
 		System.out.println(loanapprove.getLoanType());
-		System.out.println("Locan type " + loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()).getLoanType());
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
 				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
-//				empMaster,
-				 loanCardServiceImp.findbyLoanType(loanapprove.getLoanType()),
+				 loanCardServiceImp.findById(loan_id),
 				 LocalDate.now()
 				);
 		empCardDet.setId(issue_id);

@@ -1,4 +1,4 @@
-package com.wellsfargo.sam2.models;
+package com.wellsfargo.sam2.dto;
 
 import javax.persistence.Entity;
 
@@ -19,7 +19,8 @@ public class LoanApplications {
 	    private String item_description;
 	    private String issue_status;
 	    private String item_make;
-
+	    private String item_category;
+	    private int item_valuation;
 	    // Constructors, getters, and setters
 	    
 

@@ -1,4 +1,4 @@
-package com.wellsfargo.sam2.models;
+package com.wellsfargo.sam2.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +12,7 @@ public class LoanApprove {
 	      private String issueId;
 	      private String loanType;
 	      private int duration_in_year;
+	      private String loan_id;
 
 	  
 }
