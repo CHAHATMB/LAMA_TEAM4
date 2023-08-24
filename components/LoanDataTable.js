@@ -103,13 +103,13 @@ const showAlert = (id) =>{
           <tbody>
             {data.map((item) => (
               item.loan_id === null? <h4>No loan cards issued! </h4>:(
-              <tr key={item.id}>
+              <tr key={item.ids}>
                 <td>{item.loan_id}</td>
                 <td>{item.loanType}</td>
                 <td>{item.duration_in_year}</td>
                 <td>
-                <RiEdit2Fill style={{color:"#48b4bb"}} onClick={() => navigate('/editLoanCard',{state:{id:item.loan_id, type:item.loanType, duration:item.duration_in_year}})}/>
-                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => showAlert(item.loan_id)} /> 
+                <RiEdit2Fill style={{color:"#48b4bb"}} onClick = {() => navigate('/editLoanData', {state:{id:item.loan_id, loanType: item.loanType, duration: item.duration_in_year}})}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} onClick={() => showAlert(item.loan_id)} /> 
                 </td>
               </tr>
               )
