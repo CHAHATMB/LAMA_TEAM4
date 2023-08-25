@@ -2,18 +2,35 @@ import React, { useState } from 'react';
 import './ItemMasterAdd.css'; // Import your CSS file
 import Header from './Header';
 import Footer from './Footer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ItemMasterAdd = () => {
   const [itemId, setItemId] = useState('');
   const [itemCategory, setItemCategory] = useState('');
   const [itemDescription, setItemDescription] = useState('');
-  const [itemValue, setItemValue] = useState('');
+  const [itemValue, setItemValue] = useState(0);
   const [itemStatus, setItemStatus] = useState('Yes');
   const [itemMake, setItemMake] = useState('');
+
+  let navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here
+   axios({
+    method: 'POST',
+    url: 'http://localhost:5000/api/item/add',
+    data: {
+      item_id: itemId,
+      item_category: itemCategory,
+      item_description: itemDescription,
+      item_value: itemValue,
+      issue_status: itemStatus,
+      item_make: itemMake
+    }
+   })
+   navigate('/itemMasterDataTable');
   };
 
   return (
@@ -84,7 +101,7 @@ const ItemMasterAdd = () => {
         <button className="form-button" type="submit">Submit</button>
       </form>
     </div>
-    <Footer/>
+    {/* <Footer/> */}
     </div>
   );
 };
