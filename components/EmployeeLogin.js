@@ -7,12 +7,12 @@ import NavLink from 'react-bootstrap/esm/NavLink';
 import Header from './Header';
 import Footer from './Footer';
 import { Button } from 'react-bootstrap';
-// import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function EmployeeLogin() {
+function EmployeeLogin({ onLogin}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +43,9 @@ function EmployeeLogin() {
       }
       else {
         // Display a toast message for non-admin users
-        // toast.error("You are not authorized as an user.");
+        toast.error("You are not authorized as an user.");
+        const token = data.data.id_token;
+        onLogin(token);
         navigate('/');
       }
     }).catch((error) => {
