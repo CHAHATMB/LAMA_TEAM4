@@ -9,30 +9,52 @@ import Footer from './Footer';
 import Header from './Header';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function EmployeeDashboard() {
     const hour = new Date().getHours();
     const navigate = useNavigate();
     const location = useLocation();
     const employeeId = location.state.id;
-
+    const[name, setName] = useState("");
+    const[designation, setDesignation] = useState("");
+    const[department, setDepartment] = useState("");
+    const[gender, setGender] = useState(2);
     function handleApply (){
         navigate('/applyLoan', {state:{id:employeeId}});
     }
 
     function handleV (){
-      navigate('/viewMyLoans');
+      navigate('/viewMyLoans', {state:{name:name, designation:designation, department:department, gender:gender}});
   }
   function handlePurchased(){
-    navigate("/viewItemsPurchased");
+    navigate("/viewItemsPurchased", {state:{name:name, designation:designation, department:department, gender:gender}});
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://172.20.0.54:8080/api/employee/'.concat(employeeId).toString());
+      setName(response.data.employeeName);
+      setDesignation(response.data.designation);
+      setDepartment(response.data.department);
+      setGender(response.data.gender);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   return (
     <>
     <Header/>
     <div style={{display:"flex", flexWrap:"wrap", backgroundColor:"whitesmoke", paddingBottom:"15%"}}>
       <div style={{width:"30%", marginLeft:"1%", marginTop:"9%"}}>
         <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "}</h1>
-        <h1  style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>User</h1>
+        <h1  style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>{name}</h1>
         <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#48b4bb"}}>Welcome to your</h1>
         <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#48b4bb"}}>Dashboard</h1>
       </div>

@@ -20,7 +20,7 @@ function ApproveLoan(){
     try {
       const response = await axios.get('http://172.20.0.54:8080/api/admin/loan/applications');
       setData(response.data);
-    
+      
       console.log(response);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -31,8 +31,22 @@ function ApproveLoan(){
      navigate("/displayItemWiseCard", {state:{issue_id: issue_id, loan_type: loan_type, employee_id: employee_id}});
 
   }
-  function handleReject () {
-    // useNavigate("/");
+  const handleReject = (loan_type, issue_id, employee_id) => {
+    axios({
+      method: 'POST',
+      url: 'http://172.20.0.54:8080/api/admin/loan/approve',
+      data:{
+        duration_in_year: 0,
+        employeeId: employee_id,
+        issueId: issue_id,
+        loanType: loan_type,
+        loan_id: 0,
+      } ,
+    }).then((response)=>{
+      
+        console.log(response);
+       
+    })
   }
 
 
@@ -66,8 +80,8 @@ function ApproveLoan(){
                     <td>{item.item_description}</td>
                     <td>{item.item_valuation}</td>   
                     <td>
-                    <TiTick style={{color:"green"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
-                    <RxCross2 style={{marginLeft:"10%", color:"red"}} onclick={handleReject}/>
+                    <TiTick style={{color:"green", cursor:"pointer"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
+                    <RxCross2 style={{marginLeft:"10%", color:"red"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
                     </td>
                 </tr>
                

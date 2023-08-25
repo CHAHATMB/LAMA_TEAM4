@@ -8,6 +8,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import admin from '../images/male.png'
+import {IoOpenOutline} from 'react-icons/io5';
 
 function AdminDashboard() {
   const hour = new Date().getHours();
@@ -15,6 +16,10 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const handleC = () =>{
     navigate('/userDataTable');
+  }
+
+  const handleNew = () =>{
+    navigate('/approveLoan');
   }
 
   const handleI = () =>{
@@ -31,7 +36,7 @@ function AdminDashboard() {
     <div style={{display:"flex", flexWrap:"wrap"}}>
     {/* <img src ={admin} style={{marginLeft:"5%"}}/> */}
     <h2 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"4%",marginTop:"1.8%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "} Admin!</h2>
-    
+    <Button onClick={handleNew} variant="outline-dark" style={{marginTop:"2.5%", width:"15%", marginLeft:"50%"}}><IoOpenOutline style={{marginRight:"3%"}}/>View new applications</Button>
     </div>
     
     <div style={{display:'flex', flexWrap:'wrap'}}>

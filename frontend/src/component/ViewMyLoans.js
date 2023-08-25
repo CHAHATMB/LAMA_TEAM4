@@ -9,23 +9,17 @@ import { useEffect,useState } from 'react';
 import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
 import male from '../images/male.png';
 import female from '../images/female.png';
+import { useLocation } from 'react-router-dom';
 
 function ViewMyLoans() {
-    const[data, setData] = useState([]);
+    const[datas, setDatas] = useState([]);
+    const location = useLocation();
+    const id = location.state.id;
+    const name = location.state.name;
+    const designation = location.state.designation;
+    const department = location.state.department;
+    const gender = location.state.gender;
 
-    useEffect(() => {
-      fetchData();
-    }, []);
-  
-    const fetchData = async () => {
-    //   try {
-    //     const response = await axios.get('http://172.20.0.54:8080/api/loancard/all');
-    //     setData(response.data);
-    //     console.log(response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching data:', error);
-    //   }
-    };
 //   const dummyLoanData = [
 //     {
 //       id: 1,
@@ -41,6 +35,20 @@ function ViewMyLoans() {
 //     },
 //     // Add more dummy loan data entries here
 //   ];
+useEffect(() => {
+  fetchData();
+}, []);
+
+const fetchData = async () => {
+  try {
+    const response = await axios.get('http://172.20.0.54:8080/api/loancard/myloans/'.concat(location.state.id).toString());
+    setDatas(response.data);
+    console.log(response);
+    console.log(id);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
 
   return (
     <div>
@@ -49,10 +57,14 @@ function ViewMyLoans() {
 
       ))} */}
       <div style={{display:"flex", flexWrap:"wrap"}}>
-      <img src = {male} style={{marginLeft:"5%", marginTop:"1.2%"}}/>
+        {gender===1?
+        <img src = {female} style={{marginLeft:"5%", marginTop:"1.2%"}}/>:
+        <img src = {male} style={{marginLeft:"5%", marginTop:"1.2%"}}/>
+        }
+      
       <div style={{marginTop:"2%"}}>
-      <h4 >Name</h4>
-      <h5 style={{fontStyle:"italic"}}>Designation, department</h5>
+      <h4>{name}</h4>
+      <h5 style={{fontStyle:"italic"}}>{designation}, {department}</h5>
       </div>
       
 
@@ -70,7 +82,7 @@ function ViewMyLoans() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {datas.map((item) => (
               item.loan_id === null? <h4>No loan cards issued! </h4>:(
               <tr key={item.id}>
                 <td>{item.loan_id}</td>
@@ -78,7 +90,7 @@ function ViewMyLoans() {
                 <td>{item.duration_in_year}</td>
                 <td>
                 <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                    <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} /> 
+                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} /> 
                 </td>
               </tr>
               )

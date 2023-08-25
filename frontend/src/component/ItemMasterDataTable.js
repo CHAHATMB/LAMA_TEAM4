@@ -11,9 +11,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { useNavigate } from 'react-router-dom';
 
 function ItemMasterDataTable() {
   const[data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  function handleAdd()
+  {
+    navigate("/itemMasterAdd");
+  }
 
   useEffect(() => {
     fetchData();
@@ -165,9 +172,46 @@ function ItemMasterDataTable() {
         </Table>
       </div>
     </Tab>
+
+    <Tab eventKey="stationery" title="Stationery">
+    <div style={{ marginTop: '20px', padding: '0 20px' }}>
+        <Table striped bordered responsive className="table-striped-dark">
+          <thead>
+            <tr>
+              <th>Item ID</th>
+              {/* <th>Description</th> */}
+              <th>Issue Status</th>
+              <th>Item Make</th>
+              <th>Item Category</th>
+              <th>Item Valuation</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+            item.item_category === "Stationery"?(
+              <tr key={item.id}>
+                <td>{item.item_id}</td>
+                {/* <td>{item.description}</td> */}
+                <td>{item.issue_status==1?"Yes":"No"}</td>
+                <td>{item.item_make}</td>
+                <td>{item.item_category}</td>
+                <td>{item.item_valuation}</td>
+                <td>
+                <RiEdit2Fill style={{color:"#48b4bb"}}/>
+                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}}/>
+                </td>
+              </tr>
+            ):null
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </Tab>
         </Tabs> 
        
-      
+        <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}>Add Item</Button>
+
       <Footer/>
     </div>
   );

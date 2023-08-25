@@ -9,10 +9,15 @@ import { useEffect,useState } from 'react';
 import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
 import male from '../images/male.png';
 import female from '../images/female.png';
+import { useLocation } from 'react-router-dom';
 
 function ViewItemsPurchased() {
     const[data, setData] = useState([]);
-
+    const location = useLocation();
+    const name = location.state.name;
+    const designation = location.state.designation;
+    const department = location.state.department;
+    const gender = location.state.gender;
     useEffect(() => {
       fetchData();
     }, []);
@@ -49,10 +54,13 @@ function ViewItemsPurchased() {
 
       ))} */}
       <div style={{display:"flex", flexWrap:"wrap"}}>
-      <img src = {male} style={{marginLeft:"5%", marginTop:"1.2%"}}/>
+      {gender===1?
+        <img src = {female} style={{marginLeft:"5%", marginTop:"1.2%"}}/>:
+        <img src = {male} style={{marginLeft:"5%", marginTop:"1.2%"}}/>
+      }
       <div style={{marginTop:"2%"}}>
-      <h4 >Name</h4>
-      <h5 style={{fontStyle:"italic"}}>Designation, department</h5>
+      <h4 >{name}</h4>
+      <h5 style={{fontStyle:"italic"}}>{designation}, {department}</h5>
       </div>
       
 

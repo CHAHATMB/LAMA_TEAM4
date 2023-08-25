@@ -35,7 +35,7 @@ const LoginAsk = () => {
             <Card style={{ width: '60%', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)' }}>
               <Card.Img variant="top" src={landing2} className="card-img-top" alt="Card image" />
               <Card.Body>
-                <Card.Title>Customer</Card.Title>
+                <Card.Title>Employee</Card.Title>
                 
                   <Button variant="secondary" style={{ backgroundColor: '#48b4bb', color: 'white', width:"25%", fontSize:"15px" }} onClick={() => {navigate('/employeeLogin')}}>
                     Login

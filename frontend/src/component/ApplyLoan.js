@@ -57,7 +57,7 @@ function ApplyLoan() {
         } ,
        }).then((response)=>{
         console.log(response)
-        navigate("/employeeDashboard")
+        // navigate("/employeeDashboard")
 
        })
     }
@@ -90,6 +90,7 @@ function ApplyLoan() {
                     <option value="Furniture"> Furniture</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Crockery">Crockery</option>
+                    <option value="Stationery">Stationery</option>
                     </select>
                 
 
