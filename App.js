@@ -21,12 +21,32 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken ] = useState('');
+
+  const handleLogin = (newToken) => {
+    setToken(newToken);
+    setIsAuthenticated(true);
+  }
+
+  const handleLogout = () => {
+    setToken('');
+    setIsAuthenticated(false);
+  };
+  
   return(
     <Router>
+      <div>
+
+      <Header
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
+        />
       <Routes>
         <Route path="/" element={<LoginAsk/>}/>
-        <Route path="/adminLogin" element={<AdminLogin/>}/>
-        <Route path="/employeeLogin" element={<EmployeeLogin/>}/>
+        <Route path="/adminLogin" element={<AdminLogin onLogin={handleLogin}/>}/>
+        <Route path="/employeeLogin" element={<EmployeeLogin onLogin={handleLogin}/>}/>
         <Route path="/adminDashboard" element={<AdminDashboard/>}/>
         <Route path="/addUserData" element={<AddUserData/>}/>
         <Route path="/itemMasterAdd" element={<ItemMasterAdd/>}/>
