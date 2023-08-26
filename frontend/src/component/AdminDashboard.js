@@ -32,7 +32,7 @@ function AdminDashboard() {
 
   return (
     <>
-    <Header/>
+   
     <div style={{display:"flex", flexWrap:"wrap"}}>
     {/* <img src ={admin} style={{marginLeft:"5%"}}/> */}
     <h2 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"4%",marginTop:"1.8%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "} Admin!</h2>

@@ -18,7 +18,7 @@ const LoginAsk = () => {
 
   return (
     <div>
-      <Header />
+    
       <Container className="container-center">
           
             <Card style={{ width: '60%', boxShadow: '0 8px 16px rgba(0.2, 0, 0, 0.2)', margin:"10%", marginLeft:"5%" }}>

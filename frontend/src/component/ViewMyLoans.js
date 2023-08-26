@@ -52,7 +52,7 @@ const fetchData = async () => {
 
   return (
     <div>
-      <Header/>
+     
       {/* {data.map((item) => (
 
       ))} */}
@@ -77,8 +77,8 @@ const fetchData = async () => {
             <tr>
               <th>Loan ID</th>
               <th>Loan Type</th>
-              <th>Duration (Years)</th>
-              <th>Actions</th>
+              <th>Duration (months)</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -88,10 +88,10 @@ const fetchData = async () => {
                 <td>{item.loan_id}</td>
                 <td>{item.loanType}</td>
                 <td>{item.duration_in_year}</td>
-                <td>
-                <RiEdit2Fill style={{color:"#48b4bb"}}/>
-                <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} /> 
-                </td>
+                {/* <td> */}
+                {/* <RiEdit2Fill style={{color:"#48b4bb"}}/> */}
+                {/* <RiDeleteBinLine style={{color:"red", marginLeft:"16%"}} />  */}
+                {/* </td> */}
               </tr>
               )
             ))}

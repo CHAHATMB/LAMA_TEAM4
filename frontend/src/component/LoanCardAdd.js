@@ -42,7 +42,7 @@ const LoanCardAdd = () => {
 
   return (
     <div>
-      <Header />
+   
       <Container className="containerForm">
         <h2 className="form-title">Add Loan Card</h2>
         <Form onSubmit={handleSubmit}>
@@ -53,12 +53,13 @@ const LoanCardAdd = () => {
           </Form.Group>
           <Form.Group controlId="loanType">
             <Form.Label className="form-label">Loan Type</Form.Label>
-            <Form.Control as="select" value={loanType} onChange={handleLoanTypeChange}>
-              {/* <option value="">Select Loan Type</option> */}
-              <option value="Furniture">Furniture</option>
-              <option value="Stationary">Stationary</option>
-              <option value="Crockery">Crockery</option>
-            </Form.Control>
+            <select style={{ width:"100%"}} onChange={handleLoanTypeChange}>
+                    <option style={{display:"none"}} disabled selected value> Select </option>
+                    <option value="Furniture"> Furniture</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Crockery">Crockery</option>
+                    <option value="Stationery">Stationery</option>
+           </select>
           </Form.Group>
           <Form.Group controlId="duration">
             <Form.Label className="form-label">Loan Duration (years)</Form.Label>

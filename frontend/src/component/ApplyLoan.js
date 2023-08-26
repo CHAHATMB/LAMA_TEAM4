@@ -65,7 +65,7 @@ function ApplyLoan() {
     
   return (
     <>
-    <Header/>
+   
     <div style={{ width:'60%', padding:'2px', paddingBottom:"15px",marginTop:'7%', marginLeft:'20%' ,overflowY:'auto', height:'90%', boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title" style={{backgroundColor:"#ffc40c", color:"white", fontWeight:"700"}}>Loan application form</h3>

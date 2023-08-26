@@ -27,7 +27,7 @@ const LoanCardEdit = () => {
       data:{
         loan_id:loanId,
         loanType: loanType,
-        duration:duration,
+        duration_in_year:duration,
        
       } ,
     }).then((data)=>{
@@ -53,7 +53,7 @@ const LoanCardEdit = () => {
 
   return (
     <div>
-      <Header />
+    
       <div className="containerForm">
         <h2 className="form-title">Edit loan card</h2>
         <form>

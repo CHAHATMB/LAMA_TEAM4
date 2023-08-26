@@ -7,10 +7,12 @@ import NavLink from 'react-bootstrap/esm/NavLink';
 import Header from './Header';
 import Footer from './Footer';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function EmployeeLogin() {
+function EmployeeLogin({ onLogin}) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,19 +38,27 @@ function EmployeeLogin() {
       console.log(data);
       axios.defaults.headers.common.Authorization = "Bearer " + data.data.id_token;
       if(data.data.role === "USER"){
-      console.log("Allow user");
-      navigate('/employeeDashboard', {state:{id:data.data.employeeId}});
+        const token = data.data.id_token;
+        onLogin(token);
+      console.log(data.data.employeeId);
+      navigate('/employeeDashboard', {state: {employeeId:data.data.employeeId}});
       }
-      else{
-        navigate('/')
+      else {
+        // Display a toast message for non-admin users
+        toast.error("You are not authorized as an user.");
+       
+        navigate('/');
       }
-     
-   })
-    console.log("Submit")
- }
+    }).catch((error) => {
+      // Handle error cases here
+      console.error("Error:", error);
+    });
+  
+    console.log("Submit");
+  }
+  
   return (
     <>
-    <Header/>
     <div style={{display:"flex",flexWrap:"wrap"}}>
     <img src={employee} style={{height:"75%", width:"60%"}}/>
     <div style={{ width:'22rem', padding:'2px', marginTop:'5%', marginLeft:'5%' ,overflowY:'auto', height:'24rem'}}>

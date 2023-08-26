@@ -80,7 +80,7 @@ const showAlert = (id) =>{
 
   return (
     <div>
-      <Header/>
+   
       {show?<Alert variant="danger" onClose={() => setShow(false)} dismissible>
                 <p>
                   Are you sure you want to delete this entry?

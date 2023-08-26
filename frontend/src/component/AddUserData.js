@@ -52,7 +52,6 @@ const AddUserData = () => {
 
   return (
     <div>
-      <Header />
       <div className="containerForm">
         <h2 className="form-title">Employee Form</h2>
         <form onSubmit={handleSubmit}>

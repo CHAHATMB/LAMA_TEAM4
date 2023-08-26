@@ -52,7 +52,7 @@ function ApproveLoan(){
 
     return(
         <div>
-            <Header/>
+   
             
             <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}> New Loan Applications 
 </h4>

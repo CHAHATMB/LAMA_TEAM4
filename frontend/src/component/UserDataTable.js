@@ -64,7 +64,7 @@ function UserDataTable() {
 
   return (
     <div style={{marginBottom:"3%", height:"95%"}}>
-        <Header/>
+     
         <div style={{display:"flex", flexWrap:"wrap"}}>
         <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data 
 </h4>

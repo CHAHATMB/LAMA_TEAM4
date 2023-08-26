@@ -11,7 +11,7 @@ function selectLoanCard(loanType, duration){
     }
     return(
         <div>
-            <Header/>
+            
             <div style={{marginLeft:"3%",paddingTop:"2%",paddingLeft:"0.5%", paddingRight:"0.5%", paddingBottom:"2%", width:"20%", marginTop:"5%", backgroundColor:"#48bbaf", backgroundImage:"linear-gradient(to bottom right, #48bbaf, whitesmoke)"}}>
                
                 <p style={{fontWeight:"600"}}>{loanType}</p>

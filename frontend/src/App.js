@@ -13,25 +13,45 @@ import ItemMasterDataTable from './component/ItemMasterDataTable';
 import LoanDataTable from './component/LoanDataTable';
 // import ViewLoanTable from './component/ViewLoanTable';
 import EmployeeDashboard from './component/EmployeeDashboard';
+import EmployeeRegistration from './component/EmployeeRegistration';
 import ApplyLoan from './component/ApplyLoan';
 import ViewMyLoans from './component/ViewMyLoans';
 import ViewItemsPurchased from './component/ViewItemsPurchased';
-import EditUserData from './component/EditUserData';
-import LoanCardEdit from './component/LoanCardEdit';
-import About from './component/About';
-import ApproveLoan from './component/ApproveLoan';
-import DisplayItemWiseCard from './component/DisplayItemWiseCard';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
+import Header from './component/Header';
+import ApproveLoan from './component/ApproveLoan';
+import LoanCardEdit from './component/LoanCardEdit';
+import DisplayItemWiseCard from './component/DisplayItemWiseCard'
 
 function App() {
-  // const [loanType, setLoanType] = useState("");
-  // const [duration, setDuration] = useState("");
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken ] = useState('');
+
+  const handleLogin = (newToken) => {
+    setToken(newToken);
+    setIsAuthenticated(true);
+  }
+
+  const handleLogout = () => {
+    setToken('');
+    setIsAuthenticated(false);
+  };
+  
   return(
     <Router>
+      <div>
+
+      <Header
+        isAuthenticated={isAuthenticated}
+        onLogout={handleLogout}
+        />
       <Routes>
         <Route path="/" element={<LoginAsk/>}/>
-        <Route path="/adminLogin" element={<AdminLogin/>}/>
-        <Route path="/employeeLogin" element={<EmployeeLogin/>}/>
+        <Route path="/adminLogin" element={<AdminLogin onLogin={handleLogin}/>}/>
+        <Route path="/employeeLogin" element={<EmployeeLogin onLogin={handleLogin}/>}/>
         <Route path="/adminDashboard" element={<AdminDashboard/>}/>
         <Route path="/addUserData" element={<AddUserData/>}/>
         <Route path="/itemMasterAdd" element={<ItemMasterAdd/>}/>
@@ -41,16 +61,22 @@ function App() {
         <Route path="/loanDataTable" element={<LoanDataTable/>}/>
         {/* <Route path="/viewLoanTable" element={<ViewLoanTable/>}/> */}
         <Route path="/employeeDashboard" element={<EmployeeDashboard/>}/>
+        <Route path="/employeeRegistration" element={<EmployeeRegistration/>}/>
         <Route path="/applyLoan" element={<ApplyLoan/>}/>
         <Route path="/viewMyLoans" element={<ViewMyLoans/>}/>
         <Route path="/viewItemsPurchased" element={<ViewItemsPurchased/>}/>
-        <Route path="/editUserData" element={<EditUserData/>}/>
-        <Route path="/editLoanCard" element={<LoanCardEdit/>}/>
-        <Route path="/about" element={<About/>}/>
         <Route path="/approveLoan" element={<ApproveLoan/>}/>
+        <Route path="/editLoanCard" element={<LoanCardEdit/>}/>
         <Route path="/displayItemWiseCard" element={<DisplayItemWiseCard/>}/>
+
+
+       
+
+
       </Routes>
+      </div>
     </Router>
+
    
   )
 }

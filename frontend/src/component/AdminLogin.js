@@ -4,11 +4,14 @@ import './AdminLogin.css';
 import Header from './Header';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard';
-import { useNavigate } from 'react-router-dom';
-import admin from '../images/admin.jpg';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 import axios from 'axios';
 
-function AdminLogin() {
+const AdminLogin = ({ onLogin}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,12 +19,8 @@ function AdminLogin() {
   let navigate = useNavigate();
   const [data, setData] = useState([]);
   const [role, setRole] = useState("");
-
   
-
-  const fetchData = async () => {
-    
-  };
+  // const [isLoggedIn, setIsLoggedIn ] = useState(false);
 
   const storeEmail = (e) =>{
     setEmail(e.target.value);
@@ -44,27 +43,35 @@ function AdminLogin() {
       console.log(data);
       axios.defaults.headers.common.Authorization = "Bearer " + data.data.id_token;
       if(data.data.role === "ADMIN"){
-      console.log("Allow admin");
-      navigate('/adminDashboard');
+        console.log("Allow admin");
+        // setIsLoggedIn(true);
+        const token = data.data.id_token;
+        onLogin(token);
+        navigate('/adminDashboard',{state: {employeeId: data.employeeId}});
       }
-      else{
-        navigate('/')
+      else {
+        // Display a toast message for non-admin users
+        toast.error("You are not authorized as an admin.");
+        // setIsLoggedIn(false);
+        navigate('/');
       }
-     
-   })
-    console.log("Submit")
- }
+    }).catch((error) => {
+      // Handle error cases here
+      console.error("Error:", error);
+    });
+  
+    console.log("Submit");
+  }
+
   return (
     <div>
-        <Header />
-    
     <div style={{display:"flex",flexWrap:"wrap"}}>
-    <img src={admin} style={{height:"70%", width:"58.5%"}}/>
+    <img src={'./admin.jpg'} style={{height:"70%", width:"58.5%"}}/>
     <div style={{ width:'22rem', padding:'2px', marginTop:'5%', marginLeft:'5%' ,overflowY:'auto', height:'24rem'}}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Login to your Account</h3>
           <div className="form-group mt-3">
-            <label>Email</label>
+            <label>Employee ID</label>
             <input
               type="email"
               className="form-control mt-1"
@@ -91,7 +98,7 @@ function AdminLogin() {
         </div>
       </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
       </div>
 
   );

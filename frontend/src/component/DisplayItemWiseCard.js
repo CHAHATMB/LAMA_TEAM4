@@ -54,7 +54,7 @@ function DisplayItemWiseCard(){
     return(
 
         <div>
-            <Header/>
+           
             {show?<Alert variant="success" onClose={() => setShow(false)} dismissible>
                 <p>
                   Success! Loan has been approved!

@@ -16,7 +16,7 @@ function EmployeeDashboard() {
     const hour = new Date().getHours();
     const navigate = useNavigate();
     const location = useLocation();
-    const employeeId = location.state.id;
+    const employeeId = location.state.employeeId;
     const[name, setName] = useState("");
     const[designation, setDesignation] = useState("");
     const[department, setDepartment] = useState("");
@@ -26,10 +26,10 @@ function EmployeeDashboard() {
     }
 
     function handleV (){
-      navigate('/viewMyLoans', {state:{name:name, designation:designation, department:department, gender:gender}});
+      navigate('/viewMyLoans', {state:{name:name, designation:designation, department:department, gender:gender, id:employeeId}});
   }
   function handlePurchased(){
-    navigate("/viewItemsPurchased", {state:{name:name, designation:designation, department:department, gender:gender}});
+    navigate("/viewItemsPurchased", {state:{name:name, designation:designation, department:department, gender:gender, id:employeeId}});
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function EmployeeDashboard() {
   };
   return (
     <>
-    <Header/>
+   
     <div style={{display:"flex", flexWrap:"wrap", backgroundColor:"whitesmoke", paddingBottom:"15%"}}>
       <div style={{width:"30%", marginLeft:"1%", marginTop:"9%"}}>
         <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "}</h1>

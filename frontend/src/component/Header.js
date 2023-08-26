@@ -5,19 +5,29 @@ import Container from 'react-bootstrap/Container';
 import NavLink from 'react-bootstrap/esm/NavLink';
 import logo from "../images/LamaL2.png";
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 // background:'#FCD12A'
-function Header() {
-
+// function Header({isLoggedIn, onLogout}) {
+function Header({ isAuthenticated, onLogout}){
   const navigate = useNavigate();
+ // console.log("Login status", isLoggedIn, onLogout);
   function handleHome(){
     navigate("/");
   }
 
 
   function handleAbout(){
-
+    navigate("/about");
   }
+
+ function handleLogout(){
+  onLogout();
+  navigate("/");
+ }
+
   return (
     <Navbar style={{background:'#48b4bb'}}>
     <Container className='Container'>
@@ -32,7 +42,13 @@ function Header() {
         <Nav className="ms-auto">
         <h5 onClick={handleHome} style={{color:'white', float:'right', textDecoration:'none', fontSize:"19px", cursor:"pointer"}}>Home</h5>
         <h5 onClick={handleAbout} style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"20%", cursor:"pointer"}}>About</h5>
-          
+        </Nav>
+        <Nav>
+          {isAuthenticated? (
+            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"100%", cursor:"pointer"}} onClick={handleLogout}> Logout</h5>
+          ):(
+            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"100%", cursor:"pointer"}}>Login</h5>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Container>

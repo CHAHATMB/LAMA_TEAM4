@@ -115,7 +115,7 @@ const handleDojChange = (e) => {
 
   return (
     <div>
-      <Header />
+      
       <div className="containerForm">
         <h2 className="form-title">Edit employee details</h2>
         <form>
