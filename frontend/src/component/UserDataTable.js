@@ -38,7 +38,7 @@ function UserDataTable() {
 
   useEffect(() => {
     if(location.state?.fromAddUserData){
-    toast.info('Loan Card Added Successfully!', {
+    toast.info('User Added Successfully!', {
       position:'top-right',
       autoClose: 3000,
       hideProgressBar: true,
@@ -51,7 +51,7 @@ function UserDataTable() {
 
   useEffect(() => {
     if(location.state?.fromEditUserData){
-    toast.info('Loan Card Edited Successfully!', {
+    toast.info('User Details Edited Successfully!', {
       position:'top-right',
       autoClose: 3000,
       hideProgressBar: true,
