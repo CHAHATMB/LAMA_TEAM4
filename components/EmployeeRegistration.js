@@ -1,15 +1,22 @@
 import React, { useState } from 'react'; // Don't forget to import useState
 import { Button, Container } from "react-bootstrap";
 import Header from "./Header";
+import axios from "axios";
 
 function EmployeeRegistration(){
     
     const [employeeID, setEmployeeID] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(true);
+    const [passwordMatch, setPasswordMatch] = useState(false);
     const [showOTPField, setShowOTPField] = useState(false); 
+    const [showTOTPField, setShowTOTPField] = useState(false); 
     const [otp, setOTP] = useState('');
+    const [totp, setTOTP] = useState('');
+    const [imageData, setImageData] = useState('');
+    const [showGenerateOPTButton,setShowGenerateOTPButton] = useState(true);
+
 
     
     const MIN_PASSWORD_LENGTH = 8; 
@@ -25,6 +32,12 @@ function EmployeeRegistration(){
         } else {
             setEmployeeIDError('');
         }
+    };
+
+    const handleEmail = (event) => {
+        const email = event.target.value;
+        setEmail(email);
+
     };
 
 
@@ -50,8 +63,32 @@ function EmployeeRegistration(){
 
     
     const handleSubmit = () => {
+        console.log("here i am")
         if (passwordMatch && password.length >= MIN_PASSWORD_LENGTH) {
-            setShowOTPField(true);
+            console.log("doing axios");
+            axios({
+                method: 'POST',
+                url: 'http://172.20.0.54:8080/api/auth/register',
+                data:{
+                  employeeId:employeeID,
+                  email: email,
+                  password:password
+                } 
+              }).then((data)=>{
+                console.log(data.data);
+                if(data.data.data != null){
+                    setShowTOTPField(true);
+                    setImageData(data.data.data)
+                    console.log("workds bro ")
+                }
+
+              }).catch((error)=>{
+                        console.log("eror we hav ",error);
+              })
+
+                setShowGenerateOTPButton(false);
+                setShowOTPField(true);
+
         }
     };
 
@@ -59,14 +96,53 @@ function EmployeeRegistration(){
         setOTP(event.target.value);
     };
 
+    const handleTOTPChange = (event) => {
+        setTOTP(event.target.value);
+    };
+
     const handleOTPSubmit = () => {
         // Handle OTP submission logic here
+        axios({
+            method: 'POST',
+            url: 'http://172.20.0.54:8080/api/auth/verifyotp',
+            data:{
+              employeeId:employeeID,
+              email: email,
+              otp:otp,
+              totpCode:totp
+            } 
+          }).then((data)=>{
+            console.log(data.data);
+            
+
+          }).catch((error)=>{
+                    console.log("eror we hav ",error);
+          })
     };
 
     return(
         <div>
             <Header/>
-            <Container style={{marginLeft:"30%", width:"40%", marginRight:"30%", height:"50%",overflowY:"auto", background:"rgba(255,255,255,0)", boxShadow:"0 8px 32px 0 rgba(31, 38, 135, 0.37)", backdropFilter:"blur (4px)", borderRadius:"8px",WebkitBackdropFilter:"blur(4px)", border:"1px solid rgba(255, 255, 255, 0.18)", marginTop:"5%"}}>
+            <Container style={{
+                marginLeft: "32.5%",
+                width: "35%",
+                marginRight: "32.5%",
+                padding: "5px",
+                boxSizing: "border-box",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                background: "rgba(255,255,255,0)",
+                boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                backdropFilter: "blur (4px)",
+                borderRadius: "8px",
+                WebkitBackdropFilter: "blur(4px)",
+                border: "1px solid rgba(255, 255, 255, 0.18)",
+                marginTop: "2%",
+                height: "80%", // Added to ensure container takes full height
+                overflowY: "auto" // Added for scroll on smaller screens
+                }}
+            >
                 <h5 style={{fontFamily:"sans-serif", textAlign:"center", marginTop:"3%"}}>Register</h5>
                 
                 <div className="form-group mt-3">
@@ -91,7 +167,7 @@ function EmployeeRegistration(){
                         className="form-control mt-1"
                         placeholder="Enter E-mail"
                         required = 'true'
-                        // onChange={handleEmail}
+                        onChange={handleEmail}
                     />
                 </div>
 
@@ -127,14 +203,15 @@ function EmployeeRegistration(){
 
                 </div>
 
-                {!showOTPField && (
+                {showGenerateOPTButton && (
                     <Button
-                        style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
+                        style={{ marginTop: "2%", marginBottom: "2%", width: "50%", marginTop: "3%", backgroundColor: "#48b4bb" }}
                         onClick={handleSubmit}
                     >
                         Generate OTP
                     </Button>
                 )}
+
 
                 {showOTPField && (
                     <div>
@@ -150,8 +227,25 @@ function EmployeeRegistration(){
                             />
                         </div>
 
+                        {showTOTPField && (
+                            <div>
+                            <img src={imageData}/>
+                            <div className="form-group mt-3">
+                            <label>Enter TOTP</label>
+                            <input
+                                type="text"
+                                className="form-control mt-1"
+                                placeholder="Enter TOTP"
+                                value={totp}
+                                onChange={handleTOTPChange}
+                                required
+                            />
+                            </div>
+                        </div>
+                        )}
+
                         <Button
-                            style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
+                            style={{ marginTop: "2%", marginBottom: "2%", width: "50%", marginTop: "3%", backgroundColor: "#48b4bb" }}
                             onClick={handleOTPSubmit}
                         >
                             Submit
