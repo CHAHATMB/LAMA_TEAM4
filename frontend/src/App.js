@@ -23,8 +23,10 @@ import { useState } from 'react';
 import Header from './component/Header';
 import ApproveLoan from './component/ApproveLoan';
 import LoanCardEdit from './component/LoanCardEdit';
-import DisplayItemWiseCard from './component/DisplayItemWiseCard'
-import EditUserData from './component/EditUserData'
+import DisplayItemWiseCard from './component/DisplayItemWiseCard';
+import EditUserData from './component/EditUserData';
+import About from './component/About';
+
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -69,8 +71,7 @@ function App() {
         <Route path="/editLoanCard" element={<LoanCardEdit/>}/>
         <Route path="/displayItemWiseCard" element={<DisplayItemWiseCard/>}/>
         <Route path="/editUserData" element={<EditUserData/>}/>
-
-       
+        <Route path="/about" element={<About/>}/>
 
 
       </Routes>

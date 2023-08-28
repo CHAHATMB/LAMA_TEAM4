@@ -1,18 +1,41 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import React from 'react';
+import './About.css'; // Make sure to style your components accordingly
+import about from "../images/about1.jpg";
+import Footer from './Footer';
 
-function About (){
-    return(
-        <>
-        <h1 style={{fontStyle:"bold", fontWeight:"700",marginTop:"7%" ,marginLeft:"7%", color:"#48b4bb"}}>Personal</h1>
-       <h1 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"7%", color:"#48b4bb"}}>Loan</h1>
-        <Footer/>       
-       </>
-
-    );
-   
-   
+const About = () => {
+  return (
+    <div className="about-page-container">
+      <div className="header-image">
+        <img src={about} alt="Loan Management System" />
+        <div className="image-overlay">
+          <h1>Welcome to Our Loan Management System</h1>
+          <p>Your Dreams, Your Loans, Your Way</p>
+        </div>
+      </div>
+      <div className="content-container">
+        <div className="loan-cards">
+          <div className="loan-card">
+            <h3>Furniture Loans</h3>
+            <p>Turn your home-decor dreams into reality with our furniture loan options.</p>
+          </div>
+          <div className="loan-card">
+            <h3>Electronics Loans</h3>
+            <p>Fuel your business growth with our tailored electronics loan solutions.</p>
+          </div>
+          <div className="loan-card">
+            <h3>Crockery Loans</h3>
+            <p>Invest in your kitchen with our education loan offerings.</p>
+          </div>
+          <div className="loan-card">
+            <h3>Stationery Loans</h3>
+            <p>Navigate life's uncertainties and opportunities with our flexible personal loans.</p>
+          </div>
+        </div>
+      </div>
+      <Footer/>
+    </div>
+  );
 }
 
-export default About
+export default About;
