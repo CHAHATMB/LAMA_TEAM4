@@ -26,6 +26,7 @@ import LoanCardEdit from './component/LoanCardEdit';
 import DisplayItemWiseCard from './component/DisplayItemWiseCard';
 import EditUserData from './component/EditUserData';
 import About from './component/About';
+import EditItemData from './component/EditItemData';
 
 function App() {
 
@@ -72,6 +73,8 @@ function App() {
         <Route path="/displayItemWiseCard" element={<DisplayItemWiseCard/>}/>
         <Route path="/editUserData" element={<EditUserData/>}/>
         <Route path="/about" element={<About/>}/>
+        <Route path="/editItemData" element={<EditItemData/>}/>
+
 
 
       </Routes>
