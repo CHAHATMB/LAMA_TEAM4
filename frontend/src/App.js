@@ -26,21 +26,25 @@ import LoanCardEdit from './component/LoanCardEdit';
 import DisplayItemWiseCard from './component/DisplayItemWiseCard';
 import EditUserData from './component/EditUserData';
 import About from './component/About';
+import ProtectedRoute from './utils/ProtectedRoute';
 import EditItemData from './component/EditItemData';
 
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken ] = useState('');
+  const [userRoles, setUserRoles ] = useState('');
 
-  const handleLogin = (newToken) => {
+  const handleLogin = (newToken, role) => {
     setToken(newToken);
     setIsAuthenticated(true);
+    setUserRoles(role);
   }
 
   const handleLogout = () => {
     setToken('');
     setIsAuthenticated(false);
+    setUserRoles('');
   };
   
   return(
@@ -55,25 +59,180 @@ function App() {
         <Route path="/" element={<LoginAsk/>}/>
         <Route path="/adminLogin" element={<AdminLogin onLogin={handleLogin}/>}/>
         <Route path="/employeeLogin" element={<EmployeeLogin onLogin={handleLogin}/>}/>
-        <Route path="/adminDashboard" element={<AdminDashboard/>}/>
-        <Route path="/addUserData" element={<AddUserData/>}/>
-        <Route path="/itemMasterAdd" element={<ItemMasterAdd/>}/>
-        <Route path="/loanCardAdd" element={<LoanCardAdd/>}/>
-        <Route path="/userDataTable" element={<UserDataTable/>}/>
-        <Route path="/itemMasterDataTable" element={<ItemMasterDataTable/>}/>
-        <Route path="/loanDataTable" element={<LoanDataTable/>}/>
-        {/* <Route path="/viewLoanTable" element={<ViewLoanTable/>}/> */}
-        <Route path="/employeeDashboard" element={<EmployeeDashboard/>}/>
-        <Route path="/employeeRegistration" element={<EmployeeRegistration/>}/>
-        <Route path="/applyLoan" element={<ApplyLoan/>}/>
-        <Route path="/viewMyLoans" element={<ViewMyLoans/>}/>
-        <Route path="/viewItemsPurchased" element={<ViewItemsPurchased/>}/>
-        <Route path="/approveLoan" element={<ApproveLoan/>}/>
-        <Route path="/editLoanCard" element={<LoanCardEdit/>}/>
-        <Route path="/displayItemWiseCard" element={<DisplayItemWiseCard/>}/>
-        <Route path="/editUserData" element={<EditUserData/>}/>
+
+        {/* Use protected Route component */}
+        <Route path="/adminDashboard" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={AdminDashboard}
+            />
+          }
+        />
+        <Route path="/addUserData" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={AddUserData}
+            />
+          }
+        />
+        <Route path="/itemMasterAdd" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={ItemMasterAdd}
+            />
+          }
+        />
+        <Route path="/loanCardAdd" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={LoanCardAdd}
+            />
+          }
+        />
+        <Route path="/userDataTable" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={UserDataTable}
+            />
+          }
+        />
+        <Route path="/itemMasterDataTable" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={ItemMasterDataTable}
+            />
+          }
+        />
+        <Route path="/loanDataTable" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={LoanDataTable}
+            />
+          }
+        />
+
+        <Route path="/employeeDashboard" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="USER"
+            element={EmployeeDashboard}
+            />
+          }
+        />
+        <Route path="/employeeRegistration" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="USER"
+            element={EmployeeRegistration}
+            />
+          }
+        />
+        <Route path="/applyLoan" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="USER"
+            element={ApplyLoan}
+            />
+          }
+        />
+        <Route path="/viewMyLoans" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="USER"
+            element={ViewMyLoans}
+            />
+          }
+        />
+        <Route path="/viewItemsPurchased" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="USER"
+            element={ViewItemsPurchased}
+            />
+          }
+        />
+        <Route path="/approveLoan" 
+          element={
+            <ProtectedRoute 
+            auth={isAuthenticated}
+            role={userRoles}
+            allowedRole="ADMIN"
+            element={ApproveLoan}
+            />
+          }
+        />
+        <Route path="/editLoanCard" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={LoanCardEdit}
+            />
+          }
+        />
+        <Route path="/displayItemWiseCard" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={DisplayItemWiseCard}
+            />
+          }
+        />
+        <Route path="/editUserData" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={EditUserData}
+            />
+          }
+        />
         <Route path="/about" element={<About/>}/>
-        <Route path="/editItemData" element={<EditItemData/>}/>
+        <Route path="/editItemData" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={EditItemData}
+            />
+          }
+        />
 
 
 
