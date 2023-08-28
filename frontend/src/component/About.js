@@ -9,8 +9,8 @@ const About = () => {
       <div className="header-image">
         <img src={about} alt="Loan Management System" />
         <div className="image-overlay">
-          <h1>Welcome to Our Loan Management System</h1>
-          <p>Your Dreams, Your Loans, Your Way</p>
+          <h1 style= {{backgroundColor:"whitesmoke"}}>Welcome to Our Loan Management System</h1>
+          <p style= {{backgroundColor:"whitesmoke"}}>Your Dreams, Your Loans, Your Way</p>
         </div>
       </div>
       <div className="content-container">
