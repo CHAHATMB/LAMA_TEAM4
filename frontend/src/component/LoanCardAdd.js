@@ -5,6 +5,8 @@ import { Container, Form, Button } from 'react-bootstrap';
 import './LoanCardAdd.css'; // Import your CSS file
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoanCardAdd = () => {
   const [loanType, setLoanType] = useState('');
@@ -28,6 +30,7 @@ const LoanCardAdd = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     
+    
     axios({
       method: 'POST',
       url: 'http://172.20.0.54:8080/api/loancard/add',
@@ -40,19 +43,29 @@ const LoanCardAdd = () => {
      }
      ).then((data)=>{
       console.log(data.data);
+      navigate('/loanDataTable',{state : {fromLoanCardAdd:true,fromLoanCardEdit : false}});
 
      }).catch((error)=>{
-        console.log(error.response.data.messege);
+        console.log('Ah shit');
+        toast.error('Unvalid data', {
+          position:'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
      });
 
 
-     navigate('/loanDataTable',{state : {fromLoanCardAdd:true,fromLoanCardEdit : false}});
+
+
 
     };
 
   return (
     <div>
-   
+      <ToastContainer/>
       <Container className="containerForm">
         <h2 className="form-title">Add Loan Card</h2>
         <Form onSubmit={handleSubmit}>

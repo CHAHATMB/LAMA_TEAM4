@@ -31,7 +31,7 @@ const ItemMasterAdd = () => {
    }).then((response)=>{
     console.log(response);
    })
-   navigate('/itemMasterDataTable');
+   navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true}});
   };
 
   return (
