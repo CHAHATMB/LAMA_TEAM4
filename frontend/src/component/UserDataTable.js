@@ -9,6 +9,10 @@ import { RiEdit2Fill, RiDeleteBinLine} from 'react-icons/ri';
 import {HiUserAdd} from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from "react-router-dom";
+
 
 function UserDataTable() {
   const [data, setData] = useState([]);
@@ -29,6 +33,36 @@ function UserDataTable() {
       console.error('Error fetching data:', error);
     }
   };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if(location.state?.fromAddUserData){
+    toast.info('User Added Successfully!', {
+      position:'top-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+ }
+  },[]);
+
+  useEffect(() => {
+    if(location.state?.fromEditUserData){
+    toast.info('User Details Edited Successfully!', {
+      position:'top-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+ }
+  },[]);
+
+
 
   function handleAdd()
   {
@@ -112,6 +146,7 @@ function UserDataTable() {
             </Table>
         </div>
         <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}><HiUserAdd/>Add employee</Button>
+        <ToastContainer/>
         <Footer/>
     </div>
   );

@@ -1,0 +1,50 @@
+/* AboutPage.css */
+
+.about-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .header-image {
+    position: relative;
+    width: 100%;
+    height: 50vh; /* Adjust as needed */
+    overflow: hidden;
+  }
+  
+  .header-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .image-overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: black;
+  }
+  
+  .loan-cards {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .loan-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 20%;
+    text-align: center;
+  }
+  
+  .loan-card h2 {
+    margin-bottom: 5px;
+  }
+  
+  
+  /* Rest of the styles remain the same as in the previous examples */
+  

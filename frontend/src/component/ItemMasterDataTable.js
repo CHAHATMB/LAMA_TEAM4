@@ -13,6 +13,10 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from "react-router-dom";
+
 
 function ItemMasterDataTable() {
   const[data, setData] = useState([]);
@@ -38,6 +42,36 @@ function ItemMasterDataTable() {
       console.error('Error fetching data:', error);
     }
   };
+
+  
+  //   const location = useLocation();
+
+  //   useEffect(() => {
+  //     if(location.state?.fromItemMasterAdd){
+  //     toast.info('Item Added Successfully!', {
+  //       position:'top-right',
+  //       autoClose: 3000,
+  //       hideProgressBar: true,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //     });
+  // }
+  //   },[]);
+
+  //   useEffect(() => {
+  //     if(location.state?.fromItemMasterEdit){
+  //     toast.info('Item Edited Successfully!', {
+  //       position:'top-right',
+  //       autoClose: 3000,
+  //       hideProgressBar: true,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //     });
+  // }
+  //   },[]);
+
 
   const deleteData = async () => {
     try {
@@ -246,6 +280,7 @@ function ItemMasterDataTable() {
     </Tab>
         </Tabs> 
        
+        <ToastContainer/>
       
       <Footer/>
       <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={() => navigate("/itemMasterAdd")}>Add items</Button>

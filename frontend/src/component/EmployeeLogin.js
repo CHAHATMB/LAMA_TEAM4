@@ -39,7 +39,8 @@ function EmployeeLogin({ onLogin}) {
       axios.defaults.headers.common.Authorization = "Bearer " + data.data.id_token;
       if(data.data.role === "USER"){
         const token = data.data.id_token;
-        onLogin(token);
+        const role = data.data.role;
+        onLogin(token, role);
       console.log(data.data.employeeId);
       navigate('/employeeDashboard', {state: {employeeId:data.data.employeeId}});
       }

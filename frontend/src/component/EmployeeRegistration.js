@@ -9,12 +9,13 @@ function EmployeeRegistration(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(true);
+    const [passwordMatch, setPasswordMatch] = useState(false);
     const [showOTPField, setShowOTPField] = useState(false); 
     const [showTOTPField, setShowTOTPField] = useState(false); 
     const [otp, setOTP] = useState('');
     const [totp, setTOTP] = useState('');
     const [imageData, setImageData] = useState('');
+    const [showGenerateOPTButton,setShowGenerateOTPButton] = useState(true);
 
 
     
@@ -62,11 +63,8 @@ function EmployeeRegistration(){
 
     
     const handleSubmit = () => {
-        console.log("here i ma")
-        setShowOTPField(true);
-        if (passwordMatch && password.length >= MIN_PASSWORD_LENGTH && false) {
-            setShowOTPField(true);
-        } else {
+        console.log("here i am")
+        if (passwordMatch && password.length >= MIN_PASSWORD_LENGTH) {
             console.log("doing axios");
             axios({
                 method: 'POST',
@@ -87,6 +85,10 @@ function EmployeeRegistration(){
               }).catch((error)=>{
                         console.log("eror we hav ",error);
               })
+
+                setShowGenerateOTPButton(false);
+                setShowOTPField(true);
+
         }
     };
 
@@ -182,7 +184,7 @@ function EmployeeRegistration(){
 
                 </div>
 
-                {!false && (
+                {showGenerateOPTButton && (
                     <Button
                         style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
                         onClick={handleSubmit}

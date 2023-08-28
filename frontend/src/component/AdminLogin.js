@@ -46,7 +46,8 @@ const AdminLogin = ({ onLogin}) => {
         console.log("Allow admin");
         // setIsLoggedIn(true);
         const token = data.data.id_token;
-        onLogin(token);
+        const role = data.data.role;
+        onLogin(token, role);
         navigate('/adminDashboard',{state: {employeeId: data.employeeId}});
       }
       else {
