@@ -30,6 +30,8 @@ const ItemMasterAdd = () => {
     }
    }).then((response)=>{
     console.log(response);
+   }).catch((error)=>{
+      console.log(error);
    })
    navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true}});
   };
@@ -101,7 +103,7 @@ const ItemMasterAdd = () => {
           <option value="China Clay">China Clay</option>
           {/* Add more make options as needed */}
         </select>
-        <button className="form-button" type="submit" onClick={()=>handleSubmit}>Submit</button>
+        <button className="form-button" type="submit" onClick={()=>handleSubmit()}>Submit</button>
       </form>
     </div>
 
