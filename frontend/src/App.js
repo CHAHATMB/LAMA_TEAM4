@@ -223,7 +223,16 @@ function App() {
           }
         />
         <Route path="/about" element={<About/>}/>
-        <Route path="/editItemData" element={<EditItemData/>}/>
+        <Route path="/editItemData" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={EditItemData}
+            />
+          }
+        />
 
 
 
