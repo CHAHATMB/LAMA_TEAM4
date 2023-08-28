@@ -11,6 +11,10 @@ import Footer from './Footer';
 import {HiUserAdd} from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from "react-router-dom";
+
 
 function LoanDataTable() {
     const[data, setData] = useState([]);
@@ -32,7 +36,36 @@ function LoanDataTable() {
       }
     };
 
-  function handleAdd()
+    const location = useLocation();
+
+    useEffect(() => {
+      if(location.state?.fromLoanCardAdd){
+      toast.info('Loan Card Added Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+   }
+    },[]);
+
+    useEffect(() => {
+      if(location.state?.fromLoanCardEdit){
+      toast.info('Loan Card Edited Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+   }
+    },[]);
+
+
+    function handleAdd()
   {
     navigate("/loanCardAdd");
   }
@@ -118,6 +151,7 @@ const showAlert = (id) =>{
         </Table>
       </div>
       <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}>Add loan card</Button>
+      <ToastContainer/>
       <Footer/>
     </div>
   );

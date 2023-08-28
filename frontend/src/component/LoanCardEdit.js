@@ -48,7 +48,7 @@ const LoanCardEdit = () => {
           
     })
     console.log("Submit")
-    navigate('/loanDataTable');
+    navigate('/loanDataTable',{state : {fromLoanCardAdd:false,fromLoanCardEdit : true}});
   };
 
   return (

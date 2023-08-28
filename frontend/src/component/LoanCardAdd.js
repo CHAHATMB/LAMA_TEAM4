@@ -36,9 +36,19 @@ const LoanCardAdd = () => {
         loanType: loanType,
         duration_in_year: duration
       }
-     })
-     navigate('/loanDataTable');
-  };
+      
+     }
+     ).then((data)=>{
+      console.log(data.data);
+
+     }).catch((error)=>{
+        console.log(error.response.data.messege);
+     });
+
+
+     navigate('/loanDataTable',{state : {fromLoanCardAdd:true,fromLoanCardEdit : false}});
+
+    };
 
   return (
     <div>
@@ -75,6 +85,7 @@ const LoanCardAdd = () => {
         </Form>
        
       </Container>
+
       {/* <Footer /> */}
     </div>
   );
