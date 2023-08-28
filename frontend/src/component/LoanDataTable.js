@@ -32,7 +32,17 @@ function LoanDataTable() {
         setData(response.data);
         console.log(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        const errorMessage = error.response.data.message || 'Invalid request';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+            position:'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
       }
     };
 
@@ -83,7 +93,17 @@ function LoanDataTable() {
   
     
     } catch (error) {
-      console.error('Error deleting data:', error);
+      const errorMessage = error.response.data.message || 'Invalid operation';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+            position:'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
     }
 };
 

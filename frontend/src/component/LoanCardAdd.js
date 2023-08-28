@@ -46,8 +46,11 @@ const LoanCardAdd = () => {
       navigate('/loanDataTable',{state : {fromLoanCardAdd:true,fromLoanCardEdit : false}});
 
      }).catch((error)=>{
-        console.log('Ah shit');
-        toast.error('Unvalid data', {
+
+        const errorMessage = error.response.data.message || 'Invalid data';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
           position:'top-right',
           autoClose: 3000,
           hideProgressBar: true,
