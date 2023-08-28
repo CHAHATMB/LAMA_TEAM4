@@ -16,8 +16,11 @@ const LoanCardEdit = () => {
   const [data, setData] = useState([]);
   let navigate = useNavigate();
 
-  const handleEdit = () => {
+  const handleEdit = (e) => {
     // Handle form submission here
+
+    e.preventDefault();
+
     console.log('Form submitted:', {
      loanId,
      loanType,

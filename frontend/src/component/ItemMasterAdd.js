@@ -33,7 +33,7 @@ const ItemMasterAdd = () => {
    }).catch((error)=>{
       console.log(error);
    })
-   navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true}});
+   navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true,fromEditItemData: false}});
   };
 
   return (
