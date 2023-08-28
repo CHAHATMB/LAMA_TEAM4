@@ -222,6 +222,8 @@ function App() {
           }
         />
         <Route path="/about" element={<About/>}/>
+        <Route path="/editItemData" element={<EditItemData/>}/>
+
 
 
       </Routes>
