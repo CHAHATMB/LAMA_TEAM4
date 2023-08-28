@@ -27,6 +27,7 @@ import DisplayItemWiseCard from './component/DisplayItemWiseCard';
 import EditUserData from './component/EditUserData';
 import About from './component/About';
 import ProtectedRoute from './utils/ProtectedRoute';
+import EditItemData from './component/EditItemData';
 
 function App() {
 
@@ -222,7 +223,16 @@ function App() {
           }
         />
         <Route path="/about" element={<About/>}/>
-        <Route path="/editItemData" element={<EditItemData/>}/>
+        <Route path="/editItemData" 
+          element={
+            <ProtectedRoute 
+              auth={isAuthenticated}
+              role={userRoles}
+              allowedRole="ADMIN"
+              element={EditItemData}
+            />
+          }
+        />
 
 
 
