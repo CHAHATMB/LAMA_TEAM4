@@ -110,7 +110,7 @@ const handleDojChange = (e) => {
           
     })
     console.log("Submit")
-    navigate('/userDataTable',{state : {fromAddUserData:true,fromEditUserData : false}});
+    navigate('/userDataTable',{state : {fromAddUserData:false,fromEditUserData : true}});
   };
 
   return (
