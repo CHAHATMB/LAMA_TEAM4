@@ -50,12 +50,21 @@ const AddUserData = () => {
     }).then((data)=>{
         //toast.done("Added successfully");
         setTimeout(() => {
-          navigate('/userDataTable');
-        },1000);
+          navigate('/userDataTable',{state : {fromAddUserData:true,fromEditUserData : false}});
+        },10);
 
     }).catch((error) =>{
-        console.log(error);
-        toast.error("Bad Credential! Please Try Again!");
+        const errorMessage = error.response.data.message || 'Invalid request';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          position:'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
     })
     console.log("Submit")
    

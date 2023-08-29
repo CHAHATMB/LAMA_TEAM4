@@ -6,6 +6,9 @@ import Footer from './Footer';
 import axios from 'axios';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function ApplyLoan() {
     const [item_category, setItemCategory] = useState("");
@@ -57,8 +60,20 @@ function ApplyLoan() {
         } ,
        }).then((response)=>{
         console.log(response)
-        navigate("/employeeDashboard", {state:{employeeId:location.state.id}});
+        navigate("/employeeDashboard", {state:{employeeId:location.state.id,fromApplyLoan:true}});
+       })
+       .catch((error)=>{
+        const errorMessage = error.response.data.message || 'Invalid request';
 
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+            position:'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
        })
     }
 

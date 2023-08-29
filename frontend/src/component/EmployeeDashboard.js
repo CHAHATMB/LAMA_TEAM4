@@ -11,6 +11,9 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function EmployeeDashboard() {
     const hour = new Date().getHours();
@@ -49,6 +52,23 @@ function EmployeeDashboard() {
       console.error('Error fetching data:', error);
     }
   };
+
+  
+
+  useEffect(() => {
+    if(location.state?.fromApplyLoan){
+    toast.info('Loan Applied Successfully!', {
+      position:'top-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+ }
+  },[]);
+
+
   return (
     <>
    
@@ -99,6 +119,7 @@ borderRadius: "20px", boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)"}}>
         
         </Card.Body>
     </Card>
+    <ToastContainer/>
     <Footer/>
     </div>
     </>
