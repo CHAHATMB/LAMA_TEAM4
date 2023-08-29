@@ -79,8 +79,9 @@ function EmployeeRegistration(){
                 } 
               }).then((data)=>{
                 console.log(data.data);
+                setShowOTPField(true);
+                setShowGenerateOTPButton(false);
                 if(data.data.data != null){
-                    setShowOTPField(true);
                     setShowTOTPField(true);
                     setImageData(data.data.data)
                     console.log("workds bro ")
