@@ -12,7 +12,7 @@ function EmployeeRegistration(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(false);
+    const [passwordMatch, setPasswordMatch] = useState(true);
     const [showOTPField, setShowOTPField] = useState(false); 
     const [showTOTPField, setShowTOTPField] = useState(false); 
     const [otp, setOTP] = useState('');
@@ -184,7 +184,7 @@ function EmployeeRegistration(){
                         onChange={handleConfirmPasswordChange}
                         required
                     />
-                    {!passwordMatch && (
+                    {(!passwordMatch)&& (
                         <div className="invalid-feedback">Passwords do not match</div>
                     )}
                     
