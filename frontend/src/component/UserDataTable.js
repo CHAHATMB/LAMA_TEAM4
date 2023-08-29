@@ -122,10 +122,12 @@ function UserDataTable() {
             <thead>
                 <tr>
                 <th>Employee ID</th>
+                <th>Email</th>
                 <th>Employee Name</th>
                 <th>Designation</th>
                 <th>Department</th>
                 <th>Gender</th>
+                <th>Role</th>
                 <th>Date of Birth</th>
                 <th>Date of Joining</th>
                 <th>Actions</th>
@@ -135,10 +137,12 @@ function UserDataTable() {
                 {data.map((item) => (
                 <tr key={item.id}>
                     <td>{item.employeeId}</td>
+                    <td>{item.email}</td>
                     <td>{item.employeeName}</td>
                     <td>{item.designation}</td>
                     <td>{item.department}</td>
                     <td>{item.gender?"Female":"Male"}</td>
+                    <td>{item.role?"Admin":"User"}</td>
                     <td>{item.date_of_birth}</td>
                     <td>{item.date_of_join}</td>
                     <td>

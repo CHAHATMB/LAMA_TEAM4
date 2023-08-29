@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 const AddUserData = () => {
   const [employeeId, setEmployeeId] = useState('');
-  const [designation, setDesignation] = useState('');
+  const [designation, setDesignation] = useState('Manager');
   const [employeeName, setEmployeeName] = useState('');
   const [dob, setDob] = useState('');
-  const [department, setDepartment] = useState('');
+  const [department, setDepartment] = useState('HR');
   const [doj, setDoj] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState(1);
   const [email, setEmail] = useState('');
   const [data, setData] = useState([]);
   const [role, setRole] = useState(0);
