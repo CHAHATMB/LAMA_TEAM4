@@ -16,6 +16,7 @@ import { Alert } from 'react-bootstrap';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useLocation} from "react-router-dom";
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 
 
 function ItemMasterDataTable() {
@@ -92,9 +93,16 @@ function ItemMasterDataTable() {
     }
   };
 
+  
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
+
   return (
     <div>
         <ToastContainer/>
+        <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
         <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Items data</h4>
         <Tabs defaultActiveKey="furniture" className="mb-3" fill>
             <Tab eventKey="furniture" title="Furniture" >

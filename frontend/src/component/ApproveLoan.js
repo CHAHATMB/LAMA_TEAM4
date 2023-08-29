@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 import {TiTick} from "react-icons/ti";
 import {RxCross2} from  "react-icons/rx";
 import {  useNavigate } from "react-router-dom";
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 
 function ApproveLoan(){
     const [data, setData] = useState([]);
@@ -49,11 +50,15 @@ function ApproveLoan(){
        
     })
   }
-
+  
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
 
     return(
         <div>
-   
+           <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
             
             <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}> New Loan Applications 
 </h4>
