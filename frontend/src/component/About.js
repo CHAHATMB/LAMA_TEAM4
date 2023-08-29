@@ -25,7 +25,7 @@ const About = () => {
           </div>
           <div className="loan-card">
             <h3>Crockery Loans</h3>
-            <p>Invest in your kitchen with our education loan offerings.</p>
+            <p>Invest in your kitchen with our crockery loan offerings.</p>
           </div>
           <div className="loan-card">
             <h3>Stationery Loans</h3>

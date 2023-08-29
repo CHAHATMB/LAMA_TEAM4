@@ -27,7 +27,7 @@ function ApproveLoan(){
       const response = await axios.get('http://172.20.0.54:8080/api/admin/loan/applications');
       setData(response.data);
       
-      console.log(response);
+      console.log("ress ponse",response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
