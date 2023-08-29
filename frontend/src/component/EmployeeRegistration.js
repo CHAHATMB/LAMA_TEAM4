@@ -90,10 +90,17 @@ function EmployeeRegistration(){
                         console.log("eror we hav ",error);
                         toast.error(error.response.data.message);
               })
-
             // setShowGenerateOTPButton(false);
-                
-
+        }
+        else{
+            toast.error('Invalid Details', {
+                position:'top-right',
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              });
         }
     };
 
