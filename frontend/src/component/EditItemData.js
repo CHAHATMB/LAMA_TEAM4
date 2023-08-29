@@ -47,12 +47,12 @@ const EditItemData = () => {
     }).then((data)=>{
         console.log(data);
        //add a popup
-        alert("item data Updated Successfully");
+        // alert("item data Updated Successfully");
       
       
     })
     //navigate to thetable page
-    navigate('/itemMasterDataTable')
+    navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:false,fromEditItemData: true}})
     console.log("Submit")
   
   };

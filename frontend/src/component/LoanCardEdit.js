@@ -18,7 +18,9 @@ const LoanCardEdit = () => {
 
   const handleEdit = (e) => {
     // Handle form submission here
+
     e.preventDefault();
+
     console.log('Form submitted:', {
      loanId,
      loanType,
