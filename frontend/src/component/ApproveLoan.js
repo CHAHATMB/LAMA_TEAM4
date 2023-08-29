@@ -69,6 +69,17 @@ function ApproveLoan(){
       
         console.log(response);
         fetchData();
+
+        toast.info('Loan Rejected!', {
+          position:'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+    
+
     })
   }
   
