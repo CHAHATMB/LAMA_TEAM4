@@ -47,7 +47,8 @@ const AdminLogin = ({ onLogin}) => {
         // setIsLoggedIn(true);
         const token = data.data.id_token;
         const role = data.data.role;
-        onLogin(token, role);
+        const id = data.employeeId;
+        onLogin(token, role, id);
         navigate('/adminDashboard',{state: {employeeId: data.employeeId}});
       }
       else {

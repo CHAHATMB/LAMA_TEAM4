@@ -34,17 +34,20 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken ] = useState('');
   const [userRoles, setUserRoles ] = useState('');
+  const [empId, setempId] = useState('');
 
-  const handleLogin = (newToken, role) => {
+  const handleLogin = (newToken, role, empId) => {
     setToken(newToken);
     setIsAuthenticated(true);
     setUserRoles(role);
+    setempId(empId);
   }
 
   const handleLogout = () => {
     setToken('');
     setIsAuthenticated(false);
     setUserRoles('');
+    setempId('');
   };
   
   return(
@@ -54,7 +57,10 @@ function App() {
       <Header
         isAuthenticated={isAuthenticated}
         onLogout={handleLogout}
-        />
+        userRoles={userRoles}
+        id={empId}
+      />
+
       <Routes>
         <Route path="/" element={<LoginAsk/>}/>
         <Route path="/adminLogin" element={<AdminLogin onLogin={handleLogin}/>}/>
@@ -142,16 +148,7 @@ function App() {
             />
           }
         />
-        <Route path="/employeeRegistration" 
-          element={
-            <ProtectedRoute 
-            auth={isAuthenticated}
-            role={userRoles}
-            allowedRole="USER"
-            element={EmployeeRegistration}
-            />
-          }
-        />
+        <Route path="/employeeRegistration" element={<EmployeeRegistration/>}/>
         <Route path="/applyLoan" 
           element={
             <ProtectedRoute 

@@ -185,7 +185,7 @@ function EmployeeRegistration(){
 
                 {showGenerateOPTButton && (
                     <Button
-                        style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb" }}
+                        style={{ marginTop: "2%", marginBottom: "2%", width: "20%", marginTop: "3%", backgroundColor: "#48b4bb", justifyContent:"center", alignItems:"center" }}
                         onClick={handleSubmit}
                     >
                         Generate OTP

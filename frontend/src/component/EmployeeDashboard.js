@@ -26,10 +26,10 @@ function EmployeeDashboard() {
     }
 
     function handleV (){
-      navigate('/viewMyLoans', {state:{name:name, designation:designation, department:department, gender:gender, id:employeeId}});
+      navigate('/viewMyLoans', {state:{employeeId:employeeId,name:name, designation:designation, department:department, gender:gender, id:employeeId}});
   }
   function handlePurchased(){
-    navigate("/viewItemsPurchased", {state:{name:name, designation:designation, department:department, gender:gender, id:employeeId}});
+    navigate("/viewItemsPurchased", {state:{employeeId:employeeId,name:name, designation:designation, department:department, gender:gender, id:employeeId}});
   }
 
   useEffect(() => {
@@ -38,6 +38,7 @@ function EmployeeDashboard() {
 
   const fetchData = async () => {
     try {
+      console.log(employeeId);
       const response = await axios.get('http://172.20.0.54:8080/api/employee/'.concat(employeeId).toString());
       setName(response.data.employeeName);
       setDesignation(response.data.designation);

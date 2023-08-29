@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // background:'#FCD12A'
 // function Header({isLoggedIn, onLogout}) {
-function Header({ isAuthenticated, onLogout}){
+function Header({ isAuthenticated, onLogout, userRoles, id}){
   const navigate = useNavigate();
  // console.log("Login status", isLoggedIn, onLogout);
   function handleHome(){
@@ -28,6 +28,18 @@ function Header({ isAuthenticated, onLogout}){
   navigate("/");
  }
 
+ function handleDashboard(){
+  if (userRoles === "ADMIN"){
+    navigate("/adminDashboard");
+  }
+  else if(userRoles === "USER"){
+    navigate("/employeeDashboard", {state:{employeeId:id}});
+  }
+  else{
+    navigate("/");
+  }
+ }
+
   return (
     <Navbar style={{background:'#48b4bb'}}>
     <Container className='Container'>
@@ -40,7 +52,12 @@ function Header({ isAuthenticated, onLogout}){
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
-        <h5 onClick={handleHome} style={{color:'white', float:'right', textDecoration:'none', fontSize:"19px", cursor:"pointer"}}>Home</h5>
+        {isAuthenticated? (
+            <h5 onClick = {() => handleDashboard()} style={{color:'white', float:'right', textDecoration:'none', fontSize:"19px", cursor:"pointer"}}>Dashboard</h5> 
+          ):(
+            <h5 onClick = {handleHome} style={{color:'white', float:'right', textDecoration:'none', fontSize:"19px", cursor:"pointer"}}>Home</h5> 
+        )}
+        
         <h5 onClick={handleAbout} style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"20%", cursor:"pointer"}}>About</h5>
         </Nav>
         <Nav>
