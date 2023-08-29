@@ -34,6 +34,8 @@ function DisplayItemWiseCard(){
               console.log(response);
              
           })
+
+          navigate("/approveLoan",{state :{fromDisplayItemWiseCard : true}});
         
     }
 
@@ -55,15 +57,7 @@ function DisplayItemWiseCard(){
 
         <div>
            
-            {show?<Alert variant="success" onClose={() => setShow(false)} dismissible>
-                <p>
-                  Success! Loan has been approved!
-                </p>
-            
-                <Button variant="outline-success" style ={{marginLeft:"2%"}} onClick={() => navigate("/approveLoan")}>Okay</Button>
-        </Alert>:null}
             <div style={{display:"flex", flexWrap:"wrap"}}>
-           
             
             {data.map((item) => (
                
