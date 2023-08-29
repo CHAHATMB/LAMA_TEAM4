@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {ToastContainer,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import { Toast } from 'react-bootstrap';
 
 const ItemMasterAdd = () => {
   const [itemId, setItemId] = useState('');
@@ -46,7 +47,18 @@ const ItemMasterAdd = () => {
    }).then((response)=>{
     console.log(response);
    }).catch((error)=>{
-      console.log(error);
+      const errorMessage = error.response.data.message || 'Invalid data';
+      console.log(errorMessage);
+
+      toast.error(errorMessage, {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
    })
    navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true,fromEditItemData: false}});
   };
@@ -117,7 +129,7 @@ const ItemMasterAdd = () => {
         <button className="form-button" type="submit" onClick={()=>handleSubmit()}>Submit</button>
       </form>
     </div>
-
+    <ToastContainer/>
     {/* <Footer/> */}
     </div>
   );

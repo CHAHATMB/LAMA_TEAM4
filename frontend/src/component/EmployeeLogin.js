@@ -7,10 +7,14 @@ import NavLink from 'react-bootstrap/esm/NavLink';
 import Header from './Header';
 import Footer from './Footer';
 import { Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from "react-router-dom";
+
+
 
 function EmployeeLogin({ onLogin}) {
 
@@ -53,7 +57,19 @@ function EmployeeLogin({ onLogin}) {
       }
     }).catch((error) => {
       // Handle error cases here
-      console.error("Error:", error);
+      const errorMessage = error.response.data.message || 'Invalid data';
+
+        console.log(errorMessage);
+       
+        toast.error(errorMessage, {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
     });
   
     console.log("Submit");
@@ -99,6 +115,7 @@ function EmployeeLogin({ onLogin}) {
         </div>
       </div>
       </div>
+      <ToastContainer/>
       <Footer/>
       </>
   )
