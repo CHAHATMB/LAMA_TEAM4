@@ -95,22 +95,15 @@ const handleDojChange = (e) => {
     }).then((data)=>{
         console.log(data);
         
-       //add a popup
-       // alert("Employee Updated Successfully");
-        //   //clear the form
-        //   setEmployeeId('');
-        //   setDesignation('');
-        //   setEmployeeName('');
-        //   setDob('');
-        //   setDepartment('');
-        //   setDoj('');
-        //   setGender('');
-        //   setEmail('');
-      //navigate to thetable page
+        
+       
           
+    }).catch((error)=>{
+        console.log(error);
     })
-    console.log("Submit")
+    console.log("Submit");
     navigate('/userDataTable',{state : {fromAddUserData:false,fromEditUserData : true}});
+   
   };
 
   return (
@@ -144,7 +137,7 @@ const handleDojChange = (e) => {
           <label className="form-label">Employee Name:</label>
           <input
             type="text"
-            value={location.state.name}
+            defaultValue={location.state.name}
             onChange={(e) => setEmployeeName(e.target.value)}
             required
           />
