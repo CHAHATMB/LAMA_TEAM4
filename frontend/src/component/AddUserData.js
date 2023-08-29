@@ -15,6 +15,7 @@ const AddUserData = () => {
   const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
   const [data, setData] = useState([]);
+  const [role, setRole] = useState(0);
   let navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -42,12 +43,14 @@ const AddUserData = () => {
         department: department,
         date_of_join: doj,
         gender: gender,
+        role: role
       } ,
     }).then((data)=>{
         console.log(data);
+
     })
     console.log("Submit")
-  
+    navigate('/userDataTable');
   };
 
   return (
@@ -141,30 +144,16 @@ const AddUserData = () => {
             <option value="female">Female</option>
           </select>
 
-          {/* <label className="form-label">Gender:</label>
-          <div className="radio-group">
-            <input
-              type="radio"
-              id="male"
-              name="gender"
-              value="Male"
-              checked={gender === 'Male'}
-              onChange={(e) => setGender(e.target.value)}
-              required
-            />
-            <label htmlFor="male">Male</label>
-
-            <input
-              type="radio"
-              id="female"
-              name="gender"
-              value="Female"
-              checked={gender === 'Female'}
-              onChange={(e) => setGender(e.target.value)}
-              required
-            />
-            <label htmlFor="female">Female</label> 
-          </div>*/}
+          <label className="form-label">Role:</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            {/* <option value="">Select Department</option> */}
+            <option value={0}>User</option>
+            <option value={1}>Admin</option>
+          </select>
 
           <button className="form-button" type="submit">Submit</button>
         </form>

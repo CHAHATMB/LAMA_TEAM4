@@ -2,6 +2,9 @@ import React, { useState } from 'react'; // Don't forget to import useState
 import { Button, Container } from "react-bootstrap";
 import Header from "./Header";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function EmployeeRegistration(){
     
@@ -17,7 +20,7 @@ function EmployeeRegistration(){
     const [imageData, setImageData] = useState('');
     const [showGenerateOPTButton,setShowGenerateOTPButton] = useState(true);
 
-
+    let navigate = useNavigate();
     
     const MIN_PASSWORD_LENGTH = 8; 
     const [passwordError, setPasswordError] = useState('');
@@ -77,6 +80,7 @@ function EmployeeRegistration(){
               }).then((data)=>{
                 console.log(data.data);
                 if(data.data.data != null){
+                    setShowOTPField(true);
                     setShowTOTPField(true);
                     setImageData(data.data.data)
                     console.log("workds bro ")
@@ -84,10 +88,11 @@ function EmployeeRegistration(){
 
               }).catch((error)=>{
                         console.log("eror we hav ",error);
+                        toast.error(error.response.data.message);
               })
 
-                setShowGenerateOTPButton(false);
-                setShowOTPField(true);
+            // setShowGenerateOTPButton(false);
+                
 
         }
     };
@@ -113,16 +118,18 @@ function EmployeeRegistration(){
             } 
           }).then((data)=>{
             console.log(data.data);
-            
+            navigate('/');
 
           }).catch((error)=>{
                     console.log("eror we hav ",error);
+                    toast.error(error.response.data.message);
           })
     };
 
     return(
         <div>
             {/* <Header/> */}
+            <ToastContainer />
             <Container style={{marginLeft:"30%", width:"40%", marginRight:"30%", height:"50%",overflowY:"auto", background:"rgba(255,255,255,0)", boxShadow:"0 8px 32px 0 rgba(31, 38, 135, 0.37)", backdropFilter:"blur (4px)", borderRadius:"8px",WebkitBackdropFilter:"blur(4px)", border:"1px solid rgba(255, 255, 255, 0.18)", marginTop:"5%"}}>
                 <h5 style={{fontFamily:"sans-serif", textAlign:"center", marginTop:"3%"}}>Register</h5>
                 

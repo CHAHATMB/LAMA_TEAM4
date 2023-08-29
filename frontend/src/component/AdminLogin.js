@@ -7,7 +7,7 @@ import AdminDashboard from './AdminDashboard';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
-
+import admin from '../images/admin.jpg';
 
 import axios from 'axios';
 
@@ -81,7 +81,7 @@ const AdminLogin = ({ onLogin}) => {
     <div>
       <ToastContainer/>
     <div style={{display:"flex",flexWrap:"wrap"}}>
-    <img src={'./admin.jpg'} style={{height:"70%", width:"58.5%"}}/>
+    <img src={admin} style={{height:"70%", width:"58.5%"}}/>
     <div style={{ width:'22rem', padding:'2px', marginTop:'5%', marginLeft:'5%' ,overflowY:'auto', height:'24rem'}}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Login to your Account</h3>

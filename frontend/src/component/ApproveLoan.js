@@ -7,7 +7,12 @@ import Table from 'react-bootstrap/Table';
 import {TiTick} from "react-icons/ti";
 import {RxCross2} from  "react-icons/rx";
 import {  useNavigate } from "react-router-dom";
-import {AiOutlineArrowLeft} from 'react-icons/ai'
+import {AiOutlineArrowLeft} from 'react-icons/ai';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useLocation} from "react-router-dom";
+import { Toast } from "react-bootstrap";
+
 
 function ApproveLoan(){
     const [data, setData] = useState([]);
@@ -28,6 +33,22 @@ function ApproveLoan(){
     }
   };
 
+  
+  const location = useLocation();
+
+  useEffect(() => {
+    if(location.state?.fromDisplayItemWiseCard){
+    toast.info('Loan Approved!!', {
+      position:'top-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+ }
+  },[]);
+
   const handleApprove = (loan_type, issue_id, employee_id) => {
      navigate("/displayItemWiseCard", {state:{issue_id: issue_id, loan_type: loan_type, employee_id: employee_id}});
 
@@ -46,8 +67,8 @@ function ApproveLoan(){
       } ,
     }).then((response)=>{
       
-        console.log("rsuosdf ",response);
-        
+        console.log(response);
+        fetchData();
     })
   }
   
@@ -94,6 +115,7 @@ function ApproveLoan(){
                 ))}
             </tbody>
             </Table>
+            <ToastContainer/>
         
         </div>
     );
