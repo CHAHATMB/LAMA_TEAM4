@@ -68,8 +68,7 @@ function ApproveLoan(){
     }).then((response)=>{
       
         console.log(response);
-        navigate('/approveLoan');
-       
+        fetchData();
     })
   }
   
