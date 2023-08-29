@@ -32,10 +32,13 @@ function DisplayItemWiseCard(){
           }).then((response)=>{
             setShow(true);
               console.log(response);
+              navigate("/approveLoan",{state :{fromDisplayItemWiseCard : true}});
              
+          }).catch((error)=>{
+            console.log(error);
           })
 
-          navigate("/approveLoan",{state :{fromDisplayItemWiseCard : true}});
+         
         
     }
 
