@@ -62,9 +62,9 @@ function Header({ isAuthenticated, onLogout, userRoles, id}){
         </Nav>
         <Nav>
           {isAuthenticated? (
-            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"100%", cursor:"pointer"}} onClick={handleLogout}> Logout</h5>
+            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"100%", cursor:"pointer"}} onClick={handleLogout}>Logout</h5>
           ):(
-            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"100%", cursor:"pointer"}}>Login</h5>
+            <h5 style={{color:'white', float:'right', textDecoration:'none',fontSize:"19px", marginLeft:"70%", cursor:"pointer"}} onClick={() => navigate('/employeeRegistration')}>Register</h5>
           )}
         </Nav>
       </Navbar.Collapse>
