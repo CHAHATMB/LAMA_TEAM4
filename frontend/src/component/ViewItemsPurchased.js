@@ -71,6 +71,7 @@ function ViewItemTable() {
               <th>Item make</th>
               <th>Item category</th>
               <th>Item valuation</th>
+              <th>Item status</th>
             </tr>
           </thead>
           <tbody>
@@ -81,6 +82,7 @@ function ViewItemTable() {
                 <td>{item.item_make}</td>
                 <td>{item.item_category}</td>
                 <td>{item.item_valuation}</td>
+                <td>{item.issue_status==="0"?"Applied":item.issue_status==="1"?"Issued":"Rejected"}</td>
               </tr>
             ))}
           </tbody>

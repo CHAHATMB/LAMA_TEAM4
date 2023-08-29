@@ -4,6 +4,8 @@ import Footer from './Footer';
 import './AddUserData.css'; // Import your CSS file
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddUserData = () => {
   const [employeeId, setEmployeeId] = useState('');
@@ -46,15 +48,22 @@ const AddUserData = () => {
         role: role
       } ,
     }).then((data)=>{
-        console.log(data);
+        //toast.done("Added successfully");
+        setTimeout(() => {
+          navigate('/userDataTable');
+        },1000);
 
+    }).catch((error) =>{
+        console.log(error);
+        toast.error("Bad Credential! Please Try Again!");
     })
     console.log("Submit")
-    navigate('/userDataTable');
+   
   };
 
   return (
     <div>
+      <ToastContainer/>
       <div className="containerForm">
         <h2 className="form-title">Employee Form</h2>
         <form onSubmit={handleSubmit}>

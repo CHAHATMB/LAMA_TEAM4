@@ -12,7 +12,7 @@ function EmployeeRegistration(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMatch, setPasswordMatch] = useState(false);
+    const [passwordMatch, setPasswordMatch] = useState(true);
     const [showOTPField, setShowOTPField] = useState(false); 
     const [showTOTPField, setShowTOTPField] = useState(false); 
     const [otp, setOTP] = useState('');
@@ -79,8 +79,9 @@ function EmployeeRegistration(){
                 } 
               }).then((data)=>{
                 console.log(data.data);
+                setShowOTPField(true);
+                setShowGenerateOTPButton(false);
                 if(data.data.data != null){
-                    setShowOTPField(true);
                     setShowTOTPField(true);
                     setImageData(data.data.data)
                     console.log("workds bro ")
@@ -90,10 +91,17 @@ function EmployeeRegistration(){
                         console.log("eror we hav ",error);
                         toast.error(error.response.data.message);
               })
-
             // setShowGenerateOTPButton(false);
-                
-
+        }
+        else{
+            toast.error('Invalid Details', {
+                position:'top-right',
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+              });
         }
     };
 
@@ -184,7 +192,7 @@ function EmployeeRegistration(){
                         onChange={handleConfirmPasswordChange}
                         required
                     />
-                    {!passwordMatch && (
+                    {(!passwordMatch)&& (
                         <div className="invalid-feedback">Passwords do not match</div>
                     )}
                     

@@ -94,8 +94,8 @@ function LoanDataTable() {
       setShow(false);
     }
   )
-  console.log(response.data);
   console.log("delete");
+  // console.log(response.data);
   
     
     } catch (error) {
