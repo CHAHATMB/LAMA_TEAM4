@@ -8,7 +8,6 @@ import {TiTick} from "react-icons/ti";
 import {RxCross2} from  "react-icons/rx";
 import {  useNavigate } from "react-router-dom";
 import {AiOutlineArrowLeft} from 'react-icons/ai'
-
 function ApproveLoan(){
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -47,8 +46,7 @@ function ApproveLoan(){
     }).then((response)=>{
       
         console.log(response);
-        navigate('/approveLoan');
-       
+        fetchData();
     })
   }
   
