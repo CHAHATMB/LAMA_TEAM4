@@ -22,7 +22,7 @@ function ApproveLoan(){
       const response = await axios.get('http://172.20.0.54:8080/api/admin/loan/applications');
       setData(response.data);
       
-      console.log(response);
+      console.log("ress ponse",response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -46,8 +46,8 @@ function ApproveLoan(){
       } ,
     }).then((response)=>{
       
-        console.log(response);
-       
+        console.log("rsuosdf ",response);
+        
     })
   }
   
@@ -87,7 +87,7 @@ function ApproveLoan(){
                     <td>{item.item_valuation}</td>   
                     <td>
                     <TiTick style={{color:"green", cursor:"pointer"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
-                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
+                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onClick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
                     </td>
                 </tr>
                
