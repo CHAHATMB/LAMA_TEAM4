@@ -47,6 +47,7 @@ function ApproveLoan(){
     }).then((response)=>{
       
         console.log(response);
+        navigate('/approveLoan');
        
     })
   }
@@ -87,7 +88,7 @@ function ApproveLoan(){
                     <td>{item.item_valuation}</td>   
                     <td>
                     <TiTick style={{color:"green", cursor:"pointer"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
-                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
+                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onClick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
                     </td>
                 </tr>
                
