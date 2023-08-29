@@ -172,7 +172,6 @@ const showAlert = (id) =>{
       </div>
       <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}>Add loan card</Button>
       <ToastContainer/>
-      <Footer/>
     </div>
   );
 }

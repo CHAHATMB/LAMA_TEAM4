@@ -32,9 +32,10 @@ function ApproveLoan(){
 
   }
   const handleReject = (loan_type, issue_id, employee_id) => {
+    console.log("api call")
     axios({
       method: 'POST',
-      url: 'http://172.20.0.54:8080/api/admin/loan/approve',
+      url: 'http://172.20.0.54:8080/api/admin/loan/reject',
       data:{
         duration_in_year: 0,
         employeeId: employee_id,
@@ -81,7 +82,7 @@ function ApproveLoan(){
                     <td>{item.item_valuation}</td>   
                     <td>
                     <TiTick style={{color:"green", cursor:"pointer"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
-                    <RxCross2 style={{marginLeft:"10%", color:"red"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
+                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
                     </td>
                 </tr>
                
