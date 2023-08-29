@@ -88,7 +88,7 @@ const LoanCardAdd = () => {
            </select>
           </Form.Group>
           <Form.Group controlId="duration">
-            <Form.Label className="form-label">Loan Duration (years)</Form.Label>
+            <Form.Label className="form-label">Loan Duration (months)</Form.Label>
             <Form.Control
               type="number"
               value={duration}
