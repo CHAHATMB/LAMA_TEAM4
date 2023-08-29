@@ -40,7 +40,8 @@ function EmployeeLogin({ onLogin}) {
       if(data.data.role === "USER"){
         const token = data.data.id_token;
         const role = data.data.role;
-        onLogin(token, role);
+        const id = data.data.employeeId;
+        onLogin(token, role, id);
       console.log(data.data.employeeId);
       navigate('/employeeDashboard', {state: {employeeId:data.data.employeeId}});
       }
