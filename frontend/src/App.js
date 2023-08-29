@@ -44,6 +44,7 @@ function App() {
   }
 
   const handleLogout = () => {
+    console.log("Signing off guys !!");
     setToken('');
     setIsAuthenticated(false);
     setUserRoles('');

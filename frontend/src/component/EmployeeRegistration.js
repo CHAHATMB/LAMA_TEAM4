@@ -122,6 +122,7 @@ function EmployeeRegistration(){
 
     return(
         <div>
+            {/* <Header/> */}
             <Container style={{marginLeft:"30%", width:"40%", marginRight:"30%", height:"50%",overflowY:"auto", background:"rgba(255,255,255,0)", boxShadow:"0 8px 32px 0 rgba(31, 38, 135, 0.37)", backdropFilter:"blur (4px)", borderRadius:"8px",WebkitBackdropFilter:"blur(4px)", border:"1px solid rgba(255, 255, 255, 0.18)", marginTop:"5%"}}>
                 <h5 style={{fontFamily:"sans-serif", textAlign:"center", marginTop:"3%"}}>Register</h5>
                 

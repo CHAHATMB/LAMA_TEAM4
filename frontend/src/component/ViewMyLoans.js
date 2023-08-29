@@ -77,6 +77,7 @@ const fetchData = async () => {
             <tr>
               <th>Loan ID</th>
               <th>Loan Type</th>
+              <th>Card Issue Date</th>
               <th>Duration (months)</th>
               {/* <th>Actions</th> */}
             </tr>
@@ -87,6 +88,7 @@ const fetchData = async () => {
               <tr key={item.id}>
                 <td>{item.loan_id}</td>
                 <td>{item.loanType}</td>
+                <td>{item.card_issue_date}</td>
                 <td>{item.duration_in_year}</td>
                 {/* <td> */}
                 {/* <RiEdit2Fill style={{color:"#48b4bb"}}/> */}

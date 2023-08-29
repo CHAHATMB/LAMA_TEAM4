@@ -16,6 +16,7 @@ import { Alert } from 'react-bootstrap';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useLocation} from "react-router-dom";
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 
 
 function ItemMasterDataTable() {
@@ -44,33 +45,33 @@ function ItemMasterDataTable() {
   };
 
   
-  //   const location = useLocation();
+    const location = useLocation();
 
-  //   useEffect(() => {
-  //     if(location.state?.fromItemMasterAdd){
-  //     toast.info('Item Added Successfully!', {
-  //       position:'top-right',
-  //       autoClose: 3000,
-  //       hideProgressBar: true,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //     });
-  // }
-  //   },[]);
+    useEffect(() => {
+      if(location.state?.fromItemMasterAdd){
+      toast.info('Item Added Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+  }
+    },[]);
 
-  //   useEffect(() => {
-  //     if(location.state?.fromItemMasterEdit){
-  //     toast.info('Item Edited Successfully!', {
-  //       position:'top-right',
-  //       autoClose: 3000,
-  //       hideProgressBar: true,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //     });
-  // }
-  //   },[]);
+    useEffect(() => {
+      if(location.state?.fromEditItemData){
+      toast.info('Item Edited Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+  }
+    },[]);
 
 
   const deleteData = async () => {
@@ -92,8 +93,16 @@ function ItemMasterDataTable() {
     }
   };
 
+  
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
+
   return (
     <div>
+        <ToastContainer/>
+        <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
         <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Items data</h4>
         <Tabs defaultActiveKey="furniture" className="mb-3" fill>
             <Tab eventKey="furniture" title="Furniture" >
@@ -280,9 +289,7 @@ function ItemMasterDataTable() {
     </Tab>
         </Tabs> 
        
-        <ToastContainer/>
       
-      <Footer/>
       <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={() => navigate("/itemMasterAdd")}>Add items</Button>
 
     </div>

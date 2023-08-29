@@ -12,7 +12,7 @@ import { Alert } from 'react-bootstrap';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useLocation} from "react-router-dom";
-
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 
 function UserDataTable() {
   const [data, setData] = useState([]);
@@ -69,7 +69,9 @@ function UserDataTable() {
     navigate("/addUserData");
   }
 
-
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
   const deleteData = async () => {
     try {
       
@@ -97,7 +99,10 @@ function UserDataTable() {
 
 
   return (
+    
     <div style={{marginBottom:"3%", height:"95%"}}>
+     <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
      
         <div style={{display:"flex", flexWrap:"wrap"}}>
         <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Employee data 
@@ -147,7 +152,6 @@ function UserDataTable() {
         </div>
         <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}><HiUserAdd/>Add employee</Button>
         <ToastContainer/>
-        <Footer/>
     </div>
   );
 }

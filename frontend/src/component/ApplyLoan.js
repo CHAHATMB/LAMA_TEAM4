@@ -57,7 +57,7 @@ function ApplyLoan() {
         } ,
        }).then((response)=>{
         console.log(response)
-        // navigate("/employeeDashboard")
+        navigate("/employeeDashboard", {state:{employeeId:location.state.id}});
 
        })
     }

@@ -4,6 +4,8 @@ import Header from './Header';
 import Footer from './Footer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const ItemMasterAdd = () => {
   const [itemId, setItemId] = useState('');
@@ -14,10 +16,23 @@ const ItemMasterAdd = () => {
   const [itemMake, setItemMake] = useState('');
 
   let navigate = useNavigate();
+
+  const handleItemCatagoryChange = (event) => {
+    setItemCategory(event.target.value);
+  };
+
+  const handleItemMakeChange = (event) => {
+    setItemMake(event.target.value);
+  };
  
 
-  const handleSubmit = () => {
-    // Handle form submission here
+  const handleSubmit = (event) => {
+
+    if(!itemCategory || !itemMake){
+      toast.error("Please select one of the options")
+      return;
+    }
+
    axios({
     method: 'POST',
     url: 'http://172.20.0.54:8080/api/item/add',
@@ -30,8 +45,10 @@ const ItemMasterAdd = () => {
     }
    }).then((response)=>{
     console.log(response);
+   }).catch((error)=>{
+      console.log(error);
    })
-   navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true}});
+   navigate('/itemMasterDataTable',{state : {fromItemMasterAdd:true,fromEditItemData: false}});
   };
 
   return (
@@ -49,15 +66,13 @@ const ItemMasterAdd = () => {
         /> */}
 
         <label className="form-label">Item Category:</label>
-        <select
-          value={itemCategory}
-          onChange={(e) => setItemCategory(e.target.value)}
-          required
-        >
-          <option value="Furniture">Furniture</option>
-          <option value="Crockery">Crockery</option>
-          <option value="Stationery">Stationery</option>
-          <option value="Electronic">Electronic</option>
+
+        <select style={{ width:"100%"}} value = {itemCategory} onChange={handleItemCatagoryChange} required>
+                    <option value = "" disabled> Select </option>
+                    <option value="Furniture"> Furniture</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Crockery">Crockery</option>
+                    <option value="Stationery">Stationery</option>
         </select>
 
         <label className="form-label">Item Description:</label>
@@ -87,21 +102,19 @@ const ItemMasterAdd = () => {
         </select>
 
         <label className="form-label">Item Make:</label>
-        <select
-          value={itemMake}
-          onChange={(e) => setItemMake(e.target.value)}
-          required
-        >
-          {/* <option value="">Select Make</option> */}
-          <option value="Wooden">Wooden</option>
-          <option value="Glass">Glass</option>
-          <option value="Metal">Metal</option>
-          <option value="Plastic">Plastic</option>
-          <option value="Fiber">Fiber</option>
-          <option value="China Clay">China Clay</option>
-          {/* Add more make options as needed */}
+
+        
+        <select style={{ width:"100%"}} value = {itemMake} onChange={handleItemMakeChange} required>
+                    <option value = "" disabled> Select </option>
+                    <option value="Wooden"> Wooden</option>
+                    <option value="Glass">Glass</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Plastic">Plastic</option>
+                    <option value="Fiber">Fiber</option>
+                    <option value="China CLay">China Clay</option>
         </select>
-        <button className="form-button" type="submit" onClick={()=>handleSubmit}>Submit</button>
+
+        <button className="form-button" type="submit" onClick={()=>handleSubmit()}>Submit</button>
       </form>
     </div>
 

@@ -73,11 +73,11 @@ const AdminLogin = ({ onLogin}) => {
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Login to your Account</h3>
           <div className="form-group mt-3">
-            <label>Employee ID</label>
+            <label>Employee Email</label>
             <input
               type="email"
               className="form-control mt-1"
-              placeholder="Enter ID"
+              placeholder="Enter Email"
               onChange={storeEmail}
             />
           </div>

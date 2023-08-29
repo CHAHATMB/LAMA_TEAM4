@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 import {TiTick} from "react-icons/ti";
 import {RxCross2} from  "react-icons/rx";
 import {  useNavigate } from "react-router-dom";
+import {AiOutlineArrowLeft} from 'react-icons/ai'
 
 function ApproveLoan(){
     const [data, setData] = useState([]);
@@ -32,9 +33,10 @@ function ApproveLoan(){
 
   }
   const handleReject = (loan_type, issue_id, employee_id) => {
+    console.log("api call")
     axios({
       method: 'POST',
-      url: 'http://172.20.0.54:8080/api/admin/loan/approve',
+      url: 'http://172.20.0.54:8080/api/admin/loan/reject',
       data:{
         duration_in_year: 0,
         employeeId: employee_id,
@@ -48,11 +50,15 @@ function ApproveLoan(){
        
     })
   }
-
+  
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
 
     return(
         <div>
-   
+           <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
             
             <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}> New Loan Applications 
 </h4>
@@ -81,7 +87,7 @@ function ApproveLoan(){
                     <td>{item.item_valuation}</td>   
                     <td>
                     <TiTick style={{color:"green", cursor:"pointer"}} onClick={()=>handleApprove(item.item_category, item.issue_id, item.employeeId)}/>
-                    <RxCross2 style={{marginLeft:"10%", color:"red"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
+                    <RxCross2 style={{marginLeft:"10%", color:"red", cursor:"pointer"}} onclick={()=>handleReject(item.item_category, item.issue_id, item.employeeId)}/>
                     </td>
                 </tr>
                

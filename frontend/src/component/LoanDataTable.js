@@ -12,6 +12,8 @@ import {HiUserAdd} from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 import { ToastContainer,toast } from 'react-toastify';
+import {AiOutlineArrowLeft} from 'react-icons/ai'
+
 import 'react-toastify/dist/ReactToastify.css';
 import {useLocation} from "react-router-dom";
 
@@ -32,9 +34,23 @@ function LoanDataTable() {
         setData(response.data);
         console.log(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        const errorMessage = error.response.data.message || 'Invalid request';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+            position:'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
       }
     };
+    
+  const handleBack = () =>{
+    navigate('/adminDashboard');
+  }
 
     const location = useLocation();
 
@@ -83,7 +99,17 @@ function LoanDataTable() {
   
     
     } catch (error) {
-      console.error('Error deleting data:', error);
+      const errorMessage = error.response.data.message || 'Invalid operation';
+
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+            position:'top-right',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
     }
 };
 
@@ -122,6 +148,8 @@ const showAlert = (id) =>{
                 <Button variant="outline-danger" onClick={() => deleteData()}>Yes</Button>
                 <Button variant="outline-danger" style ={{marginLeft:"2%"}} onClick={() => setShow(false)}>No</Button>
         </Alert>:null}
+        <p onClick={()=>handleBack()} style={{cursor:"pointer", marginTop:"1%", marginLeft:"1%"}}><AiOutlineArrowLeft/>Back to dashboard</p>
+
       <h4 style={{textAlign:"center", backgroundColor:"#ffc40c", color:"white",fontStyle:"bold", fontWeight:"700",width:"100%", marginTop:"1%", padding:"0.5%"}}>Loan card data</h4>
       <div style={{ marginTop: '20px', padding: '0 20px' }}>
         <Table striped bordered responsive className="table-striped-dark">
@@ -152,7 +180,6 @@ const showAlert = (id) =>{
       </div>
       <Button variant="outline-warning" style={{marginBottom:"7%", backgroundColor:"#ffc40c",color:"white", marginLeft:"88%", fontStyle:"bold", fontWeight:"700"}} onClick={handleAdd}>Add loan card</Button>
       <ToastContainer/>
-      <Footer/>
     </div>
   );
 }

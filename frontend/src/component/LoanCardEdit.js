@@ -4,6 +4,9 @@ import Footer from './Footer';
 import './AddUserData.css'; // Import your CSS file
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const LoanCardEdit = () => {
     const location = useLocation();
@@ -13,8 +16,11 @@ const LoanCardEdit = () => {
   const [data, setData] = useState([]);
   let navigate = useNavigate();
 
-  const handleEdit = () => {
+  const handleEdit = (e) => {
     // Handle form submission here
+
+    e.preventDefault();
+
     console.log('Form submitted:', {
      loanId,
      loanType,
@@ -32,6 +38,8 @@ const LoanCardEdit = () => {
       } ,
     }).then((data)=>{
         console.log(data);
+        navigate('/loanDataTable',{state : {fromLoanCardAdd:false,fromLoanCardEdit : true}});
+
         
        //add a popup
        // alert("Employee Updated Successfully");
@@ -46,13 +54,26 @@ const LoanCardEdit = () => {
         //   setEmail('');
       //navigate to thetable page
           
+    }).catch((error)=>{
+      const errorMessage = error.response.data.message || 'Invalid data';
+
+      console.log(errorMessage);
+      toast.error(errorMessage, {
+          position:'top-right',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
     })
+
     console.log("Submit")
-    navigate('/loanDataTable',{state : {fromLoanCardAdd:false,fromLoanCardEdit : true}});
   };
 
   return (
     <div>
+      <ToastContainer/>
     
       <div className="containerForm">
         <h2 className="form-title">Edit loan card</h2>
