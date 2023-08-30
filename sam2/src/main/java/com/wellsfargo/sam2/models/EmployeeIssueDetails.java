@@ -1,9 +1,11 @@
 package com.wellsfargo.sam2.models;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,6 +30,8 @@ public class EmployeeIssueDetails {
     @JoinColumn(name = "item_id")
     private ItemMaster item;
 
+    @NotNull
+    @Value("1999-01-01")
     private LocalDate issue_date;
 
     public EmployeeIssueDetails(EmployeeMaster employee, ItemMaster item, LocalDate issue_date, LocalDate return_date) {
