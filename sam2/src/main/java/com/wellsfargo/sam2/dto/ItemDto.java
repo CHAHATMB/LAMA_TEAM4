@@ -19,4 +19,5 @@ public class ItemDto {
     private String designation;
     private String department;
     private String employeeId;
+    private String issue_status;
 }

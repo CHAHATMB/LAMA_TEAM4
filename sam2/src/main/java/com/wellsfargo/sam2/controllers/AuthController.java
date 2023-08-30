@@ -99,19 +99,19 @@ public class AuthController {
         	
         	EmployeeMaster employee = employeeMasterServiceImp.findEmployeeMasterById(empId).get();
         	if( employee == null ) {
-        		return new ResponseEntity<>("Employee Doesn't Exsist, Please ask Admin to Add! ", HttpStatus.BAD_REQUEST);
+        		return new ResponseEntity<>(new CustomResponse("Employee Doesn't Exsist, Please ask Admin to Add! ","failed"), HttpStatus.BAD_REQUEST);
             }
 
     		System.out.println(employee.getEmployeeId() + " "+ employee.getEmail() + " == " +email);
     		
-//        	if( !employee.getEmail().equals(email)  ) {
-//        		return new ResponseEntity<>("Employee email doesn't matched! ", HttpStatus.BAD_REQUEST);
-//            }
+        	if( !employee.getEmail().equals(email)  ) {
+        		return new ResponseEntity<>(new CustomResponse("Employee email doesn't matched! ","failed"), HttpStatus.BAD_REQUEST);
+            }
 //        	
 //        	// add check for email exists in DB
-//            if(userRepository.existsByEmail(user.getEmail())){
-//                return new ResponseEntity<>("Email is already register!", HttpStatus.BAD_REQUEST);
-//            }
+            if(userRepository.existsByEmail(user.getEmail())){
+                return new ResponseEntity<>(new CustomResponse("Employee is already registered!","failed"), HttpStatus.BAD_REQUEST);
+            }
             
             int role = employee.getRole();
   	
@@ -126,9 +126,9 @@ public class AuthController {
             
       
 // Sending OTP
-//            senderService.sendSimpleEmail(user.getEmail(),
-//    				"OTP for LAMA",
-//    				"Your OTP for Verification at LAMA is " + otp);
+            senderService.sendSimpleEmail(user.getEmail(),
+    				"OTP for LAMA",
+    				"Your OTP for Verification at LAMA is " + otp);
             System.out.println("Your otp is "+otp);
   
             
@@ -138,9 +138,9 @@ public class AuthController {
                user.setSecret(secret);
 
                QrData data = qrDataFactory.newBuilder()
-                   .label("example@example.com")
+            		   .label("Len Den")
                    .secret(secret)
-                   .issuer("AppName")
+                   .issuer("LLAM")
                    .build();
 
                String qrCodeImage = getDataUriForImage(
@@ -151,7 +151,7 @@ public class AuthController {
                return new ResponseEntity<>(new CustomResponse("User Created successfully!","sucess", qrCodeImage), HttpStatus.CREATED);
                
            }
-
+            userRepository.save(user);
             return new ResponseEntity<>(new CustomResponse("User Created successfully!","sucess"), HttpStatus.CREATED);
         } catch (Exception e) {
         	System.out.println("error in /api/auth/reg " + e);
@@ -207,13 +207,17 @@ public class AuthController {
 			return new ResponseEntity<>(new CustomResponse("User doesn't exsist!","failed"),HttpStatus.BAD_REQUEST);
 		}
 		
-		if (!verifier.isValidCode(user.getSecret(), otpDto.getTotpCode())) {
+		if (user.getIsAdmin()==1 && !verifier.isValidCode(user.getSecret(), otpDto.getTotpCode())) {
             return new ResponseEntity<>(new CustomResponse("Wrong TOPT Code !","failed"),HttpStatus.BAD_REQUEST);
         }
 		
 		if( user.getOtp()== 0 || user.getOtp() != otpDto.getOtp()) {
 			return new ResponseEntity<>(new CustomResponse("Invalid OTP!","failed"),HttpStatus.BAD_REQUEST);	
 		}
+		
+		senderService.sendSimpleEmail(user.getEmail(),
+				"Vefification Successful",
+				"Hi "+ user.getName() +", \n Your OTP verification is successful.\n Now you can login on our app.");
 		
 		user.setEnabled(true);
 		userServiceImp.updateUser(user);

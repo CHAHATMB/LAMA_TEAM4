@@ -33,17 +33,10 @@ public class ItemController {
     @PostMapping("/add")
     public ResponseEntity<?> createItem(@RequestBody ItemMaster item) {
         try {
-            if(itemRepository.existsById(item.getItem_id()))
-            {
-                return new ResponseEntity<>(new CustomResponse("cannot add: already in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
-
-            }
-            else {
-                ItemMaster newItem = itemRepository.save(item);
-                return new ResponseEntity<>(newItem, HttpStatus.CREATED);
-            }
+        	ItemMaster newItem = itemRepository.save(item);
+            return new ResponseEntity<>(newItem, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("Some internal error!","FAILED",item), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

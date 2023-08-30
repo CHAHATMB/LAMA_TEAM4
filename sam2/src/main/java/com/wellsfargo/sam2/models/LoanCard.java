@@ -1,4 +1,4 @@
-package com.wellsfargo.sam2.models;
+ package com.wellsfargo.sam2.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

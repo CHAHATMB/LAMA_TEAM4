@@ -73,7 +73,7 @@ public class AdminControllers {
 
 	@GetMapping("/loan/applications")
 	public ResponseEntity<List<LoanApplications>> loanApplications() {
-        List<LoanApplications> openIssues = loanApplication.findEmployeeIssueDtosByIssueStatusEquals0();
+        List<LoanApplications> openIssues = loanApplication.findEmployeeIssueDtosByIssueStatusEquals();
         return ResponseEntity.ok(openIssues);
     }
 	
@@ -108,8 +108,7 @@ public class AdminControllers {
 		
 		issueDetailsService.updateIssueDetailMaster(empi);
 		
-		EmployeeMaster empMaster = new EmployeeMaster();
-		empMaster.setEmployeeId(employeeId);
+		EmployeeMaster user = employeeMasterServiceImp.findEmployeeMasterById(employeeId).get();
 		System.out.println(loanapprove.getLoanType());
 		EmployeeCardDetails empCardDet = new EmployeeCardDetails(
 				employeeMasterServiceImp.findEmployeeMasterById(employeeId).get(),
@@ -119,6 +118,38 @@ public class AdminControllers {
 		empCardDet.setId(issue_id);
 		System.out.println("This is the me id  "+empCardDet.getId());
 		empCardDetSerImp.createEmployeeCardDetails(empCardDet);
+		
+		senderService.sendSimpleEmail(user.getEmail(),
+				"Congratulations!! Your Loan Application Approved!",
+				"Hi "+ user.getEmployeeName() +", \n  Your loan approved for item " + item.getItem_description() );
+		
+		return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+	
+	@PostMapping("/loan/reject")
+	public ResponseEntity<?> rejectApprove(@RequestBody LoanApprove loanapprove ) {
+		
+		String employeeId = loanapprove.getEmployeeId();
+		String issue_id = loanapprove.getIssueId();
+		String loan_id = loanapprove.getLoan_id();
+		
+		Optional<EmployeeIssueDetails> empIssue = loanApplication.findById(issue_id);
+		
+		EmployeeIssueDetails empi = empIssue.get();
+		
+//		empi.setIssue_date(LocalDate.now());
+		
+		ItemMaster item = empi.getItem();
+		item.setIssue_status("2");
+		
+		itemMasterServiceImp.updateItemMaster(item);
+		
+		issueDetailsService.updateIssueDetailMaster(empi);
+
+		EmployeeMaster user = employeeMasterServiceImp.findEmployeeMasterById(employeeId).get();
+		senderService.sendSimpleEmail(user.getEmail(),
+				"Sorry! Your Loan Application Rejected!",
+				"Hi "+ user.getEmployeeName() +", \n  Your loan application for item " + item.getItem_description() + "rejected by admin. \n");
 		
 		
 		return new ResponseEntity<>("Success", HttpStatus.OK);

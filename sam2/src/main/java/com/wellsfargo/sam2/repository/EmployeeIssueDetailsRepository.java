@@ -23,7 +23,7 @@ public interface EmployeeIssueDetailsRepository extends JpaRepository<EmployeeIs
             + " JOIN eid.employee em"
             + " JOIN eid.item im"
             + " WHERE im.issue_status = '0'")
-	    List<LoanApplications> findEmployeeIssueDtosByIssueStatusEquals0();
+	    List<LoanApplications> findEmployeeIssueDtosByIssueStatusEquals();
     
     @Modifying
     @Transactional

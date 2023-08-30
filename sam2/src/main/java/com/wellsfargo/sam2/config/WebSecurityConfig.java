@@ -89,14 +89,15 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
         .authorizeRequests()
         .antMatchers("/**").permitAll();
-//        .antMatchers("/helloadmin").hasRole("ADMIN")
-//		.antMatchers("/hellouser").hasAnyRole("USER","ADMIN")
-//		.antMatchers("/api/users/register").permitAll()
-//		.antMatchers("/api/users/authenticate").permitAll()
-//		.antMatchers("/").permitAll()
-//		.antMatchers("/authenticate").permitAll()
-//		.anyRequest().authenticated();
+//        .antMatchers("/api/employee/**","/api/item/**","/api/loancard/**","/api//**").hasRole("ADMIN")
+//        .antMatchers("/api/user/**").hasRole("USER")
+//		.antMatchers("/api/user/**","/api/loancard/myloans/{id}",
+//				"/api/loancard/applyloans", "/api/item/myitem/{id}").hasAnyRole("USER")
+//		.antMatchers("/api/auth/**").permitAll()
+//		.antMatchers("/api/").permitAll()
+//		.anyRequest().authenticated();	
 
+    
     
         
 //        .authorizeHttpRequests(auth -> 
