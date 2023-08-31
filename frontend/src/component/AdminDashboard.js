@@ -6,14 +6,32 @@ import card2 from '../images/card2Loan.jpg';
 import card3 from '../images/card3item.jpg';
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import admin from '../images/male.png'
 import {IoOpenOutline} from 'react-icons/io5';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AdminDashboard() {
   const hour = new Date().getHours();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if(location.state?.onLoggedIn){
+      // location.state?.onLoggedIn=false;
+    toast.info('Admin Login Successfully!', {
+      position:'top-right',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+ }
+  },[]);
+
   const handleC = () =>{
     navigate('/userDataTable');
   }
@@ -32,7 +50,7 @@ function AdminDashboard() {
 
   return (
     <>
-   
+    <ToastContainer/>
     <div style={{display:"flex", flexWrap:"wrap"}}>
     {/* <img src ={admin} style={{marginLeft:"5%"}}/> */}
     <h2 style={{fontStyle:"bold", fontWeight:"700", marginLeft:"4%",marginTop:"1.8%", color:"#d19900"}}>  {hour <12 ? "Good Morning, " : hour < 17 ? "Good Afternoon, " : "Good Evening, "} Admin!</h2>

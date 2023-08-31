@@ -57,15 +57,27 @@ function EmployeeDashboard() {
 
   useEffect(() => {
     if(location.state?.fromApplyLoan){
-    toast.info('Loan Applied Successfully!', {
-      position:'top-right',
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
- }
+      toast.info('Loan Applied Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+
+    if(location.state?.onLoggedIn){
+      // location.state?.onLoggedIn=false;
+      toast.info('Employee LoggoedIn Successfully!', {
+        position:'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   },[]);
 
 

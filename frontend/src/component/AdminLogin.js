@@ -59,7 +59,7 @@ const AdminLogin = ({ onLogin}) => {
         const id = data.employeeId;
         onLogin(token, role, id);
         toast.done("Login Successful!");
-        navigate('/adminDashboard',{state: {employeeId: data.employeeId}});
+        navigate('/adminDashboard',{state: {employeeId: data.employeeId, onLoggedIn:true}});
       }
       else {
         // Display a toast message for non-admin users

@@ -32,7 +32,7 @@ const AddUserData = () => {
       doj,
       gender,
     });
-
+        
     axios({
       method: 'POST',
       url: 'http://172.20.0.54:8080/api/employee/add',
@@ -49,10 +49,7 @@ const AddUserData = () => {
       } ,
     }).then((data)=>{
         //toast.done("Added successfully");
-        setTimeout(() => {
-          navigate('/userDataTable',{state : {fromAddUserData:true,fromEditUserData : false}});
-        },10);
-
+        navigate('/userDataTable',{state : {fromAddUserData:true,fromEditUserData : false}});
     }).catch((error) =>{
         const errorMessage = error.response.data.message || 'Invalid request';
 

@@ -47,7 +47,7 @@ function EmployeeLogin({ onLogin}) {
         const id = data.data.employeeId;
         onLogin(token, role, id);
       console.log(data.data.employeeId);
-      navigate('/employeeDashboard', {state: {employeeId:data.data.employeeId}});
+      navigate('/employeeDashboard', {state: {employeeId:data.data.employeeId,onLoggedIn:true}});
       }
       else {
         // Display a toast message for non-admin users

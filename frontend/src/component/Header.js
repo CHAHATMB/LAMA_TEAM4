@@ -25,7 +25,7 @@ function Header({ isAuthenticated, onLogout, userRoles, id}){
 
  function handleLogout(){
   onLogout();
-  navigate("/");
+  navigate("/",{state:{onLoggedOut:true}});
  }
 
  function handleDashboard(){
