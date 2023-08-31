@@ -31,13 +31,15 @@ public class LoanCardController {
     private final EmployeeMasterServiceImp employeeMasterServiceImp;
     private final ItemMasterServiceImp itemMasterServiceImp;
 	private final EmployeeCardDetailsServiceImp empCardDetSerImp;
+	private EmailSenderService senderService;
     
     @Autowired
     public LoanCardController(LoanRepository loanRepository,ItemRepository itemRepository,EmployeeRepository employeeRepository,
                               EmployeeCardDetailsRepository employeeCardDetailsRepository,
                               EmployeeMasterServiceImp employeeMasterServiceImp,
                               EmployeeIssueDetailsRepository employeeIssueDetailsRepository,
-                              ItemMasterServiceImp itemMasterServiceImp,EmployeeCardDetailsServiceImp empCardDetSerImp) {
+                              ItemMasterServiceImp itemMasterServiceImp,EmployeeCardDetailsServiceImp empCardDetSerImp,
+                              EmailSenderService senderService) {
         this.loanRepository = loanRepository;
         this.itemRepository=itemRepository;
         this.employeeRepository=employeeRepository;
@@ -46,6 +48,7 @@ public class LoanCardController {
         this.itemMasterServiceImp=itemMasterServiceImp;
         this.employeeIssueDetailsRepository=employeeIssueDetailsRepository;
         this.empCardDetSerImp=empCardDetSerImp;
+        this.senderService=senderService;
 
 
     }
@@ -54,7 +57,8 @@ public class LoanCardController {
     public ResponseEntity<?> createLoanCard(@RequestBody LoanCard loancard) {
         try {
             if(loanRepository.existsById(loancard.getLoan_id())) {
-                return new ResponseEntity<>(new CustomResponse("Already in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+            	System.out.print(loancard.getLoan_id());
+                return new ResponseEntity<>(new CustomResponse("Already in database","failed",loancard),HttpStatus.INTERNAL_SERVER_ERROR);
 
             }
             else {
@@ -63,7 +67,8 @@ public class LoanCardController {
 
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("error"+e);
+            return new ResponseEntity<>(new CustomResponse("Error in while processing","failed",loancard),HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
@@ -110,6 +115,14 @@ public class LoanCardController {
                 empIssueDet.setItem(itemMasterServiceImp.findItemMasterById(im.getItem_id()).get());
 
                 employeeIssueDetailsRepository.save(empIssueDet);
+                
+
+        		EmployeeMaster user = employeeMasterServiceImp.findEmployeeMasterById(loan.getEmployeeId()).get();
+        		senderService.sendSimpleEmail(user.getEmail(),
+        				"You have successfully applied for the loan!",
+        				"Hi "+ user.getEmployeeName() +", \n  You have applied for loan for item " + newItem.getItem_description() );
+        		
+        		
                return new ResponseEntity<>(newItem, HttpStatus.CREATED);
             }
             else {
@@ -118,7 +131,7 @@ public class LoanCardController {
             }
         } catch (Exception e) {
             System.out.println(e);
-            return new ResponseEntity<>(new CustomResponse("Could not enter in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new CustomResponse("Could not enter in database" + e.getMessage(),"failed"),HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
@@ -148,6 +161,7 @@ public class LoanCardController {
                 if (empCardDetSerImp.existEmployeeCardDetailsById(id)) {
                     empCardDetSerImp.deleteByLoanId(id);
                 }
+                empCardDetSerImp.deleteByLoanId(id);
                 loanRepository.deleteById(id);
                 return new ResponseEntity<>(new CustomResponse("deleted successfully","success"),HttpStatus.NO_CONTENT);
             }
@@ -156,7 +170,8 @@ public class LoanCardController {
 
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(new CustomResponse("Not found in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("Card delete eror "+ e);
+            return new ResponseEntity<>(new CustomResponse("Some internal error!","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
