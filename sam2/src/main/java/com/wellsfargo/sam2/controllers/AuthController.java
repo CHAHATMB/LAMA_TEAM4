@@ -1,5 +1,6 @@
 package com.wellsfargo.sam2.controllers;
 
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -23,6 +24,7 @@ import com.wellsfargo.sam2.helper.JwtUtil;
 
 import com.wellsfargo.sam2.models.EmployeeMaster;
 
+import com.wellsfargo.sam2.dto.CustomResponse;
 import com.wellsfargo.sam2.dto.JWTToken;
 import com.wellsfargo.sam2.dto.LoginDTO;
 import com.wellsfargo.sam2.dto.OtpDto;
@@ -32,6 +34,13 @@ import com.wellsfargo.sam2.services.CustomUserDetailsService;
 import com.wellsfargo.sam2.services.EmailSenderService;
 import com.wellsfargo.sam2.services.EmployeeMasterServiceImp;
 import com.wellsfargo.sam2.services.UserServiceImp;
+
+import dev.samstevens.totp.code.CodeVerifier;
+import dev.samstevens.totp.qr.QrData;
+import dev.samstevens.totp.qr.QrDataFactory;
+import dev.samstevens.totp.qr.QrGenerator;
+import dev.samstevens.totp.secret.SecretGenerator;
+import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
 import java.util.Collection;
 import java.util.Random;
@@ -63,6 +72,18 @@ public class AuthController {
 	
 	@Autowired
 	private EmployeeMasterServiceImp employeeMasterServiceImp;
+	
+	@Autowired
+    private SecretGenerator secretGenerator;
+
+    @Autowired
+    private QrDataFactory qrDataFactory;
+
+    @Autowired
+    private QrGenerator qrGenerator;
+    
+    @Autowired
+    private CodeVerifier verifier;
 
 	
 //    @Autowired
@@ -78,46 +99,63 @@ public class AuthController {
         	
         	EmployeeMaster employee = employeeMasterServiceImp.findEmployeeMasterById(empId).get();
         	if( employee == null ) {
-        		return new ResponseEntity<>("Employee Doesn't Exsist, Please ask Admin to Add! ", HttpStatus.BAD_REQUEST);
+        		return new ResponseEntity<>(new CustomResponse("Employee Doesn't Exsist, Please ask Admin to Add! ","failed"), HttpStatus.BAD_REQUEST);
             }
 
     		System.out.println(employee.getEmployeeId() + " "+ employee.getEmail() + " == " +email);
     		
         	if( !employee.getEmail().equals(email)  ) {
-        		return new ResponseEntity<>("Employee email doesn't matched! ", HttpStatus.BAD_REQUEST);
+        		return new ResponseEntity<>(new CustomResponse("Employee email doesn't matched! ","failed"), HttpStatus.BAD_REQUEST);
             }
-        	
-        	// add check for email exists in DB
+//        	
+//        	// add check for email exists in DB
             if(userRepository.existsByEmail(user.getEmail())){
-                return new ResponseEntity<>("Email is already register!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new CustomResponse("Employee is already registered!","failed"), HttpStatus.BAD_REQUEST);
             }
-
             
-        	
-        	System.out.println(user.getEmail() + " "+ userRepository.findByEmail(user.getEmail()));
-        	
+            int role = employee.getRole();
+  	
         	user.setIsAdmin(0);
         	
-        	user.setIsAdmin(employee.getRole());
+        	user.setIsAdmin(role);
         	
         	user.setPassword(passwordEncoder.encode(user.getPassword()));
         	int otp = new Random().nextInt(900000) + 100000;
         	user.setOtp(otp);
         	user.setEnabled(true);
-            User newUser = userRepository.save(user);
             
-            
-            
+      
 // Sending OTP
-//            senderService.sendSimpleEmail(user.getEmail(),
-//    				"OTP for LAMA",
-//    				"Your OTP for Verification at LAMA is " + otp);
+            senderService.sendSimpleEmail(user.getEmail(),
+    				"OTP for LAMA",
+    				"Your OTP for Verification at LAMA is " + otp);
             System.out.println("Your otp is "+otp);
+  
             
-            newUser.setOtp(0);
-            return new ResponseEntity<>("User register successfully", HttpStatus.CREATED);
+            if( role == 1 ) {
+           	 // ------------------- totp -----------------------------
+               String secret = secretGenerator.generate();
+               user.setSecret(secret);
+
+               QrData data = qrDataFactory.newBuilder()
+            		   .label(employee.getEmployeeId())
+                   .secret(secret)
+                   .issuer("LLAM")
+                   .build();
+
+               String qrCodeImage = getDataUriForImage(
+                 qrGenerator.generate(data), 
+                 qrGenerator.getImageMimeType()
+               );
+               userRepository.save(user);
+               return new ResponseEntity<>(new CustomResponse("User Created successfully!","sucess", qrCodeImage), HttpStatus.CREATED);
+               
+           }
+            userRepository.save(user);
+            return new ResponseEntity<>(new CustomResponse("User Created successfully!","sucess"), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("There is some internal error!", HttpStatus.INTERNAL_SERVER_ERROR);
+        	System.out.println("error in /api/auth/reg " + e);
+            return new ResponseEntity<>(new CustomResponse("Some Internal error!","failed"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -133,9 +171,17 @@ public class AuthController {
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
+		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
+		User user = userRepository.findByEmail(userDetails.getUsername());
+		System.out.println("user id "+user.toString() );
+		
 		final Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
 		String role = "";
+		
+        if (user.getIsAdmin() == 1 && !verifier.isValidCode(user.getSecret(), authenticationRequest.getTotpCode())) {
+            return new ResponseEntity<>(new CustomResponse("Wrong TOPT Code !","failed",authenticationRequest),HttpStatus.BAD_REQUEST);
+        }
 		
 		if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			role = "ADMIN";
@@ -145,29 +191,36 @@ public class AuthController {
 		}
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		User user = userRepository.findByEmail(userDetails.getUsername());
-		System.out.println("user id "+user );
+		
 		return ResponseEntity.ok(new JWTToken(token, role, user.getEmail(),user.getEmployeeId()));
 	}
 	
+	
 	@PostMapping(value = "/verifyotp")
 	public ResponseEntity<?> verifyOTP(@RequestBody OtpDto otpDto){
+		System.out.println(otpDto.toString());
 		String employeeId = otpDto.getEmployeeId();
 		
 		User user = userServiceImp.findByEmployeeId(employeeId);
 		
 		if(user == null) {
-			return new ResponseEntity<>("User doesn't exsist!",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new CustomResponse("User doesn't exsist!","failed"),HttpStatus.BAD_REQUEST);
 		}
 		
+		if (user.getIsAdmin()==1 && !verifier.isValidCode(user.getSecret(), otpDto.getTotpCode())) {
+            return new ResponseEntity<>(new CustomResponse("Wrong TOPT Code !","failed"),HttpStatus.BAD_REQUEST);
+        }
+		
 		if( user.getOtp()== 0 || user.getOtp() != otpDto.getOtp()) {
-			return new ResponseEntity<>("Invalid OTP!",HttpStatus.BAD_REQUEST);	
+			return new ResponseEntity<>(new CustomResponse("Invalid OTP!","failed"),HttpStatus.BAD_REQUEST);	
 		}
+		
+		senderService.sendSimpleEmail(user.getEmail(),
+				"Vefification Successful",
+				"Hi "+ user.getName() +", \n Your OTP verification is successful.\n Now you can login on our app.");
 		
 		user.setEnabled(true);
 		userServiceImp.updateUser(user);
-		
-		
 		
 		return ResponseEntity.ok("Otp verified successfully!");
 	}

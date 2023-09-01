@@ -11,7 +11,7 @@ import java.util.List;
 public interface LoanApplicationRepository extends JpaRepository<EmployeeIssueDetails, String> {
 
 	@Query("SELECT new com.wellsfargo.sam2.dto.LoanApplications("
-            + "em.employeeId, eid.issue_id, im.item_id, im.item_description, im.issue_status, im.item_make)"
+            + "em.employeeId, eid.issue_id, im.item_id, im.item_description, im.issue_status, im.item_make, im.item_category, im.item_valuation)"
             + " FROM EmployeeIssueDetails eid"
             + " JOIN eid.employee em"
             + " JOIN eid.item im"

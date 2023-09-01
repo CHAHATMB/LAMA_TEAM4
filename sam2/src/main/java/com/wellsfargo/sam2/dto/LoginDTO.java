@@ -1,7 +1,12 @@
 package com.wellsfargo.sam2.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class LoginDTO {
 
     private String email;
@@ -10,11 +15,7 @@ public class LoginDTO {
 
     private String password;
     
-    
-
-	public LoginDTO() {
-		super();
-	}
+    private String totpCode;
 
 	public LoginDTO(String email, String employeeId, String password) {
 		super();

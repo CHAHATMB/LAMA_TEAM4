@@ -78,4 +78,10 @@ public class EmployeeCardController {
             return new ResponseEntity<>(new CustomResponse("does not exist in database","failed"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("loans")
+    public ResponseEntity<?> getAllLoansApplied(){
+    	
+    	return ResponseEntity.ok(cardRepository.findIssueLoans());
+    }
 }

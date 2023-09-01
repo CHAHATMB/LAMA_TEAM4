@@ -18,12 +18,12 @@ public interface EmployeeIssueDetailsRepository extends JpaRepository<EmployeeIs
 //	           + " JOIN ItemMaster im ON i.itemId = im.itemId"
 //	           + " WHERE im.issueStatus = '0'")
     @Query("SELECT new com.wellsfargo.sam2.dto.LoanApplications("
-            + "em.employeeId, eid.issue_id, im.item_id, im.item_description, im.issue_status, im.item_make)"
+            + "em.employeeId, eid.issue_id, im.item_id, im.item_description, im.issue_status, im.item_make, im.item_category, im.item_valuation)"
             + " FROM EmployeeIssueDetails eid"
             + " JOIN eid.employee em"
             + " JOIN eid.item im"
             + " WHERE im.issue_status = '0'")
-	    List<LoanApplications> findEmployeeIssueDtosByIssueStatusEquals0();
+	    List<LoanApplications> findEmployeeIssueDtosByIssueStatusEquals();
     
     @Modifying
     @Transactional

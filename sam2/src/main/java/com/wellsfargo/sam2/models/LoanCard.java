@@ -1,4 +1,5 @@
 package com.wellsfargo.sam2.models;
+
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
